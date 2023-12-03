@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administración de Noticias y Recetas</title>
+    <link rel="stylesheet" href="AdminNews.css">
+</head>
+
+
+
+<body>
+    <section id="adminNoticias">
+        <h2>Administración de Noticias</h2>
+        <form id="adminFormNoticias">
+            <label for="tituloNoticia">Título de la Noticia:</label>
+            <input type="text" id="tituloNoticia" required><br>
+
+            <label for="descripcionNoticia">Descripción:</label>
+            <textarea id="descripcionNoticia" required></textarea><br>
+
+
+            <button type="submit">Agregar Noticia</button>
+        </form>
+    </section>
+
+    <section id="adminRecetas">
+        <h2>Administración de Recetas</h2>
+        <form id="adminFormRecetas">
+            <label for="nombreReceta">Nombre de la Receta:</label>
+            <input type="text" id="nombreReceta" required><br>
+
+            <label for="ingredientesReceta">Ingredientes:</label>
+            <textarea id="ingredientesReceta" required></textarea><br>
+
+            <label for="descripcionReceta">Descripción:</label>
+            <textarea id="descripcionReceta" required></textarea><br>
+
+            <button type="submit">Agregar Receta</button>
+        </form>
+    </section>
+
+    <section id="noticias">
+        <h2>Noticias</h2>
+        <ul id="noticiasList"></ul>
+    </section>
+
+    <section id="recetas">
+        <h2>Recetas</h2>
+        <ul id="recetasList"></ul>
+    </section>
+
+
+    <script type="module">
+        // Importar las funciones necesarias de Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, push, set, query, orderByChild, equalTo, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        import { onChildChanged, onChildAdded } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+        
+        // Configuración de Firebase de tu aplicación web
+        const firebaseConfig = {
+          apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+          authDomain: "appvocado-73e80.firebaseapp.com",
+          databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "appvocado-73e80",
+          storageBucket: "appvocado-73e80.appspot.com",
+          messagingSenderId: "1050213748494",
+          appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Obtener una referencia a la base de datos Realtime Database
+        const db = getDatabase(app);
+
+        // Referencias a la base de datos de Firebase para noticias y recetas
+        const noticiasRef = ref(db, 'Noticias');
+        const recetasRef = ref(db, 'Recetas');
+
+      // Función para agregar una noticia
+const adminFormNoticias = document.getElementById('adminFormNoticias');
+adminFormNoticias.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const titulo = document.getElementById('tituloNoticia').value;
+    const descripcion = document.getElementById('descripcionNoticia').value;
+
+    // Obtener la fecha actual en formato legible
+    const fechaFormateada = new Date().toLocaleString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+
+    // Datos de la nueva noticia
+    const nuevaNoticia = {
+        titulo: titulo,
+        descripcion: descripcion,
+        timestamp: fechaFormateada
+    };
+
+    // Crear una referencia nueva automáticamente para la noticia
+    const nuevasNoticiasRef = ref(db, `Noticias/${fechaFormateada}`); // generar una clave única
+
+    // Guardar la nueva noticia en Firebase
+    set(nuevasNoticiasRef, nuevaNoticia);
+
+    // Limpiar los campos del formulario
+    document.getElementById('tituloNoticia').value = '';
+    document.getElementById('descripcionNoticia').value = '';
+});
+
+// Función para agregar una receta
+const adminFormRecetas = document.getElementById('adminFormRecetas');
+adminFormRecetas.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombreReceta').value;
+    const descripcion = document.getElementById('descripcionReceta').value;
+    const ingredientes = document.getElementById('ingredientesReceta').value;
+
+    // Obtener la fecha actual en formato legible
+    const fechaFormateada = new Date().toLocaleString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+
+    // Datos de la nueva receta
+    const nuevaReceta = {
+        nombre: nombre,
+        descripcion: descripcion,
+        ingredientes: ingredientes,
+        timestamp: fechaFormateada
+    };
+
+    // Crear una referencia nueva automáticamente para la receta
+    const nuevasRecetasRef = ref(db, `Recetas/${fechaFormateada}`); // generar una clave única
+
+    // Guardar la nueva receta en Firebase
+    set(nuevasRecetasRef, nuevaReceta);
+
+    // Limpiar los campos del formulario
+    document.getElementById('nombreReceta').value = '';
+    document.getElementById('descripcionReceta').value = '';
+    document.getElementById('ingredientesReceta').value = '';
+});
+
+// Función para mostrar noticias en la página
+onChildAdded(noticiasRef, (snapshot) => {
+            const noticia = snapshot.val();
+            const noticiasList = document.getElementById('noticiasList');
+            const listItem = document.createElement('li');
+            listItem.textContent = `Título: ${noticia.titulo}, Descripción: ${noticia.descripcion}`;
+            noticiasList.appendChild(listItem);
+        });
+
+        // Función para mostrar recetas en la página
+        onChildAdded(recetasRef, (snapshot) => {
+            const receta = snapshot.val();
+            const recetasList = document.getElementById('recetasList');
+            const listItem = document.createElement('li');
+            listItem.textContent = `Nombre: ${receta.nombre}, Ingredientes: ${receta.ingredientes}, Descripción: ${receta.descripcion}`;
+            recetasList.appendChild(listItem);
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="AdminNews.css">
+</head>
+<body>
+    <!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="section">
+        <aside class="NP">
+          <h1>Noticias</h1>
+          <input type="text" id="noticiasFilter" placeholder="Buscar noticias">
+          <button id="searchNoticiasButton">Buscar Noticias</button>
+        
+        <ul id="noticiasList" class="content"></ul>
+    </aside>
+      
+    
+      
+        <aside class="NP">
+          <h1>Recetas</h1>
+          <input type="text" id="recetasFilter" placeholder="Buscar recetas">
+          <button id="searchRecetasButton">Buscar Recetas</button>
+        
+        <ul id="recetasList" class="content"></ul>
+    </aside>
+    </div>
+
+    
+
+    <script type="module">
+        // Importar las funciones necesarias de Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+        // Configuración de Firebase de tu aplicación web
+        const firebaseConfig = {
+            apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+            authDomain: "appvocado-73e80.firebaseapp.com",
+            databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "appvocado-73e80",
+            storageBucket: "appvocado-73e80.appspot.com",
+            messagingSenderId: "1050213748494",
+            appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Referencias a los nodos de Firebase
+        const noticiasRef = ref(db, 'Noticias');
+        const recetasRef = ref(db, 'Recetas');
+
+        // Función para mostrar noticias en la página
+function showNoticias() {
+    onChildAdded(noticiasRef, (snapshot) => {
+        const noticia = snapshot.val();
+        const noticiasList = document.getElementById('noticiasList');
+        const listItem = document.createElement('li');
+        const tituloElement = document.createElement('span');
+        const descripcionElement = document.createElement('div');
+
+        tituloElement.textContent = `Título: ${noticia.titulo}`;
+        descripcionElement.textContent = `Descripción: ${noticia.descripcion}`;
+        descripcionElement.style.display = 'none'; // Inicialmente ocultar la descripción
+
+        listItem.appendChild(tituloElement);
+        listItem.appendChild(descripcionElement);
+
+        listItem.addEventListener('click', () => {
+            descripcionElement.style.display = (descripcionElement.style.display === 'none') ? 'block' : 'none';
+        });
+
+        noticiasList.appendChild(listItem);
+    });
+}
+
+// Función para mostrar recetas en la página
+function showRecetas() {
+    onChildAdded(recetasRef, (snapshot) => {
+        const receta = snapshot.val();
+        const recetasList = document.getElementById('recetasList');
+        const listItem = document.createElement('li');
+        const nombreElement = document.createElement('span');
+        const ingredientesElement = document.createElement('div');
+        const descripcionElement = document.createElement('div');
+
+        nombreElement.textContent = `Nombre: ${receta.nombre}`;
+        ingredientesElement.textContent = `Ingredientes: ${receta.ingredientes}`;
+        descripcionElement.textContent = `Descripción: ${receta.descripcion}`;
+
+        ingredientesElement.style.display = 'none'; // Inicialmente ocultar los ingredientes
+        descripcionElement.style.display = 'none'; // Inicialmente ocultar la descripción
+
+        listItem.appendChild(nombreElement);
+        listItem.appendChild(ingredientesElement);
+        listItem.appendChild(descripcionElement);
+
+        listItem.addEventListener('click', () => {
+            ingredientesElement.style.display = (ingredientesElement.style.display === 'none') ? 'block' : 'none';
+            descripcionElement.style.display = (descripcionElement.style.display === 'none') ? 'block' : 'none';
+        });
+
+        recetasList.appendChild(listItem);
+    });
+}
+
+
+        // Agregar la funcionalidad de búsqueda para noticias
+        const searchNoticiasButton = document.getElementById('searchNoticiasButton');
+        const noticiasFilter = document.getElementById('noticiasFilter');
+
+        searchNoticiasButton.addEventListener('click', () => {
+            const searchTerm = noticiasFilter.value.toLowerCase();
+            const noticiasList = document.getElementById('noticiasList');
+            noticiasList.innerHTML = '';
+
+            onChildAdded(noticiasRef, (snapshot) => {
+                const noticia = snapshot.val();
+                const titulo = noticia.titulo.toLowerCase();
+                const descripcion = noticia.descripcion.toLowerCase();
+
+                if (titulo.includes(searchTerm) || descripcion.includes(searchTerm)) {
+                    const listItem = document.createElement('li');
+                    const tituloElement = document.createElement('span');
+                    const descripcionElement = document.createElement('div');
+
+                    tituloElement.textContent = `Título: ${noticia.titulo}`;
+                    descripcionElement.textContent = `Descripción: ${noticia.descripcion}`;
+                    descripcionElement.className = 'expandable-content';
+
+                    listItem.appendChild(tituloElement);
+                    listItem.appendChild(descripcionElement);
+
+                    listItem.addEventListener('click', () => {
+                        descripcionElement.style.display = (descripcionElement.style.display === 'none') ? 'block' : 'none';
+                    });
+
+                    noticiasList.appendChild(listItem);
+                }
+            });
+        });
+
+        // Agregar la funcionalidad de búsqueda para recetas
+        const searchRecetasButton = document.getElementById('searchRecetasButton');
+        const recetasFilter = document.getElementById('recetasFilter');
+
+        searchRecetasButton.addEventListener('click', () => {
+            const searchTerm = recetasFilter.value.toLowerCase();
+            const recetasList = document.getElementById('recetasList');
+            recetasList.innerHTML = '';
+
+            onChildAdded(recetasRef, (snapshot) => {
+                const receta = snapshot.val();
+                const nombre = receta.nombre.toLowerCase();
+                const ingredientes = receta.ingredientes.toLowerCase();
+                const descripcion = receta.descripcion.toLowerCase();
+
+                if (nombre.includes(searchTerm) || ingredientes.includes(searchTerm) || descripcion.includes(searchTerm)) {
+                    const listItem = document.createElement('li');
+                    const nombreElement = document.createElement('span');
+                    const ingredientesElement = document.createElement('div');
+                    const descripcionElement = document.createElement('div');
+
+                    nombreElement.textContent = `Nombre: ${receta.nombre}`;
+                    ingredientesElement.textContent = `Ingredientes: ${receta.ingredientes}`;
+                    descripcionElement.textContent = `Descripción: ${receta.descripcion}`;
+
+                    ingredientesElement.className = 'expandable-content';
+                    descripcionElement.className = 'expandable-content';
+
+                    listItem.appendChild(nombreElement);
+                    listItem.appendChild(ingredientesElement);
+                    listItem.appendChild(descripcionElement);
+
+                    listItem.addEventListener('click', () => {
+                        ingredientesElement.style.display = (ingredientesElement.style.display === 'none') ? 'block' : 'none';
+                        descripcionElement.style.display = (descripcionElement.style.display === 'none') ? 'block' : 'none';
+                    });
+
+                    recetasList.appendChild(listItem);
+                }
+            });
+        });
+
+        // Llama a las funciones para mostrar noticias y recetas
+        showNoticias();
+        showRecetas();
+    </script>
+</body>
+</html>
