@@ -1,0 +1,71 @@
+/* Estilo para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el encabezado h1 */
+h1 {
+    text-align: center;
+    background-color: #85bb65;
+    color: #000000;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para los formularios */
+form {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+#formData{
+    background-color: #000;
+}
+
+/* Estilo para etiquetas de formulario */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilo para los campos de entrada de formulario */
+input[type="number"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Estilo para los botones de formulario */
+button {
+    background-color: #85bb65;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+#grafic {
+    max-height: 20%;
+}
+
+/* Estilo para el canvas de la gráfica */
+canvas {
+    display: block;
+    margin: 0 auto;
+    max-width: 20%;
+    min-height: 20%;
+    border: solid 2px red;
+}

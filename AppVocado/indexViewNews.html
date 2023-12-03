@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administración de Noticias y Recetas</title>
+</head>
+<body>
+    <section id="adminNoticias">
+        <h2>Administración de Noticias</h2>
+        <form id="adminFormNoticias">
+            <label for="tituloNoticia">Título de la Noticia:</label>
+            <input type="text" id="tituloNoticia" required><br>
+
+            <label for="descripcionNoticia">Descripción:</label>
+            <textarea id="descripcionNoticia" required></textarea><br>
+
+            <label for="enlaceNoticia">Enlace a la Noticia:</label>
+            <input type="url" id="enlaceNoticia" required><br>
+
+            <button type="submit">Agregar Noticia</button>
+        </form>
+    </section>
+
+    <section id="adminRecetas">
+        <h2>Administración de Recetas</h2>
+        <form id="adminFormRecetas">
+            <label for="nombreReceta">Nombre de la Receta:</label>
+            <input type="text" id="nombreReceta" required><br>
+
+            <label for="descripcionReceta">Descripción:</label>
+            <textarea id="descripcionReceta" required></textarea><br>
+
+            <label for="ingredientesReceta">Ingredientes:</label>
+            <textarea id="ingredientesReceta" required></textarea><br>
+
+            <button type="submit">Agregar Receta</button>
+        </form>
+    </section>
+
+    <section id="noticias">
+        <h2>Noticias</h2>
+        <label for="buscarNoticias">Buscar Noticias:</label>
+        <input type="text" id="buscarNoticias">
+        <button id="btnBuscarNoticias">Buscar</button>
+        <div id="resultadosNoticias">
+            <!-- Los resultados de noticias se mostrarán aquí -->
+        </div>
+    </section>
+
+    <section id="recetas">
+        <h2>Recetas</h2>
+        <label for="buscarRecetas">Buscar Recetas:</label>
+        <input type="text" id="buscarRecetas">
+        <button id="btnBuscarRecetas">Buscar</button>
+        <div id="resultadosRecetas">
+            <!-- Los resultados de recetas se mostrarán aquí -->
+        </div>
+    </section>
+
+    <script type="module">
+        // Importar las funciones necesarias de Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, push, set, query, orderByChild, equalTo, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+         // Configuración de Firebase de tu aplicación web
+         const firebaseConfig = {
+          apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+          authDomain: "appvocado-73e80.firebaseapp.com",
+          databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "appvocado-73e80",
+          storageBucket: "appvocado-73e80.appspot.com",
+          messagingSenderId: "1050213748494",
+          appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Obtener una referencia a la base de datos Realtime Database
+        const db = getDatabase(app);
+
+        // Referencias a la base de datos de Firebase para noticias y recetas
+        const noticiasRef = ref(db, 'noticias');
+        const recetasRef = ref(db, 'recetas');
+
+        // Función para agregar una noticia
+        const adminFormNoticias = document.getElementById('adminFormNoticias');
+        adminFormNoticias.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const titulo = document.getElementById('tituloNoticia').value;
+            const descripcion = document.getElementById('descripcionNoticia').value;
+            const enlace = document.getElementById('enlaceNoticia').value;
+
+            // Datos de la nueva noticia
+            const nuevaNoticia = {
+                titulo: titulo,
+                descripcion: descripcion,
+                enlace: enlace
+            };
+
+            // Guardar la nueva noticia en Firebase
+            const nuevaNoticiaRef = push(noticiasRef);
+            set(nuevaNoticiaRef, nuevaNoticia);
+
+            // Limpiar los campos del formulario
+            document.getElementById('tituloNoticia').value = '';
+            document.getElementById('descripcionNoticia').value = '';
+            document.getElementById('enlaceNoticia').value = '';
+        });
+
+        // Función para agregar una receta
+        const adminFormRecetas = document.getElementById('adminFormRecetas');
+        adminFormRecetas.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('nombreReceta').value;
+            const descripcion = document.getElementById('descripcionReceta').value;
+            const ingredientes = document.getElementById('ingredientesReceta').value;
+
+            // Datos de la nueva receta
+            const nuevaReceta = {
+                nombre: nombre,
+                descripcion: descripcion,
+                ingredientes: ingredientes
+            };
+
+            // Guardar la nueva receta en Firebase
+            const nuevaRecetaRef = push(recetasRef);
+            set(nuevaRecetaRef, nuevaReceta);
+
+            // Limpiar los campos del formulario
+            document.getElementById('nombreReceta').value = '';
+            document.getElementById('descripcionReceta').value = '';
+            document.getElementById('ingredientesReceta').value = '';
+        });
+
+        // Función para mostrar resultados de noticias
+        const btnBuscarNoticias = document.getElementById('btnBuscarNoticias');
+        const resultadosNoticias = document.getElementById('resultadosNoticias');
+        const buscarNoticiasInput = document.getElementById('buscarNoticias');
+
+        btnBuscarNoticias.addEventListener('click', async () => {
+            const busquedaNoticias = buscarNoticiasInput.value.trim();
+
+            // Realizar la búsqueda de noticias y mostrar los resultados en resultadosNoticias
+            const noticiasQuery = query(noticiasRef, orderByChild('titulo'), equalTo(busquedaNoticias));
+            const noticiasSnapshot = await get(noticiasQuery);
+
+            let resultadosHTML = '<ul>';
+
+            noticiasSnapshot.forEach((childSnapshot) => {
+                const noticia = childSnapshot.val();
+                resultadosHTML += `<li>${noticia.titulo}: ${noticia.descripcion}</li>`;
+            });
+
+            resultadosHTML += '</ul>';
+
+            resultadosNoticias.innerHTML = resultadosHTML;
+        });
+
+        // Función para mostrar resultados de recetas
+        const btnBuscarRecetas = document.getElementById('btnBuscarRecetas');
+        const resultadosRecetas = document.getElementById('resultadosRecetas');
+        const buscarRecetasInput = document.getElementById('buscarRecetas');
+
+        btnBuscarRecetas.addEventListener('click', async () => {
+            const busquedaRecetas = buscarRecetasInput.value.trim();
+
+            // Realizar la búsqueda de recetas y mostrar los resultados en resultadosRecetas
+            const recetasQuery = query(recetasRef, orderByChild('nombre'), equalTo(busquedaRecetas));
+            const recetasSnapshot = await get(recetasQuery);
+
+            let resultadosHTML = '<ul>';
+
+            recetasSnapshot.forEach((childSnapshot) => {
+                const receta = childSnapshot.val();
+                resultadosHTML += `<li>${receta.nombre}: ${receta.descripcion}</li>`;
+            });
+
+            resultadosHTML += '</ul>';
+
+            resultadosRecetas.innerHTML = resultadosHTML;
+        });
+    </script>
+</body>
+</html>
