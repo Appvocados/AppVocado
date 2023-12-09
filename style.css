@@ -117,22 +117,17 @@ background-color: #000000;
   padding-top: 1%;
 }
 
-#newsSection{border: solid 3px rgb(0, 0, 0);
-}
 
 /*
 /* News & Publicidad container*/
 .content-container{
-  margin:  1em;
+  margin-top: .2em;
   display: flex; /* Use Flexbox to make the elements inside it display side by side */
+  background-color: #000000;
 }
   
 
 
-#newsSection {
-  flex: 1; /* Make the news section take up the available space */
-  padding: 10px; /* Optional: Add padding for spacing */
-}
 
 #adBanner {
   flex: 0 0 300px; /* Make the ad banner have a fixed width of 300px, and don't allow it to grow or shrink */
