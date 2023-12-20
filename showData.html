@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mostrar Datos de Firebase Realtime Database</title>
+  <link rel="stylesheet" href="styleShowData.css">
+  <script src="header.js"></script>
+  <script src="footer.js"></script>
+  <script src="scriptsForSounds.js"></script>
+
+  <link rel="stylesheet" href="styleForComun.css">
+  <script>
+    // Solicitar permiso de notificación
+    Notification.requestPermission().then(function (permission) {
+      if (permission === "granted") {
+        console.log("Notificaciones permitidas.");
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <!-- Llama a la función mostrarHeader() para mostrar el header -->
+    <script>
+      mostrarHeader();
+    </script>
+  </header>
+
+  <h1>Datos Almacenados en Firebase Realtime Database</h1>
+
+  <div class="container">
+    <ul id="dataList"></ul>
+
+    <form id="dataForm">
+      <label for="name">Nombre del Productor:</label>
+      <input type="text" id="name" required>
+
+      <label for="phoneNumber">Teléfono:</label>
+      <input type="text" id="phoneNumber" required>
+
+      <label for="huertaName">Nombre Huerta</label>
+      <input type="text" id="huertaName" required>
+
+      <button type="submit" class="color-button">Guardar Datos</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>© 2023 AppVocado</p>
+  </footer>
+
+  <script type="module">
+    // Importar las funciones necesarias de Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    // Configuración de Firebase de tu aplicación web
+    const firebaseConfig = {
+      apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+        authDomain: "appvocado-73e80.firebaseapp.com",
+        databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "appvocado-73e80",
+        storageBucket: "appvocado-73e80.appspot.com",
+        messagingSenderId: "1050213748494",
+        appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // Obtener una referencia a la base de datos Realtime Database
+    const db = getDatabase(app);
+
+    // Obtener una referencia a la lista en la página HTML donde se mostrarán los datos
+    const dataList = document.getElementById('dataList');
+
+    // Crear una referencia a la colección "Clientes"
+    const clientsRef = ref(db, 'Clientes');
+
+    // Función para reproducir un sonido de notificación
+    function playNotificationSound() {
+      const audio = new Audio('notification.mp3'); // Ruta al archivo de sonido
+      audio.play();
+    }
+
+    // Escuchar cambios en la base de datos y actualizar la lista en tiempo real
+    onValue(clientsRef, (snapshot) => {
+      dataList.innerHTML = ''; // Limpiar la lista antes de actualizar
+
+      // Obtener todos los registros
+      const data = snapshot.val();
+
+      // Convertir los datos en un array para ordenarlos por fecha
+      const dataArray = [];
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          dataArray.push({ key, data: data[key] });
+        }
+      }
+
+      // Ordenar el array por fecha en orden inverso (más reciente primero)
+      dataArray.sort((a, b) => {
+        const fechaA = new Date(a.data.timestamp);
+        const fechaB = new Date(b.data.timestamp);
+        return fechaB - fechaA;
+      });
+
+      // Agregar los datos ordenados a la lista
+      dataArray.forEach((item) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+          <span class="nombre">Nombre: ${item.data.name}</span>
+          <span class="telefono">Teléfono: ${item.data.phoneNumber}</span>
+          <span class="huerta">Huerta: ${item.data.huertaName}</span>
+          <span class="fecha">Fecha: ${item.data.timestamp}</span>
+        `;
+        dataList.appendChild(listItem);
+
+        // Reproducir un sonido de notificación cuando se agrega un nuevo dato
+        playNotificationSound();
+      });
+    });
+
+    // Obtener una referencia al formulario y los campos de entrada
+    const form = document.getElementById('dataForm');
+    const nameInput = document.getElementById('name');
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const huertaNameInput = document.getElementById('huertaName'); // Nuevo campo
+
+    // Agregar un evento de escucha al formulario para capturar los valores ingresados y guardarlos
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Obtener el nombre, el número de teléfono y el nombre de la huerta ingresados
+      const name = nameInput.value;
+      const phoneNumber = phoneNumberInput.value;
+      const huertaName = huertaNameInput.value;
+
+      // Verificar que el nombre no esté vacío antes de guardar los datos
+      if (name.trim() === '' || huertaName.trim() === '') {
+        alert('Por favor, ingresa un nombre y nombre de huerta válidos.');
+        return;
+      }
+
+      // Obtener la fecha actual y formatearla en un formato específico
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
+
+      // Utilizar la fecha formateada como clave única
+      const newDataRef = ref(db, 'Clientes/' + formattedDate);
+
+      // Establecer la fecha, el nombre, el número de teléfono, el nombre de la huerta en la base de datos
+      set(newDataRef, {
+        timestamp: formattedDate,
+        name: name,
+        phoneNumber: phoneNumber,
+        huertaName: huertaName, // Nuevo campo
+      })
+        .then(() => {
+          console.log('Datos guardados con éxito.');
+        })
+        .catch((error) => {
+          console.error('Error al guardar los datos: ', error);
+        });
+
+      // Limpiar los campos de entrada después de enviar
+      nameInput.value = '';
+      phoneNumberInput.value = '';
+      huertaNameInput.value = '';
+    });
+  </script>
+
+</body>
+
+</html>

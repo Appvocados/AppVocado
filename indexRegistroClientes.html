@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AppVocado</title>
+    <meta name="autor" content="Salvador P. Angel">
+    <meta name="copyrigth" content="Appvocado.org">
+    <link rel="icon" type="image/gif" href="img/avocado-1-icon.gif">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
+    <script src="scriptsForSounds.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleForComun.css">
+    <link rel="stylesheet" href="cssForNewsSection.css">
+    <link rel="stylesheet" href="styleForContratoModal.css">
+    <link rel="stylesheet" href="FormdataGrafic.css">
+    <link rel="stylesheet" href="styleForFormClients.css">
+
+
+  
+    <style>
+      /* Agrega estilos según sea necesario */
+      body {
+          font-family: Arial, sans-serif;
+      }
+  </style>
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <!-- Llama a la función mostrarHeader() para mostrar el header -->
+        <script>
+            mostrarHeader();
+        </script>
+    </header>
+
+    <!-- Título -->
+    <h1 id="tituloPrecio">Precio actual del Aguacate de Exportación calibre 210g por Kg. 
+      <p id="ultimoPrecioExportacion" class="precio-destacado"></p> <!-- Agrega este span donde quieras mostrar el último precio -->
+    </h1> 
+
+  
+    
+    <div id="Prices">
+      <div id="precioDiv" class="box">
+  
+      <!-- Formulario oculto inicialmente -->
+      <form id="dataForm" style="">
+          <label for="name">Nombre:</label>
+          <input type="text" id="name" name="name" required>
+          
+          <label for="phoneNumber">Número de Teléfono:</label>
+          <input type="text" id="phoneNumber" name="phoneNumber" required>
+
+          <label for="huertaName">Nombre de la Huerta</label>
+          <input type="text" id="huertaName" name="huertaName" required>
+          
+          <button id="sendButton" class="button" type="submit" onclick="mostrarContrato()">Enviar</button>
+      </form>
+
+      <!-- Modal -->
+<div class="modal" id="contratoModal">
+<div class="modal-content">
+    <!-- Contenido del contrato -->
+    <span class="close" onclick="cerrarContrato()"><i class="fa-solid fa-rectangle-xmark fa-lg" style="color: #ff0000;"></i></span>
+    <div id="contenidoContrato"></div>
+
+     <div id="contratoModalBts">
+    <button id="aceptarBtton" class="ContratoBts" onclick="aceptarContrato()"><i class="fa-solid fa-handshake fa-shake fa-lg iconosBlack"></i>Aceptar</button>
+    <button id="descargarBtn" class="ContratoBts" conclick="descargarContrato()"><i class="fa-solid fa-download fa-bounce fa-lg iconosBlack"></i>Descargar Contrato en PDF</button>
+    <button id="cerrarBtn" class="ContratoBts" onclick="cerrarContrato()"><i class="fa-solid fa-trash-can fa-lg iconosBlack" ></i>Deshacer contrato</button>
+     </div>
+  </div>
+</div>
+  
+      <!-- Mensaje de venta oculto inicialmente -->
+      <div id="mensajeVentaProd" Class="green">
+        <i class="fa-solid fa-hands-clapping fa-beat fa-lg iconosMargin"></i>
+          Has vendido tu producción de aguacate, pronto te contactaremos.
+      <div><i class="fa-solid fa-phone-volume fa-shake iconosMargin"></i></div>
+      </div>
+   
+  <!-- links -->
+  <div id="linksForFormClients">
+    <a href="index.html" class="linkGreen" id=""><i class="fa-solid fa-left-long fa-lg iconosMargin"></i>Regresar a ver Precios</a>
+    <a href="#" class="linkGreen" id="iconWhatsapp"><i class="fa-brands fa-whatsapp fa-shake fa-lg iconosMargin"></i>Contactanos</a>
+
+  </div>
+  
+
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+    <script type="module">
+        // Importar las funciones necesarias de Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    
+        // Configuración de Firebase de tu aplicación web
+        const firebaseConfig = {
+          apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+            authDomain: "appvocado-73e80.firebaseapp.com",
+            databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "appvocado-73e80",
+            storageBucket: "appvocado-73e80.appspot.com",
+            messagingSenderId: "1050213748494",
+            appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
+        };
+    
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+    
+        // Obtener una referencia a la base de datos Realtime Database
+        const db = getDatabase(app);
+    
+        // Obtener una referencia a la lista en la página HTML donde se mostrarán los datos
+        const dataList = document.getElementById('dataList');
+    
+        // Crear una referencia a la colección "Clientes"
+        const clientsRef = ref(db, 'Clientes');
+    
+        // Función para reproducir un sonido de notificación
+        function playNotificationSound() {
+          const audio = new Audio('notification.mp3'); // Ruta al archivo de sonido
+          audio.play();
+        }
+    
+        // Escuchar cambios en la base de datos y actualizar la lista en tiempo real
+        onValue(clientsRef, (snapshot) => {
+          dataList.innerHTML = ''; // Limpiar la lista antes de actualizar
+    
+          // Obtener todos los registros
+          const data = snapshot.val();
+    
+          // Convertir los datos en un array para ordenarlos por fecha
+          const dataArray = [];
+          for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+              dataArray.push({ key, data: data[key] });
+            }
+          }
+    
+          // Ordenar el array por fecha en orden inverso (más reciente primero)
+          dataArray.sort((a, b) => {
+            const fechaA = new Date(a.data.timestamp);
+            const fechaB = new Date(b.data.timestamp);
+            return fechaB - fechaA;
+          });
+    
+          // Agregar los datos ordenados a la lista
+          dataArray.forEach((item) => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+              <span class="nombre">Nombre: ${item.data.name}</span>
+              <span class="telefono">Teléfono: ${item.data.phoneNumber}</span>
+              <span class="huerta">Huerta: ${item.data.huertaName}</span>
+              <span class="fecha">Fecha: ${item.data.timestamp}</span>
+            `;
+            dataList.appendChild(listItem);
+    
+            // Reproducir un sonido de notificación cuando se agrega un nuevo dato
+            playNotificationSound();
+          });
+        });
+    
+        // Obtener una referencia al formulario y los campos de entrada
+        const form = document.getElementById('dataForm');
+        const nameInput = document.getElementById('name');
+        const phoneNumberInput = document.getElementById('phoneNumber');
+        const huertaNameInput = document.getElementById('huertaName'); // Nuevo campo
+    
+        // Agregar un evento de escucha al formulario para capturar los valores ingresados y guardarlos
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+    
+          // Obtener el nombre, el número de teléfono y el nombre de la huerta ingresados
+          const name = nameInput.value;
+          const phoneNumber = phoneNumberInput.value;
+          const huertaName = huertaNameInput.value;
+    
+          // Verificar que el nombre no esté vacío antes de guardar los datos
+          if (name.trim() === '' || huertaName.trim() === '') {
+            alert('Por favor, ingresa un nombre y nombre de huerta válidos.');
+            return;
+          }
+    
+          // Obtener la fecha actual y formatearla en un formato específico
+          const currentDate = new Date();
+          const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
+    
+          // Utilizar la fecha formateada como clave única
+          const newDataRef = ref(db, 'Clientes/' + formattedDate);
+    
+          // Establecer la fecha, el nombre, el número de teléfono, el nombre de la huerta en la base de datos
+          set(newDataRef, {
+            timestamp: formattedDate,
+            name: name,
+            phoneNumber: phoneNumber,
+            huertaName: huertaName, // Nuevo campo
+          })
+            .then(() => {
+              console.log('Datos guardados con éxito.');
+            })
+            .catch((error) => {
+              console.error('Error al guardar los datos: ', error);
+            });
+    
+          // Limpiar los campos de entrada después de enviar
+          nameInput.value = '';
+          phoneNumberInput.value = '';
+          huertaNameInput.value = '';
+        });
+      </script>
+
+<script>
+  function mostrarContrato() {
+    // Code to handle form submission and show/hide elements
+    // For demonstration purposes, let's assume the form is valid
+    var formValid = true;
+
+    if (formValid) {
+      document.getElementById("dataForm").style.display = "none";
+      document.getElementById("contratoModal").style.display = "block";
+    }
+  }
+
+  function cerrarContrato() {
+    document.getElementById("contratoModal").style.display = "none";
+  }
+
+  function aceptarContrato() {
+    document.getElementById("contratoModal").style.display = "none";
+    document.getElementById("mensajeVenta").style.display = "block";
+  }
+
+  function descargarContrato() {
+    // Assuming you have code to download the contract
+    // For demonstration purposes, let's just call aceptarContrato
+    aceptarContrato();
+  }
+</script>
+
+    <footer>
+        <div id="footer-container"></div>
+    </footer>
+    <script src="scriptsForFormClients.js"></script>
+    <!-- Script para manejar la apertura y cierre del modal -->
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<script src="scripsForContratoModal.js"></script>
+<!-- Script de libreria de iconos -->
+<script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
+    <!-- Script de alertas -->
+<script src="alerts.js"></script>
+
+</body>
+</html>

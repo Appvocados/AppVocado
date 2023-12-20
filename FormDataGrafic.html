@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Datos para Gráficas</title>
+    <script src="header.js"></script>
+  <script src="scriptsForSounds.js"></script>
+    <link rel="stylesheet" href="styleForComun.css">
+    <link rel="stylesheet" href="FormdataGrafic.css">
+
+</head>
+
+<body>
+     <!-- Header -->
+     <header>
+        <!-- Llama a la función mostrarHeader() para mostrar el header -->
+        <script>
+            mostrarHeader();
+        </script>
+    </header>
+    
+    <h1>Actualizacion de Datos para Gráficas</h1>
+
+    <form id="formData">
+
+         <!-- Agrega campos para otros tipos de datos aquí -->
+        
+         <label for="Mayores">Precio calibre Mayores:</label>
+        <input type="number" id="dataMayores" name="Mayores" data-collection="Mayores">
+        <button type="button" class="save-button">Guardar Mayores</button>
+
+        <label for="210g">Precio 210g:</label>
+        <input type="number" id="data210g" name="210g" data-collection="210g">
+        <button type="button" class="save-button">Guardar 210g</button>
+
+        <label for="180g">Precio 180g:</label>
+         <input type="number" id="data180g" name="180g" data-collection="180g">
+         <button type="button" class="save-button">Guardar 180g</button>
+     <!--
+        <label for="dataAnual">Datos Anuales:</label>
+        <input type="number" id="dataAnual" name="dataAnual" data-collection="anuales">
+        <button type="button" class="save-button">Guardar en Firebase</button>
+        
+        <label for="dataHistorico">Datos Históricos:</label>
+        <input type="number" id="dataHistorico" name="dataHistorico" data-collection="historicos">
+        <button type="button" class="save-button">Guardar en Firebase</button>
+     -->
+    </form>
+
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    
+        // Configuración de Firebase de tu aplicación web
+        const firebaseConfig = {
+          apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+          authDomain: "appvocado-73e80.firebaseapp.com",
+          databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "appvocado-73e80",
+          storageBucket: "appvocado-73e80.appspot.com",
+          messagingSenderId: "1050213748494",
+          appId: "1:1050213748494s:web:253da19a34a8b2cba9115f"
+        };
+        
+       // Inicializar Firebase
+       const app = initializeApp(firebaseConfig);
+    
+    // Obtener una referencia a la base de datos Realtime Database
+    const db = getDatabase(app);
+
+    // Obtener una referencia al formulario y los botones de guardar
+    const formData = document.getElementById('formData');
+    const saveButtons = document.querySelectorAll('.save-button');
+
+    // Función para guardar los datos en Firebase con la fecha como ID
+    function guardarDatosEnFirebase(collectionName, fieldValue) {
+        // Obtener la fecha actual
+        const fechaActual = new Date();
+    
+        // Crear un objeto de opciones para formatear la fecha como desees
+        const opcionesDeFormato = { 
+            year: 'numeric', 
+            month: 'short', 
+            day: '2-digit', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        };
+
+        // Formatear la fecha con las opciones de formato
+        const fechaFormateada = fechaActual.toLocaleDateString('es-ES', opcionesDeFormato); // Cambia 'es-ES' al código de idioma que desees
+
+        // Crear una referencia al documento usando la fecha formateada como nombre del documento
+        const documentRef = ref(db, `${collectionName}/${fechaFormateada}`);
+
+        // Guardar el dato en Firebase
+        set(documentRef, { precio: fieldValue })
+            .then(() => {
+                console.log(`Dato ${fieldValue} guardado con éxito en la colección ${collectionName} en Firebase.`);
+            })
+            .catch((error) => {
+                console.error(`Error al guardar el dato ${fieldValue} en la colección ${collectionName} en Firebase: `, error);
+            });
+    }
+
+    // Agregar un evento de escucha a cada botón "Guardar en Firebase"
+    saveButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Obtener el campo de entrada asociado al botón clicado
+            const inputElement = e.target.previousElementSibling;
+
+            // Obtener el valor del campo de entrada
+            const inputValue = parseFloat(inputElement.value);
+
+            // Verificar si se ingresó un valor válido
+            if (!isNaN(inputValue)) {
+                // Obtener el nombre de la colección y guardar el dato en Firebase
+                const collectionName = inputElement.getAttribute('data-collection');
+                guardarDatosEnFirebase(collectionName, inputValue);
+
+                // Limpiar el campo de entrada después de guardar
+                inputElement.value = '';
+
+                console.log(`Dato ${inputValue} guardado con éxito en la colección ${collectionName} en Firebase.`);
+            } else {
+                console.error('Ingrese un valor válido antes de guardar.');
+            }
+        });
+    });
+</script>
+</body>
+</html>

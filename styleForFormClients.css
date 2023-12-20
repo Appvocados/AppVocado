@@ -1,0 +1,12 @@
+#mensajeVentaProd {
+    height: 50vh; /* Set the height to 100% of the viewport height */
+    width: 80%;   /* Set the width to 100% of the parent container */
+    display: none;
+    /* Add any other styles you need */
+}
+
+
+#linksForFormClients {
+    display: flex;
+    flex-direction: column;
+}

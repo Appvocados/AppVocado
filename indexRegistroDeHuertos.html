@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Huertas de Aguacate</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styleForComun.css">
+  <link rel="stylesheet" href="styleForRegistroDeHuertos.css">
+  <link rel="stylesheet" href="styleForContratoModal.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="header.js" href="header.js"></script>
+  <script src="footer.js"></script>
+  <style>
+    /* Estilos para ocultar los detalles por defecto */
+    details {
+      display: none;
+    }
+  </style>
+</head>
+
+<!-- Boddy -->
+<body>
+<!-- Header -->
+<header>
+  <!-- Llama a la función mostrarHeader() para mostrar el header -->
+  <script>
+    mostrarHeader();
+  </script>
+  </header>
+    
+<div class="containerTypeInfo">
+  <h1 class="titleInstrucionesreRegistroHuerta"> Cómo regularizar tu huerta y vender deliciosos aguacates</h1>
+  <p class="parrafos">A continuación, te describiré los pasos necesarios para registrar una huerta de aguacate y poder vender<i class="fa-solid fa-dollar-sign fa-flip iconos"></i> aguacate tanto a nivel nacional como para exportación y ser parte de la comunidad de productores de este delicioso fruto:</p>
+
+  <!-- Instrucciones para el usuario -->
+  <p class="parrafos" >Para ver las instrucciones detalladas de cada paso, haz <i class="fa-solid fa-hand-pointer fa-bounce"></i> Click en el título del paso que te interesa:</p>
+
+  <ol id="pasosLista" class="parrafos">
+    <li class="listRegistroHuerta">
+      <details>
+        <summary class="link leftText">Paso 1: Solicitar el registro de la huerta ante la autoridad de Sanidad Vegetal para poder comercializar a nivel nacional.</summary>
+        <p>Para obtener el registro tiene que acudir su oficina de la junta de Sanida Vegetal perteneciente a su Municipio con los documentos necesarios para solicitar el registro,
+           y realizar el pago de $800.00 Pesos (Ochocientos Pesos m/n) por hectarea cuadrada, el costo del registo es aproximado esto dependerá de tu municipio.</p>
+        <ol>
+        <summary class="titleInstrucionesreRegistroHuerta">Documentos Necesarios:</summary>
+        <li class="link leftText"><i class="fa-regular fa-file-lines iconos" style="color: #01fe12;"></i>Documento de propiedad, copia cortejada.</li>
+        <li class="link leftText"  href=""><i class="fa-regular fa-id-card iconos" style="color: #01fe12;"></i>Credencial de elector INE vigente, copia a color.</li>
+      </ol>
+      </details>
+    </li>
+
+    <li class="listRegistroHuerta leftText">
+      <details>
+        <summary class="link "leftText>Paso 2: Solicitar el registro de exportación de la huerta ante la autoridad de Sanidad Vegetal.</summary>
+        <p>Una vez realizado el registro para nacional podra realizar la solicitud para exportación, debera presentar los documentos necesarios y 
+          realizar un pago de $1600.00 (Mil seiscientos Pesos) por hectarea, este costo también es aproximado y dependerá de la zona o municipio.
+        </p>
+      <ol>
+        <summary class="titleInstrucionesreRegistroHuerta">Documentos necesarios</summary>
+        <li class="link leftText"><i class="fa-regular fa-file-lines iconos" style="color: #01fe12;"></i>Documento de promiedad, (Cartad de posesión, escritura) copia cortejada.</li>
+        <li class="link leftText"><i class="fa-regular fa-id-card iconos" style="color: #01fe12;"></i>Credencial de elector INE vigente, copia a color.</li>
+      </ol>
+      <p>Una vez realizada la solicitud, un ingeniero de Sanidad Vegetal agendara una fecha para visitar la huerta y realizar un croquis del terreno.</p>
+        </details>
+    </li>
+
+    <li class="listRegistroHuerta">
+      <details>
+        <summary class="link leftText">Paso 3: Verder. <i class="fa-solid fa-sack-dollar fa-shake" style="color: #01fe12;"></i></summary>
+
+        <p>Para vender tu Producción de aguacate solo nececitas dar Click en el botón de Vender y llenar los datos que 
+          te pedimos antes de enviar.
+        </p>
+        
+        <div id="Prices">
+          <div id="precioDiv" class="box">
+            <p id="mensajePrecio"> Vende tu producción a precio de exporatación <span id="otraSeccionUltimoPrecio"></span>
+              por Kg. 
+              
+            </p>
+    
+            <div id="venderContainer">
+              <button class="button blink VenderButton" id="venderButton">
+                <i class="fa-solid fa-sack-dollar fa-shake" style="color: #01fe12;"></i>Vender
+              </button>
+          </div>
+      
+          <!-- Formulario oculto inicialmente -->
+          <form id="dataForm" style="display: none;">
+              <label for="name">Nombre:</label>
+              <input type="text" id="name" name="name" required>
+              
+              <label for="phoneNumber">Número de Teléfono:</label>
+              <input type="text" id="phoneNumber" name="phoneNumber" required>
+  
+              <label for="huertaName">Nombre de la Huerta</label>
+              <input type="text" id="huertaName" name="huertaName" required>
+              
+              <button class="button" type="submit" onclick="mostrarContrato()">Enviar</button>
+          </form>
+  
+          <!-- Modal -->
+  <div class="modal" id="contratoModal">
+    <div class="modal-content">
+        <!-- Contenido del contrato -->
+        <span class="close" onclick="cerrarContrato()">&times;</span>
+        <div id="contenidoContrato"></div>
+        <button id="aceptarBtn"  onclick="aceptarContrato()">Aceptar</button>
+        <button id="descargarBtn" onclick="descargarContrato()">Descargar Contrato en PDF</button>
+    </div>
+  </div>
+      
+          <!-- Mensaje de venta oculto inicialmente -->
+          <div id="mensajeVenta" Class="green" style="display: none;">
+              Has vendido tu producción de aguacate, pronto te contactaremos.
+          </div>
+        </div>
+      </div>
+
+      <p>Después de realizar tu solicitud de venta un agente de AppVocado se contactará para terminar el proceso de venta.</p>
+
+      </details>
+    </li>
+
+    <li class="listRegistroHuerta ">
+      <details>
+        <summary class="link leftText">Paso 4: Cobrar. <i class="fa-solid fa-hand-holding-dollar fa-bounce" style="color: #4dff00;"></i></summary>
+        <p>Una vez realizada la solicitud de venta y que el corte de la fruta se halla realizado, éste se pesará 
+        y se transportará a la empacadora la cual seleccionará y clasificará los diferentes tamaños de fruto.</p>
+        <p>Para realizar tu cobro se te entragara un vale que podras cobrar despues de 2 semanas, bueno por la cantidad que se estipulara dependiendo de los kilos
+        y tamaños de fruta.</p>
+        <p>Todo esto previamente explicado en el contrato de compra-venta.
+        </p>
+      </details>
+    </li>
+  </ol>
+</div>
+</div>
+
+<!-- Footer -->
+
+<footer>
+	<div id="footer-container"></div>
+</footer>	  
+
+  <script src="scripsforlistforsell.js"></script>
+  <script src="scriptsForForm.js"></script>
+  <script src="scripsForContratoModal.js"></script>
+
+  <!-- Script de libreria de iconos -->
+  <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
+  <!-- Script de alertas -->
+<script src="alerts.js"></script>
+  
+</body>
+</html>
+
