@@ -6,7 +6,7 @@ function mostrarHeader() {
                 <div id="appvocado">
                     <figure class="icon">
                         <a href="index.html">
-                        <img src="img/avocado-1-icon.gif" title="Click para ir a página de inicio" alt="Inicio">
+                        <img src="avocado-1-icon.gif" title="Click para ir a página de inicio" alt="Inicio">
                         </a>
                     </figure>
                     <a id="AppVocado" href="index.html" class="titles"> AppVocado </a>              
