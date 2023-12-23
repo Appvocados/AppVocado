@@ -26,7 +26,7 @@ html {
 background-color: #000000;
 }
 
-#venderContainer{
+#venderContainerPrincipal{
   display: flex;
   gap: 0;
   flex-direction: column;
