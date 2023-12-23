@@ -24,9 +24,20 @@ html {
   align-items: center; /* Align items at the top of the container */
   padding: 1em;
 background-color: #000000;
-border: solid 2px rgb(74, 134, 47);
 }
 
+#venderContainer{
+  display: flex;
+  gap: 0;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center; /* Align items at the top of the container */
+  background-color: #146532;
+  margin: 0%;
+  padding: 0%;
+  
+    }
 
 /* contenedor de grafica y grafica */
 #Grafic {
@@ -35,10 +46,15 @@ border: solid 2px rgb(74, 134, 47);
   justify-content: space-between; /* Espaciado entre los gráficos */
   height: auto;
   width: 80%; /* ancho de las graficas */
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+
 }
 
 /* contenedor de cada grafica */
 .grf {
+  width: 80%;
   min-width: 300px; /* Ancho mínimo ajustable según tus necesidades */
   margin-right: 10px; /* Espaciado entre los gráficos */
   height: auto;
@@ -48,6 +64,7 @@ border: solid 2px rgb(74, 134, 47);
 
 /* grafica donde se renderiza el canvas*/
 .grafico {
+
   width: 100%; /* Hace que el canvas ocupe todo el ancho del contenedor */
 }
 
