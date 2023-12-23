@@ -102,6 +102,11 @@ nav {
     margin-right: .5em; /* Ajusta según sea necesario */
     
   }
+
+  /*Change to red when cursor hover */
+  .hoverRed:hover {
+    color: red;
+  }
   
   @keyframes pulseAnimation {
     0%, 100% {
@@ -146,8 +151,9 @@ nav {
   position: fixed; /* Cambiado a "fixed" para que se deslice desde el lado derecho de la pantalla */
   top: 0;
   right: -20%; /* Empieza fuera de la pantalla, ajusta según sea necesario */
-  width: 22.5%; /* Ocupa el 20% del ancho de la pantalla */
+  width: 35%; /* Ocupa el 20% del ancho de la pantalla */
   height: 100%;
+  padding-top: 4em;
   background-color: #ffff; /* Color de fondo del menú desplegable */
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -164,7 +170,6 @@ nav {
 /* botones del menu despegable */
 .dropdown-content a:hover { 
   background-color: #000;
-  border: solid 1px #1ac73c;
 }
 
 /* Mostrar el menú desplegable cuando se pasa el cursor por encima del botón */
@@ -173,7 +178,10 @@ nav {
   right: 0; /* Muestra el menú desplegable deslizándolo desde la derecha */
 }
 
-
+/*Cerrar menu Botton */
+#cerrar {
+  margin-top: 2em;
+}
 
 
 
@@ -235,6 +243,9 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  text-align: center;
+  align-items: center;
+
 }
 
   
@@ -252,9 +263,9 @@ footer {
   color: chartreuse;
 }
 
- /* Bottons */
+ /* Bottons para vender*/
  .button {
-  font-size: 120%;
+  font-size: 60%;
   color: #fff;
   background-color: #000000;
   border: none;
