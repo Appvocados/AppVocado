@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AppVocado</title>
-    <meta name="autor" content="Salvador P. Angel">
-    <meta name="copyrigth" content="Appvocado.org">
-    <link rel="icon" type="image/gif" href="img/avocado-1-icon.gif">
+
+    <head>
+    <!-- Metadatos -->
+<title>AppVocado</title>
+<meta name="author" content="Salvador P. Angel">
+<meta name="copyright" content="Appvocado.org">
+<meta name="description" content="Plataforma que mostra precios en tiempo real a productores de aguacates en la región de Michoacán">
+<meta name="keywords" content="appvocado, Precios de aguacate, Aguacate en Michoacán, como vender aguacate de exporatación, precios en tiempo real del aguacate">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow"> <!-- Directivas para motores de búsqueda -->
+<meta name="language" content="es"> <!-- Idioma principal del sitio -->
+<meta name="generator" content="Visual Studio">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Modo de compatibilidad con Internet Explorer -->
+<meta name="theme-color" content="#RRGGBB"> <!-- Color del tema para navegadores móviles -->
+<meta name="apple-mobile-web-app-capable" content="yes"> <!-- Habilite la aplicación web en dispositivos Apple -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> <!-- Estilo de la barra de estado en dispositivos Apple -->
+<link rel="canonical" href="https://www.appvocado.mx/"> <!-- URL canónica del documento -->
+<link rel="icon" type="image/gif" href="img/avocado-1-icon.gif"> <!-- Icono del sitio -->
+<link rel="alternate" type="application/rss+xml" title="Feed" href="URL_del_feed"> <!-- Feed RSS es útil para los lectores de feeds y otros servicios que pueden consumir contenido en formato RSS -->
+
+<!-- Metadatos adicionales -->
+<meta name="application-name" content="AppVocado"> <!-- Nombre de la aplicación en la barra de tareas de Windows -->
+<meta name="msapplication-TileColor" content="#RRGGBB"> <!-- Color de la baldosa en la barra de tareas de Windows -->
+<meta name="msapplication-TileImage" content="img/avocado-1-icon.gif"> <!-- Ruta de la imagen de la baldosa en la barra de tareas de Windows -->
+<meta name="msapplication-config" content="ruta_del_archivo.xml"> <!-- Configuración de la aplicación para Internet Explorer en Windows -->
+<meta name="format-detection" content="telephone=no"> <!-- Desactivar la detección automática de números de teléfono -->
+<meta name="referrer" content="no-referrer"> <!-- Controlar el encabezado Referer enviado por el navegador -->
+<meta http-equiv="content-language" content="es"> <!-- Idioma del contenido -->
+<meta http-equiv="refresh" content="30;URL=recargar_pagina.html"> <!-- Recargar la página cada 30 segundos -->
+<meta http-equiv="pragma" content="no-cache"> <!-- Controlar la caché del navegador -->
+<meta http-equiv="expires" content="0"> <!-- Configurar la fecha de caducidad para contenido en caché -->
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"> <!-- Configurar la caché del navegador -->
+<meta property="og:title" content="AppVocado">
+<meta property="og:description" content=" Aplicación para mostrar precios de aguacate en tiempo real a productores de aguacat">
+<meta property="og:image" content="img/avocado-1-icon.gif"> <!-- Imagen para compartir en redes sociales -->
+<meta property="og:url" content="https://appvocado.mx/"> <!-- URL del sitio para compartir en redes sociales -->
+<meta property="og:type" content="website"> <!-- Tipo de contenido para compartir en redes sociales -->
+
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="header.js"></script>
     <script src="footer.js"></script>
     <script src="scriptsForSounds.js"></script>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150135786534340"
-     crossorigin="anonymous"></script>
-
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4WPKS5PHL4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4WPKS5PHL4');
-</script>
-    
+    <!-- .css styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styleForComun.css">
     <link rel="stylesheet" href="cssForNewsSection.css">
@@ -33,6 +53,137 @@
     <link rel="stylesheet" href="FormdataGrafic.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="module">
+        // Importar las funciones necesarias de Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+  
+        // Configuración de Firebase de tu aplicación web
+        const firebaseConfig = {
+            //configuración de Firebase
+            apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+            authDomain: "appvocado-73e80.firebaseapp.com",
+            databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "appvocado-73e80",
+            storageBucket: "appvocado-73e80.appspot.com",
+            messagingSenderId: "1050213748494",
+            appId: "1:1050213748494s:web:253da19a34a8b2cba9115f"
+        };
+  
+    
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      let ultimoPrecioMayores;
+      let ultimoPrecio210g;
+      let ultimoPrecio180g;
+  
+      function crearGrafico(data, canvasId, titulo) {
+          const ultimoPrecio = Object.values(data).pop()?.precio;
+  
+          if (canvasId === 'myChartMayores') {
+              ultimoPrecioMayores = ultimoPrecio;
+          } 
+  
+          document.getElementById('ultimoPrecioMayores').textContent = `$${ultimoPrecioMayores}`;
+          document.getElementById('ultimoPrecio210g').textContent = `$${ultimoPrecio210g}`;
+          document.getElementById('ultimoPrecio180g').textContent = `$${ultimoPrecio180g}`;
+          document.getElementById('ultimoPrecioMayoresSeccion').textContent = `$${ultimoPrecioMayores}`;
+  
+          const labels = Object.keys(data).slice(-4);
+          const valores = Object.values(data).slice(-4).map(entry => entry.precio);
+          const valores180g = Object.values(data).slice(-4).map(entry => entry.precio);
+
+  
+          const ctx = document.getElementById(canvasId).getContext('2d');
+          const myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      label: 'Mayores',
+                      data: valores,
+                      borderColor: "chartreuse",
+                      color: "#fff",
+                      backgroundColor: "rgba(26, 199, 60, 0.2)",
+                      fill: true,
+                      borderWidth: 4,
+                      tension: 0.5,
+                  }]
+              },
+              options: {
+                  scales: {
+                      x: {
+                          ticks: {
+                              font: {
+                                  size: 7,
+                                  weight: 'bold',
+                              },
+                              color: '#fff'
+                          }
+                      },
+                      y: {
+                          beginAtZero: true,
+                          ticks: {
+                              font: {
+                                  size: 10,
+                                  weight: 'bold'
+                              },
+                              color: '#fff'
+                          },
+                          title: {
+                              display: true,
+                              text: 'AppVocado',
+                              font: {
+                                  size: 10,
+                                  weight: 'bold'
+                              },
+                              color: 'chartreuse'
+                          }
+                      }
+                  },
+                  plugins: {
+                      title: {
+                          display: true,
+                          text: titulo,
+                          font: {
+                              size: 18,
+                              weight: 'bold'
+                          },
+                          color: '#ffff'
+                      },
+                      
+                  }
+              }
+          });
+      }
+  
+      function obtenerYCrearGrafico(ref, canvasId, titulo) {
+          onValue(ref, (snapshot) => {
+              const data = snapshot.val();
+              crearGrafico(data, canvasId, titulo);
+          });
+      }
+  
+      obtenerYCrearGrafico(ref(db, 'Mayores'), 'myChartMayores', 'Calibre Mayores');
+      obtenerYCrearGrafico(ref(db, '210g'), 'myChartCal210g', 'Calibre 210g');
+      obtenerYCrearGrafico(ref(db, '180g'), 'myChartCal180g', 'Calibre 180g');
+  
+      
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150135786534340"
+     crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WPKS5PHL4"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4WPKS5PHL4');
+  </script>
 
 </head>
 
@@ -47,31 +198,54 @@
 
     <!-- Título -->
     <h1 id="tituloPrecio">Precio actual del Aguacate de Exportación calibre 210g por Kg. 
-      <p id="ultimoPrecioExportacion" class="precio-destacado"></p> <!-- Agrega este span donde quieras mostrar el último precio -->
+      <p id="ultimoPrecioExportacion" class="precio-destacado"></p> <!-- Agrega este p donde quieras mostrar el último precio -->
       <div id="venderContainer">
+
+      <div class="">
+          <h3>Último Precio de Mayores:</h3>
+          <p id="ultimoPrecioMayoresSeccion">$0.00</p>
+      </div>
+  
         <button class="button blink VenderButton" id="venderButton">
           <i class="fa-solid fa-sack-dollar fa-shake iconos" style="color: #01fe12;"></i>Vender
         </button>
-    </div>
+  
     </h1> 
 
-  
+
     <!-- Prices Container -->
     <div id="Prices">
 
       <div id="Grafic">
 
+  
+
       <div class="grf">
+        <div class="price">
+          <h3>Último Precio Calibre Mayores:</h3>
+          <p id="ultimoPrecioMayores">$0.00</p>
+      </div>
+      
       <!-- Elemento HTML para el gráfico de Datos calibre Mayores -->
       <canvas id="myChartMayores" class="grafico" ></canvas> 
       </div>
 
+
       <div class="grf">
+        <div class="price">
+          <h3>Último Precio Calibre 210g:</h3>
+          <p id="ultimoPrecio210g">$0.00</p>
+        </div>
         <!-- Elemento HTML para el gráfico de Datos Calibre 210g-->
       <canvas id="myChartCal210g" class="grafico" ></canvas>
       </div>
   
+
       <div class="grf">
+        <div class="price">
+          <h3>Último Precio Calibre 180g:</h3>
+          <p id="ultimoPrecio180g">$0.00</p>
+        </div>
       <!-- Elemento HTML para el gráfico de Calibre 180g  -->
       <canvas id="myChartCal180g" class="grafico"></canvas>
       </div>
@@ -122,281 +296,18 @@
         </aside> -->
     </div>
 
-    <script type="module">
-      // Importar las funciones necesarias de Firebase SDK
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-      import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-  
-     // Configuración de Firebase de tu aplicación web
-     const firebaseConfig = {
-        apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
-        authDomain: "appvocado-73e80.firebaseapp.com",
-        databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "appvocado-73e80",
-        storageBucket: "appvocado-73e80.appspot.com",
-        messagingSenderId: "1050213748494",
-        appId: "1:1050213748494s:web:253da19a34a8b2cba9115f"
-      };
-      
-      
-      // Inicializar Firebase
-      const app = initializeApp(firebaseConfig);
-  
-      // Obtener una referencia a la base de datos Realtime Database
-      const db = getDatabase(app);
-  
-      // Obtener una referencia a cada colección de datos en Firebase
-      
-      const gaugeMayores = ref(db, 'Mayores');
-      const gauge210g = ref(db, '210g');
-      const gauge180g = ref(db, '180g');
-      /*const anualesRef = ref(db, 'anuales');
-      const historicosRef = ref(db, 'historicos');*/
 
-      function crearGrafico(data, canvasId, titulo) {
-        if (!data) {
-            console.error("Los datos son nulos o indefinidos.");
-            return;
-        }
+   
+    <!-- Scripts del header -->
+    <script src="scriptsForHeader.js"></script>
 
-        // Obtener solo el último elemento
-        const ultimoPrecio = Object.values(data).pop()?.precio;
-
-        // Mostrar el último precio en los spans respectivos
-        document.getElementById('ultimoPrecioExportacion').textContent = `$${ultimoPrecio}`;
-        document.getElementById('otraSeccionUltimoPrecio').textContent = `$${ultimoPrecio}`;
-
-        // Obtener solo los últimos 4 elementos para el gráfico
-        const labels = Object.keys(data).slice(-4);
-        const valores = Object.values(data).slice(-4).map(entry => entry.precio);
-
-        const ctx = document.getElementById(canvasId).getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Precio por Kg',
-                    data: valores,
-                    borderColor: "chartreuse",
-                    color: "#fff",
-                    backgroundColor: "rgba(26, 199, 60, 0.2)",
-                    fill: true,
-                    borderWidth: 4,
-                    tension: 0.5,
-                    fontSize: 40,
-
-                }]
-            },
-            options: {
-        scales: {
-          x: {
-                ticks: {
-                    font: {
-                        size: 7, // Tamaño de la fuente de las etiquetas en el eje X
-                        weight: 'bold', // Peso de la fuente
-                      },
-                      color: '#fff' // Color de los valores del eje Y
-                }
-            },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    font: {
-                        size: 10, // Tamaño de la fuente
-                        weight: 'bold' // Peso de la fuente (normal, bold, etc.)
-                    },
-                    color: '#fff' // Color de los valores del eje Y
-                },
-                title: {
-                    display: true,
-                    text: 'AppVocado',
-                    font: {
-                        size: 10, // Tamaño de la fuente
-                        weight: 'bold' // Peso de la fuente
-                    },
-                    color: 'chartreuse' // Color del título del eje Y
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: titulo,
-                font: {
-                    size: 18, // Tamaño de la fuente del título general
-                    weight: 'bold' // Peso de la fuente del título general
-                },
-                color: 'chartreuse' // Color del título del eje Y
-               },
-
-                legend: {
-                display: true,
-                onClick: function (event, legendItem) {
-                    // Aquí puedes agregar la lógica que deseas ejecutar al hacer clic en el label
-                    alert('Hiciste clic en el label: ' + legendItem.text);
-                }
-              } 
-        }
-    }
-});
-    }
-
-      function obtenerYCrearGrafico(ref, canvasId, titulo) {
-          onValue(ref, (snapshot) => {
-              const data = snapshot.val();
-              crearGrafico(data, canvasId, titulo);
-          });
-      }
-
-      
-       obtenerYCrearGrafico(gaugeMayores, 'myChartMayores', 'Calibre Mayores');
-       obtenerYCrearGrafico(gauge210g, 'myChartCal210g', 'Calibre 210g');
-      obtenerYCrearGrafico(gauge180g, 'myChartCal180g', 'Calibre 180g');
-      /*obtenerYCrearGrafico(anualesRef, 'myChartAnual', 'Datos Anuales');
-      obtenerYCrearGrafico(historicosRef, 'myChartHistorico', 'Datos Históricos');*/
-  </script>
-    
-    
-    <script type="module">
-      // Importar las funciones necesarias de Firebase SDK
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-      import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-  
-      // Configuración de Firebase de tu aplicación web
-      const configuracionFirebase = {
-        apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
-        authDomain: "appvocado-73e80.firebaseapp.com",
-        databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "appvocado-73e80",
-        storageBucket: "appvocado-73e80.appspot.com",
-        messagingSenderId: "1050213748494",
-        appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
-      };
-  
-      // Inicializar Firebase
-      const appFirebase = initializeApp(configuracionFirebase);
-  
-      // Obtener una referencia a la base de datos Realtime Database
-      const dbFirebase = getDatabase(appFirebase);
-  
-      // Obtener una referencia a la lista en la página HTML donde se mostrarán los datos
-      const dataListElement = document.getElementById('dataList');
-  
-      // Crear una referencia genérica a la colección "Clientes"
-      const registrosRef = ref(dbFirebase, 'Clientes');
-  
-      // Función para reproducir un sonido de notificación
-      function reproducirSonidoNotificacion() {
-        const audioNotificacion = new Audio('notification.mp3'); // Ruta al archivo de sonido
-        audioNotificacion.play();
-      }
-  
-      // Escuchar cambios en la base de datos y actualizar la lista en tiempo real
-      onValue(registrosRef, (snapshot) => {
-        dataListElement.innerHTML = ''; // Limpiar la lista antes de actualizar
-  
-        // Obtener todos los registros
-        const datosRegistros = snapshot.val();
-  
-        // Convertir los datos en un array para ordenarlos por fecha
-        const arregloDatosRegistros = [];
-        for (const claveRegistro in datosRegistros) {
-          if (datosRegistros.hasOwnProperty(claveRegistro)) {
-            arregloDatosRegistros.push({ claveRegistro, datosRegistro: datosRegistros[claveRegistro] });
-          }
-        }
-  
-        // Ordenar el array por fecha en orden cronológico
-        // Ordenar el array por fecha en orden inverso (más reciente primero)
-        arregloDatosRegistros.sort((a, b) => {
-          const fechaA = new Date(a.datosRegistro.timestamp);
-          const fechaB = new Date(b.datosRegistro.timestamp);
-          return  fechaB - fechaA;
-        });
-  
-        // Agregar los datos ordenados a la lista
-        arregloDatosRegistros.forEach((itemRegistro) => {
-          const elementoLista = document.createElement('li');
-          elementoLista.innerHTML = `
-            <span class="nombre">Nombre: ${itemRegistro.datosRegistro.name}</span>
-            <span class="telefono">Teléfono: ${itemRegistro.datosRegistro.phoneNumber}</span>
-            <span class="huerta">Huerta: ${itemRegistro.datosRegistro.huertaName}</span>
-            <span class="fecha">Fecha: ${itemRegistro.datosRegistro.timestamp}</span>
-          `;
-          dataListElement.appendChild(elementoLista);
-  
-          // Reproducir un sonido de notificación cuando se agrega un nuevo dato
-          reproducirSonidoNotificacion();
-        });
-      });
-  
-      // Obtener una referencia al formulario y los campos de entrada
-      const formulario = document.getElementById('dataForm');
-      const nombreProductorInput = document.getElementById('nombreProductor');
-      const telefonoInput = document.getElementById('telefono');
-      const nombreHuertaInput = document.getElementById('nombreHuerta'); // Nuevo campo
-  
-      // Agregar un evento de escucha al formulario para capturar los valores ingresados y guardarlos
-      formulario.addEventListener('submit', (evento) => {
-        evento.preventDefault();
-  
-        // Obtener el nombre, el número de teléfono y el nombre de la huerta ingresados
-        const nombreProductor = nombreProductorInput.value;
-        const telefono = telefonoInput.value;
-        const nombreHuerta = nombreHuertaInput.value;
-  
-        // Verificar que el nombre no esté vacío antes de guardar los datos
-        if (nombreProductor.trim() === '' || nombreHuerta.trim() === '') {
-          alert('Por favor, ingresa un nombre y nombre de huerta válidos.');
-          return;
-        }
-  
-        // Obtener la fecha actual y formatearla en un formato específico
-        const fechaActual = new Date();
-        const fechaFormateada = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1).toString().padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')} ${fechaActual.getHours().toString().padStart(2, '0')}:${fechaActual.getMinutes().toString().padStart(2, '0')}:${fechaActual.getSeconds().toString().padStart(2, '0')}`;
-  
-        // Obtener una referencia única para cada registro usando la fecha como clave
-        const nuevaReferenciaRegistro = push(registrosRef);
-  
-        // Establecer la fecha, el nombre, el número de teléfono, el nombre de la huerta en la base de datos
-        set(nuevaReferenciaRegistro, {
-          timestamp: fechaFormateada,
-          name: nombreProductor,
-          phoneNumber: telefono,
-          huertaName: nombreHuerta
-        });
-  
-        // Limpiar los campos del formulario después de guardar los datos
-        nombreProductorInput.value = '';
-        telefonoInput.value = '';
-        nombreHuertaInput.value = '';
-      });
-    </script>
-
+    <!-- Script para el footer -->
     <footer>
         <div id="footer-container"></div>
     </footer>
-    <script src="scriptsForForm.js"></script>
-    <!-- Script para manejar la apertura y cierre del modal -->
-<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-<script src="scripsForContratoModal.js"></script>
-
-
-<script>
-  $(document).ready(function () {
-      // Obtén el botón por su ID
-      var venderButton = $('.VenderButton');
-
-      // Agrega el enlace al botón
-      venderButton.wrap('<a href="indexRegistroClientes.html"></a>');
-  });
-</script>
 
     <!-- Script de libreria de iconos -->
     <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
-    <!-- Script de alertas -->
-<script src="alerts.js"></script>
-
+    
 </body>
 </html>
