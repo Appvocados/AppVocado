@@ -54,7 +54,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script type="module">
+      <script type="module">
         // Importar las funciones necesarias de Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
@@ -84,7 +84,11 @@
   
           if (canvasId === 'myChartMayores') {
               ultimoPrecioMayores = ultimoPrecio;
-          } 
+          } else if (canvasId === 'myChartCal210g') {
+              ultimoPrecio210g = ultimoPrecio;
+          } else if (canvasId === 'myChartCal180g') {
+              ultimoPrecio180g = ultimoPrecio;
+          }
   
           document.getElementById('ultimoPrecioMayores').textContent = `$${ultimoPrecioMayores}`;
           document.getElementById('ultimoPrecio210g').textContent = `$${ultimoPrecio210g}`;
@@ -173,18 +177,6 @@
       obtenerYCrearGrafico(ref(db, '180g'), 'myChartCal180g', 'Calibre 180g');
   
       
-  </script>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150135786534340"
-     crossorigin="anonymous"></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WPKS5PHL4"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4WPKS5PHL4');
   </script>
 
 </head>
