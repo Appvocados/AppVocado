@@ -26,6 +26,10 @@ html {
 background-color: #000000;
 }
 
+#selectContainer{
+  background-color: #000000;
+}
+
 #venderContainerPrincipal{
   display: flex;
   gap: 0;
@@ -59,7 +63,8 @@ background-color: #000000;
   margin-right: 10px; /* Espaciado entre los gráficos */
   height: auto;
   border: solid 1px #fff;
-  margin-top: 1em;
+  margin-bottom: 1em;
+
 }
 
 /* grafica donde se renderiza el canvas*/
@@ -89,11 +94,74 @@ background-color: #000000;
   color: chartreuse;
 }
 
+.precioActual {
+  padding: 0%;
+  margin: 0%;
+  background-color: rgba(26, 199, 60, 0.2);
+
+
+}
+
 /* contenedores de precios actualizados */
 .price {
   text-align: center;
   color:#fff;
+  padding: 0%;
+  margin: 0%;
 }
+
+.PrecioResult {
+  padding: 0%;
+  height: 3em;
+}
+
+/* resultados de busqueda de precios*/
+.precio{
+ padding: 0%;
+ margin: 0%;
+}
+
+/*Fecha del resultado de precios*/
+.fecha{
+  padding: 0%;
+  margin: 0%;
+
+}
+
+/* Selecte de precios */
+/* Estilos para el elemento con la clase selectPrices */
+.selectPrices {
+  width: 200px; /* Ancho del select */
+  padding: 10px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de fuente */
+  border: 1px solid #ccc; /* Borde del select */
+  border-radius: 5px; /* Radio de borde */
+  background-color: #fff; /* Color de fondo */
+  color: #333; /* Color del texto */
+}
+
+/* Estilos cuando el usuario interactúa con el selectPrices */
+.selectPrices:hover {
+  border-color: #555; /* Cambia el color del borde al pasar el ratón */
+}
+
+/* Estilos cuando el selectPrices está enfocado (seleccionado) */
+.selectPrices:focus {
+  outline: none; /* Elimina el contorno predeterminado al enfocar */
+  box-shadow: 0 0 20px rgba(26, 199, 60, 0.5); /* Sombra alrededor del selectPrices al enfocar */
+}
+
+/* Estilos para las opciones dentro del selectPrices */
+.selectPrices option {
+  background-color: #fff; /* Color de fondo de las opciones */
+  color: #333; /* Color del texto de las opciones */
+}
+
+/* Estilos cuando el usuario interactúa con las opciones */
+.selectPrices option:hover {
+  background-color: #f0f0f0; /* Cambia el color de fondo de las opciones al pasar el ratón */
+}
+
 
 #adBanner {
   flex: 0 0 300px; /* Make the ad banner have a fixed width of 300px, and don't allow it to grow or shrink */
