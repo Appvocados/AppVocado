@@ -51,9 +51,7 @@
     <link rel="stylesheet" href="styleForContratoModal.css">
     <link rel="stylesheet" href="FormdataGrafic.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-      <script type="module">
+    <script type="module">
         // Importar las funciones necesarias de Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
@@ -170,12 +168,93 @@
               crearGrafico(data, canvasId, titulo);
           });
       }
+
+      // Función para cargar todas las fechas disponibles en un select
+    function cargarFechasEnSelect(ref, selectId) {
+        const selectElement = document.getElementById(selectId);
+
+        // Limpiar opciones anteriores
+        selectElement.innerHTML = "<option value=''>Seleccione una fecha</option>";
+
+        // Obtener todas las fechas disponibles
+        onValue(ref, (snapshot) => {
+            const data = snapshot.val();
+            const fechas = Object.keys(data);
+
+            // Agregar cada fecha como una opción en el select
+            fechas.forEach((fecha) => {
+                const option = document.createElement("option");
+                option.value = fecha;
+                option.text = fecha;
+                selectElement.appendChild(option);
+            });
+        });
+    }
+
+   
   
       obtenerYCrearGrafico(ref(db, 'Mayores'), 'myChartMayores', 'Calibre Mayores');
       obtenerYCrearGrafico(ref(db, '210g'), 'myChartCal210g', 'Calibre 210g');
       obtenerYCrearGrafico(ref(db, '180g'), 'myChartCal180g', 'Calibre 180g');
   
-      
+      // ...
+
+// Función para mostrar la opción seleccionada, la fecha y el precio en un div sin actualizar la gráfica
+function mostrarOpcionFechaYPrecio(nodo, selectId, divId) {
+    const selectElement = document.getElementById(selectId);
+    const divElement = document.getElementById(divId);
+
+    // Agregar un evento de cambio al select
+    selectElement.addEventListener('change', () => {
+        const opcionSeleccionada = selectElement.options[selectElement.selectedIndex].text;
+        const fechaSeleccionada = selectElement.value;
+
+        if (fechaSeleccionada) {
+            // Obtener el precio correspondiente a la fecha seleccionada
+            const db = getDatabase();  // Obtener una instancia de la base de datos
+            onValue(ref(db, `${nodo}/${fechaSeleccionada}`), (snapshot) => {
+                const data = snapshot.val();
+
+                if (data && data.precio !== undefined) {
+                    // Mostrar la opción seleccionada, la fecha y el precio en el div
+                    divElement.innerHTML = `<div class="PrecioResult"><p class="fecha">${fechaSeleccionada}</p><p class="precio">$${data.precio}</p></div>`;
+                } else {
+                    divElement.textContent = 'No hay información de precio para esta fecha.';
+                }
+            });
+        } else {
+            // Limpiar el contenido del div si no se selecciona ninguna fecha
+            divElement.textContent = '';
+        }
+    });
+}
+
+
+// Llama a la función para Mayores
+mostrarOpcionFechaYPrecio('Mayores', 'mayoresSelect', 'precioSeleccionadoMayores');
+
+// Llama a la función para Calibre 210g
+mostrarOpcionFechaYPrecio('210g', 'cal210gSelect', 'precioSeleccionadoCal210g');
+
+// Llama a la función para Calibre 180g
+mostrarOpcionFechaYPrecio('180g', 'cal180gSelect', 'precioSeleccionadoCal180g');
+
+
+
+
+// Cargar fechas para Mayores
+cargarFechasEnSelect(ref(db, 'Mayores'), 'mayoresSelect');
+
+// Cargar fechas para Calibre 210g
+cargarFechasEnSelect(ref(db, '210g'), 'cal210gSelect');
+
+// Cargar fechas para Calibre 180g
+cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
+
+// ...
+
+
+
   </script>
 
 </head>
@@ -206,6 +285,7 @@
                   </button>
               </a>
     </div>
+</div>
 
     <!-- Prices Container -->
     <div id="Prices">
@@ -216,10 +296,17 @@
 
       <div id="Mayores" class="grf">
         <div class="price">
-          <h3>Último Precio Calibre Mayores:</h3>
+        <div class="precioActual">
+          <h3>Precio Hoy:</h3>
           <p id="ultimoPrecioMayores">$0.00</p>
+        </div>
+          <p id="precioSeleccionadoMayores" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+          <!-- Select para buscar precios-->
+      <select id="mayoresSelect" class="selectPrices"></select>
+
       </div>
-      
+
       <!-- Elemento HTML para el gráfico de Datos calibre Mayores -->
       <canvas id="myChartMayores" class="grafico" ></canvas> 
       </div>
@@ -227,19 +314,37 @@
 
       <div id=210g class="grf">
         <div class="price">
-          <h3>Último Precio Calibre 210g:</h3>
+            <div class="precioActual">
+          <h3>Precio Hoy:</h3>
           <p id="ultimoPrecio210g">$0.00</p>
         </div>
+          <p id="precioSeleccionadoCal210g" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+        <!-- Select para buscar precios-->
+    <select id="cal210gSelect" class="selectPrices"></select>
+</div>
+
+
         <!-- Elemento HTML para el gráfico de Datos Calibre 210g-->
+        
       <canvas id="myChartCal210g" class="grafico" ></canvas>
       </div>
   
 
       <div id="180g" class="grf">
         <div class="price">
-          <h3>Último Precio Calibre 180g:</h3>
+            <div class="precioActual">
+          <h3>Precio Hoy:</h3>
           <p id="ultimoPrecio180g">$0.00</p>
         </div>
+          <p id="precioSeleccionadoCal180g" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+        <!-- Select para buscar precios-->
+    <select id="cal180gSelect" class="selectPrices"></select>
+</div>
+
+    <div id="precioCal180g"></div>
+
       <!-- Elemento HTML para el gráfico de Calibre 180g  -->
       <canvas id="myChartCal180g" class="grafico"></canvas>
       </div>
@@ -289,7 +394,7 @@
         </aside> -->
     </div>
 
-
+<script></script>
    
     <!-- Scripts del header -->
     <script src="scriptsForHeader.js"></script>
