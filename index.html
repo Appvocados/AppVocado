@@ -297,7 +297,7 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
             variacionMayoresDiv.innerHTML = `
                 <div id="VarREsult">
                 <p>${resultadoVariacionMayores.variacion > 0 ? 'Subió' : resultadoVariacionMayores.variacion < 0 ? 'Bajó' : 'No cambió'} $${resultadoVariacionMayores.variacion}</p>
-                <p>Porcentaje de Variación: ${resultadoVariacionMayores.porcentajeVariacion}%</p>
+                <p>Porcentaje: ${resultadoVariacionMayores.porcentajeVariacion}%</p>
                 </div>
             `;
 
@@ -360,7 +360,6 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
                   </button>
               </a>
     </div>
-</div>
 
     <!-- Prices Container -->
     <div id="Prices">
@@ -439,6 +438,7 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
                 <i class="fa-solid fa-sack-dollar fa-shake iconos" style="color: #01fe12;"></i>Vender
               </button>
           </a>
+
 
 
 
