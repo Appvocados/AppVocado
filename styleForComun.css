@@ -29,7 +29,7 @@ nav {
   display: flex;
   justify-content: space-between; /* Distribuye el espacio entre los elementos */
   flex-direction: row; /* Alinea los elementos en una fila horizontal */
-  width: 60%;
+  width: 90%;
 }
 
 /* contenedor de los precios por separado */
