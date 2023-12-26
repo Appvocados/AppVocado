@@ -245,6 +245,17 @@ function mostrarOpcionFechaYPrecio(nodo, selectId, divId) {
 }
 
 
+function calcularVariacion(ultimoPrecio, penultimoPrecio) {
+    const variacion = ultimoPrecio - penultimoPrecio;
+    const porcentajeVariacion = ((variacion / penultimoPrecio) * 100).toFixed(2);
+
+    return {
+        variacion: variacion.toFixed(2),
+        porcentajeVariacion: parseFloat(porcentajeVariacion)
+    };
+}
+
+
 // Llama a la función para Mayores
 mostrarOpcionFechaYPrecio('Mayores', 'mayoresSelect', 'precioSeleccionadoMayores');
 
@@ -270,6 +281,47 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
 
 
+    // Función para calcular la variación de precios y mostrarla en el div correspondiente
+    function calcularYMostrarVariacionMayores(data) {
+        // Obtener el penúltimo precio para Mayores
+        const penultimoPrecioMayores = Object.values(data).slice(-5, -4)?.[0]?.precio;
+
+        // Calcular la variación para Mayores
+        if (ultimoPrecioMayores !== undefined && penultimoPrecioMayores !== undefined) {
+            const resultadoVariacionMayores = calcularVariacion(ultimoPrecioMayores, penultimoPrecioMayores);
+
+            // Obtener el elemento div para mostrar la variación
+            const variacionMayoresDiv = document.getElementById('variacionMayores');
+
+            // Actualizar el contenido y el color del div según la variación
+            variacionMayoresDiv.innerHTML = `
+                <div id="VarREsult">
+                <p>${resultadoVariacionMayores.variacion > 0 ? 'Subió' : resultadoVariacionMayores.variacion < 0 ? 'Bajó' : 'No cambió'} $${resultadoVariacionMayores.variacion}</p>
+                <p>Porcentaje de Variación: ${resultadoVariacionMayores.porcentajeVariacion}%</p>
+                </div>
+            `;
+
+            if (resultadoVariacionMayores.variacion > 0) {
+                // El precio subió, establecer el color verde
+                variacionMayoresDiv.style.color = 'chartreuse';
+            } else if (resultadoVariacionMayores.variacion < 0) {
+                // El precio bajó, establecer el color rojo
+                variacionMayoresDiv.style.color = 'red';
+            } else {
+                // No hay variación, mantener el color predeterminado
+                variacionMayoresDiv.style.color = 'black';
+            }
+        }
+    }
+
+    // Llama a la función para calcular y mostrar la variación al cargar el documento
+    document.addEventListener('DOMContentLoaded', () => {
+        onValue(ref(db, 'Mayores'), (snapshot) => {
+            const data = snapshot.val();
+            calcularYMostrarVariacionMayores(data);
+        });
+    });
+
   </script>
 
 </head>
@@ -285,13 +337,21 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
     
     <div id="venderContainerPrincipal">
+
         <h1 id="tituloh1">Precio actual del Aguacate de Exportación. </h1> <!-- Título -->
-      <div id="PricesTodayContainer">
         
+      <div id="PricesTodayContainer">
+         <!-- Div para mostrar la variación de precios para la categoría "Mayores" -->
+    <div id="variacionMayores">
+        <!-- El contenido se actualizará dinámicamente con JavaScript -->
+    </div>
         <h3 ><a href="#Mayores" class="CalibresPrecios">Calibre Mayores: <p id="ultimoPrecioMayoresSeccion" class="precio-destacado PrecioSpams">$0.00</p></a></h3>
         <h3 ><a href="#210g" class="CalibresPrecios">Calibre 210g: <p id="ultimoPrecio210gSeccion" class="precio-destacado PrecioSpams">$0.00</p></a></h3>
-        <h3 ><a href="#180g" class="CalibresPrecios">Calibre 180g: <p id="ultimoPrecio180gSeccion" class="precio-destacado PrecioSpams">$0.00</p></a></h3>
+        <h3 ><a href="#180g" class="CalibresPrecios">Calibre 180: <p id="ultimoPrecio180gSeccion" class="precio-destacado PrecioSpams">$0.00</p></a></h3>
         
+       
+
+    <!-- Otros elementos HTML en tu cuerpo -->
       </div>
         
               <a href="indexRegistroClientes.html">
@@ -311,11 +371,13 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
       <div id="Mayores" class="grf">
         <div class="price">
+
         <div class="precioActual">
           <h3>Precio Hoy:</h3>
           <p id="ultimoPrecioMayores">$0.00</p>
         </div>
-          <p id="precioSeleccionadoMayores" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+      <p id="precioSeleccionadoMayores" class="PrecioResult">Seleciona una fecha para comparar</p>
 
           <!-- Select para buscar precios-->
       <select id="mayoresSelect" class="selectPrices"></select>
