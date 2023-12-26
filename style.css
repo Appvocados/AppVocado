@@ -14,7 +14,22 @@ html {
   background-color: #85bb65;
 }
 
+/* contenedor interno de comparacioncon el dia anterior*/
 #VarREsult{
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+
+/* contenedor Externo de comparacioncon el dia anterior*/
+#variacionMayores {
+  display: flex;
+  margin-right:2em;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
 }
 
 /* Contenedor de botones, grafica y venta*/
@@ -43,6 +58,8 @@ background-color: #000000;
   background-color: #146532;
   margin: 0%;
   padding: 0%;
+  border: solid 3px red;
+  width: ;
   
     }
 
@@ -90,6 +107,7 @@ background-color: #000000;
   width: 100%; /* Ocupa el ancho completo del contenedor padre */
   height: 100%; /* Ocupa el alto completo del contenedor padre */
   margin: 0%;
+  
 }
 
 
