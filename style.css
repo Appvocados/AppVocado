@@ -14,6 +14,9 @@ html {
   background-color: #85bb65;
 }
 
+#VarREsult{
+}
+
 /* Contenedor de botones, grafica y venta*/
 #Prices {
   display: flex;
@@ -97,7 +100,7 @@ background-color: #000000;
 .precioActual {
   padding: 0%;
   margin: 0%;
-  background-color: rgba(26, 199, 60, 0.2);
+    background-color: rgba(26, 199, 60, 0.2);
 
 
 }
