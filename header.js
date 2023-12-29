@@ -22,7 +22,7 @@ function mostrarHeader() {
                     <div class="dropdown-content right-aligned full-width">
                         <!-- <a id="" class="link alert" href="#"><i class="fa-regular fa-user iconosBlack"></i>Ingresar</a> -->
                         <a id="" class="link" href="indexRegistroDeHuertos.html"><i class="fa-solid fa-file iconosBlack"></i></i>Guía para vender</a>
-                        <a id="" class="link alert" href="#"><i class="fa-solid fa-newspaper iconosBlack"></i>Todo sobre Aguacate</a>
+                        <a id="" class="link " href="www.appvocados.com"><i class="fa-solid fa-newspaper iconosBlack"></i>Todo sobre Aguacate</a>
                         <!-- <a id="" class="link alert" href="mihuerto.html"><i class="fa-solid fa-seedling iconosBlack"></i>Mi huerto</a> -->
                         <a id="" class="link alert" href="#"><i class="fa-solid fa-bug-slash iconosBlack"></i>Consejos para cultivos</a>
                         <!-- <a id="" class="link alert" href="#"><i class="fa-solid fa-user-xmark iconosBlack"></i>Salir</a> -->
