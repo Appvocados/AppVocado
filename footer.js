@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <a href="https://www.facebook.com/people/App-Vocado/pfbid0qbDsy2BWJ8mnhpKeVusKxLuHNpxZ7MmvVguiwMbJ4qChtVf9rbRqdMuiDVgi6XfHl/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook fa-2xl"></i></a>
             <a href="#" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter fa-2xl"></i></a>
             <a href="#" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram fa-2xl"></i></a>
-            <a href="#" target="_blank" rel="noopener noreferrer">AppVocado.Org 2023</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">AppVocado.Org 2024</a>
         </div>
   
     `;
