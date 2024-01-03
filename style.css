@@ -272,4 +272,25 @@ a:hover{}
 a:active {}
 header {}
 
+#coffe {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+border: solid 1px chartreuse;
+padding: 1em;
+padding-bottom: 2em;
+} 
+    
 
+
+a {
+  text-decoration: none;
+  color: #49cf3a; /* Puedes ajustar el color según tus preferencias */
+}
+
+a:hover {
+  text-decoration: underline;
+}
