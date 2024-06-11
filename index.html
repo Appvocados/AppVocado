@@ -29,9 +29,8 @@
 <meta name="format-detection" content="telephone=no"> <!-- Desactivar la detección automática de números de teléfono -->
 <meta name="referrer" content="no-referrer"> <!-- Controlar el encabezado Referer enviado por el navegador -->
 <meta http-equiv="content-language" content="es"> <!-- Idioma del contenido -->
- <!-- <meta http-equiv="refresh" content="30;URL=https://appvocado.mx/"> Recargar la página cada 30 segundos -->
-<meta http-equiv="pragma" content="no-cache"> <!-- Controlar la caché del navegador -->   
-<meta http-equiv="expires" content="0"> <!-- Configurar la fecha de caducidad para contenido en caché -->
+<meta http-equiv="refresh" content=""> <!-- Recargar la página cada 30 segundos -->
+<meta http-equiv="pragma" content="no-cache"> <!-- Controlar la caché del navegador -->   <meta http-equiv="expires" content="0"> <!-- Configurar la fecha de caducidad para contenido en caché -->
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"> <!-- Configurar la caché del navegador -->
 <meta property="og:title" content="AppVocado">
 <meta property="og:description" content=" Aplicación para mostrar precios de aguacate en tiempo real a productores de aguacat">
@@ -347,7 +346,14 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
   </script>
 
+  <!-- Script paara comentarios de FaceBook -->
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v20.0&appId=1002461421271254" nonce="SZ5KE932"></script>
+
 </head>
+
+
+
 
 <body>
     <!-- Header -->
@@ -357,7 +363,6 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
             mostrarHeader();
         </script>
     </header>
-
     
     <div id="venderContainerPrincipal">
 
@@ -382,14 +387,17 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
                     <i class="fa-solid fa-sack-dollar fa-shake iconos" style="color: #01fe12;"></i>Vender
                   </button>
               </a> -->
+              
     </div>  
 
+    
     <!-- Prices Container -->
     <div id="Prices">
 
       <div id="Grafic">
 
-  
+        <!-- Plug de like 7 share of Facebook -->
+        <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div>
 
       <div id="Mayores" class="grf">
         <div class="price">
@@ -506,7 +514,9 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
              Add your advertisement banner content here
              You can use an <img> tag to display the banner image or other elements as needed
         </aside> -->
-    </div>
+
+        <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="10" data-numposts="5"></div>
+</div>
 
 <script></script>
    
@@ -520,6 +530,7 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
     <!-- Script de libreria de iconos -->
     <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
+    
     
 </body>
 </html>
