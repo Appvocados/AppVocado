@@ -5,7 +5,9 @@ function mostrarHeader() {
                 <div id="appvocado">
                     <figure class="icon">
                         <a href="index.html">
-                            <img src="img/avocado-1-icon.gif" title="Click para ir a página de inicio" alt="Inicio">
+    <img src="img/avocado-1-icon.gif" title="Click para ir a página de inicio" alt="Inicio" 
+    style=" max-height: 2.9em;
+  max-width: 2.9em;">
                         </a>
                     </figure>
                     <a id="AppVocado" href="index.html" class="titles"> AppVocado </a>              
@@ -21,9 +23,9 @@ function mostrarHeader() {
                     </button>
                     <div class="dropdown-content right-aligned full-width">
                         <!-- <a id="" class="link alert" href="#"><i class="fa-regular fa-user iconosBlack"></i>Ingresar</a> -->
+                        <a id="miEnlace" class="link" href="indexNews.html" target="_blank">
+                          <i class="fa-solid fa-newspaper iconosBlack"></i>Noticias</a>
                         <a id="" class="link" href="indexRegistroDeHuertos.html"><i class="fa-solid fa-file iconosBlack"></i></i>Guía para vender</a>
-                        <a id="miEnlace" class="link" href="https://appvocados.com/" target="_blank">
-                          <i class="fa-solid fa-newspaper iconosBlack"></i>Todo sobre Aguacate</a>
                         <!-- <a id="" class="link alert" href="mihuerto.html"><i class="fa-solid fa-seedling iconosBlack"></i>Mi huerto</a> -->
                         <a id="" class="link alert" href="#"><i class="fa-solid fa-bug-slash iconosBlack"></i>Consejos para cultivos</a>
                         <!-- <a id="" class="link alert" href="#"><i class="fa-solid fa-user-xmark iconosBlack"></i>Salir</a> -->
