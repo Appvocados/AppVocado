@@ -23,7 +23,7 @@ function mostrarHeader() {
                     </button>
                     <div class="dropdown-content right-aligned full-width">
                         <!-- <a id="" class="link alert" href="#"><i class="fa-regular fa-user iconosBlack"></i>Ingresar</a> -->
-                        <a id="miEnlace" class="link" href="indexNews.html" target="">
+                        <a id="miEnlace" class="link" href="Noticias.html" target="">
                           <i class="fa-solid fa-newspaper iconosBlack"></i>Noticias</a>
                         <a id="" class="link" href="indexRegistroDeHuertos.html"><i class="fa-solid fa-file iconosBlack"></i></i>Guía para vender</a>
                         <!-- <a id="" class="link alert" href="mihuerto.html"><i class="fa-solid fa-seedling iconosBlack"></i>Mi huerto</a> -->
