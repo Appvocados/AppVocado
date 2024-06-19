@@ -55,23 +55,21 @@
             max-width: 40%;
             display: block;
             margin: 10px auto;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
         }
 
         #noticiasList li p {
             text-align: justify;
+            margin-bottom: 1em; /* Espacio entre párrafos */
         }
 
         #noticiasList li h3 {
             text-align: center;
-            font-size: 1.7em;
+            font-size: 1.em;
         }
 
         #search {
             text-align: center;
             margin-top: 5em;
-
         }
 
         #search input {
@@ -79,30 +77,6 @@
             padding: 10px;
             font-size: 16px;
             border: 1px solid #dddddd;
-
-        }
-
-        /* Estilos para la imagen grande */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .overlay img {
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .overlay.active {
-            display: flex;
         }
     </style>
 
@@ -133,25 +107,19 @@
         </section>
     </div>
 
-    <!-- Overlay para mostrar imagen grande -->
-    <div class="overlay" id="overlay">
-        <img id="overlayImg" src="" alt="Imagen Grande">
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getDatabase, ref, onChildAdded, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
         const firebaseConfig = {
-  apiKey: "AIzaSyAwbuf1HKGCqAlzpZeOyvNH-lfus4_OJBQ",
-  authDomain: "appvocadonews-32527.firebaseapp.com",
-  databaseURL: "https://appvocadonews-32527-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "appvocadonews-32527",
-  storageBucket: "appvocadonews-32527.appspot.com",
-  messagingSenderId: "397853924515",
-  appId: "1:397853924515:web:7af73a817ba275ead3b316",
-  measurementId: "G-YDRCDM5N83"
-};;
+            apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+            authDomain: "appvocado-73e80.firebaseapp.com",
+            databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "appvocado-73e80",
+            storageBucket: "appvocado-73e80.appspot.com",
+            messagingSenderId: "1050213748494",
+            appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
@@ -177,30 +145,11 @@
                     <h3>${noticia.titulo}</h3>
                     <p><strong>Fecha:</strong> ${noticia.timestamp}</p>
                     <img src="${noticia.imagen}" alt="Imagen de Noticia">
-                    <p>${noticia.descripcion}</p>
+                    <p>${noticia.descripcion.replace(/\n/g, '<br>')}</p>
                 `;
                 noticiasList.appendChild(listItem);
             });
-
-            // Agregar evento de clic a todas las imágenes
-            const images = document.querySelectorAll('#noticiasList li img');
-            images.forEach(image => {
-                image.addEventListener('click', () => {
-                    showImage(image.src);
-                });
-            });
         }
-
-        function showImage(src) {
-            const overlay = document.getElementById('overlay');
-            const overlayImg = document.getElementById('overlayImg');
-            overlayImg.src = src;
-            overlay.classList.add('active');
-        }
-
-        document.getElementById('overlay').addEventListener('click', () => {
-            document.getElementById('overlay').classList.remove('active');
-        });
 
         searchInput.addEventListener('input', () => {
             const searchTerm = searchInput.value.toLowerCase();
