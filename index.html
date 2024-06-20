@@ -68,6 +68,68 @@
         
         
         <script type="module">
+  import { initializeApp as initializeAppNoticias } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getDatabase as getDatabaseNoticias, ref as refNoticias, onChildAdded, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+  const firebaseConfigNoticias = {
+    apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
+    authDomain: "appvocado-73e80.firebaseapp.com",
+    databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "appvocado-73e80",
+    storageBucket: "appvocado-73e80.appspot.com",
+    messagingSenderId: "1050213748494",
+    appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
+  };
+
+  const appNoticias = initializeAppNoticias(firebaseConfigNoticias, "appNoticias");
+  const dbNoticias = getDatabaseNoticias(appNoticias);
+  const noticiasRef = refNoticias(dbNoticias, 'Noticias');
+  const queryRef = query(noticiasRef, orderByChild('timestamp'));
+  const noticiasList = document.getElementById('noticiasList');
+  const searchInput = document.getElementById('searchInput');
+  const noticiasArray = [];
+
+  onChildAdded(queryRef, (snapshot) => {
+    const noticia = snapshot.val();
+    noticiasArray.unshift(noticia);
+    mostrarNoticias(noticiasArray);
+  });
+
+  function mostrarNoticias(noticias) {
+    noticiasList.innerHTML = '';
+    noticias.forEach(noticia => {
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <h3>${noticia.titulo}</h3>
+        <p><strong>Fecha:</strong> ${noticia.timestamp}</p>
+        <img src="${noticia.imagen}" alt="Imagen de Noticia">
+         <p>${noticia.descripcion}</p>
+      `;
+      noticiasList.appendChild(listItem);
+    });
+  }
+
+  searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredNoticias = noticiasArray.filter(noticia =>
+      noticia.titulo.toLowerCase().includes(searchTerm) ||
+      noticia.descripcion.toLowerCase().includes(searchTerm)
+    );
+    mostrarNoticias(filteredNoticias);
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('header');
+    const mainContainer = document.getElementById('mainContainer');
+    const headerHeight = header.offsetHeight;
+    mainContainer.style.paddingTop = `${headerHeight}px`;
+  });
+</script>
+
+        
+
+
+        <script type="module">
         // Importar las funciones necesarias de Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
@@ -345,7 +407,11 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
         });
     });
 
+
+        
   </script>
+
+  
 
   <!-- Script paara comentarios de FaceBook -->
   <div id="fb-root"></div>
@@ -393,7 +459,27 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
     
     <!-- Prices Container -->
-    <div id="Prices">
+    <div id="Prices" class="flex-container" >
+
+
+        
+        <div id="News" class="news-container" >
+            <div class="container" id="mainContainer">
+        
+                <section id="noticias">
+                    <h2>Noticias</h2>
+                    
+                        <a href="Noticias.html" class="linkWhite">Da Click para ver más noticias</a>
+                    
+                    
+                    <ul id="noticiasList"></ul>
+                </section>
+            </div>  <!-- Aquí se mostrarán las noticias -->
+            
+                
+        </div>
+       
+            
 
       <div id="Grafic">
 
@@ -457,7 +543,12 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
       <canvas id="myChartCal180g" class="grafico"></canvas>
       </div>
 
+      
+
     </div> 
+
+
+    
 
         <!--
         <div id="precioDiv" class="box">
@@ -516,8 +607,8 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
              You can use an <img> tag to display the banner image or other elements as needed
         </aside> -->
 
-        <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="10" data-numposts="5"></div>
 </div>
+ 
 
 <script></script>
    
@@ -531,6 +622,7 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
     <!-- Script de libreria de iconos -->
     <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
+    
     
     
 </body>
