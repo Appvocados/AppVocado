@@ -216,7 +216,7 @@ background-color: #000000;
 
 
   #Grafic {
-    order: -1; /* Push Grafic to the top on smaller screens */
+    order:; /* Push Grafic to the top on smaller screens */
    flex-basis: 95%; /* se ajusta 90% el tamaño cuando en pantalla reducida*/
   }
 
@@ -296,3 +296,54 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+
+/* Contenedor de las noticias */
+#News {
+  width: 70%; /* Ancho del contenedor de noticias */
+  padding: 0px; /* Espaciado interno */
+  box-sizing: border-box; /* El padding se incluye en el ancho */
+  overflow-y: auto; /* Habilita la barra de desplazamiento vertical */
+  max-height: 600px; /* Ajusta según tus necesidades */
+}
+
+
+  /* Estilo para el contenedor de la lista de noticias */
+  #noticiasList {
+    list-style-type: none;
+    padding: 0;
+    white-space: pre-line;/* CSS para mostrar los espacios entre párrafos */
+    text-align: justify;
+  }
+
+  /* Estilo para cada elemento de la lista de noticias */
+  #noticiasList li {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    overflow: hidden;
+    max-width: 600px; /* Ajusta según sea necesario */
+    background-color: #fff;
+  }
+
+  /* Estilo para las imágenes de las noticias */
+  #noticiasList img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+  }
+
+  /* Estilo para el texto de las noticias */
+  #noticiasList p {
+    margin: 10px 0;
+    word-wrap: break-word;
+    
+  }
+
+  #noticiasList li h3 {
+    text-align: center;
+}
+
+#noticias {
+text-align: center ;}
