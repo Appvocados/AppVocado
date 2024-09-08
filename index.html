@@ -65,69 +65,12 @@
     <link rel="stylesheet" href="cssForNewsSection.css">
     <link rel="stylesheet" href="styleForContratoModal.css">
     <link rel="stylesheet" href="FormdataGrafic.css">
-        
-        
-        <script type="module">
-  import { initializeApp as initializeAppNoticias } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-  import { getDatabase as getDatabaseNoticias, ref as refNoticias, onChildAdded, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-
-  const firebaseConfigNoticias = {
-    apiKey: "AIzaSyARHYNTJEWtSfdSMWQ30KRfcjGfb3OhjuU",
-    authDomain: "appvocado-73e80.firebaseapp.com",
-    databaseURL: "https://appvocado-73e80-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "appvocado-73e80",
-    storageBucket: "appvocado-73e80.appspot.com",
-    messagingSenderId: "1050213748494",
-    appId: "1:1050213748494:web:253da19a34a8b2cba9115f"
-  };
-
-  const appNoticias = initializeAppNoticias(firebaseConfigNoticias, "appNoticias");
-  const dbNoticias = getDatabaseNoticias(appNoticias);
-  const noticiasRef = refNoticias(dbNoticias, 'Noticias');
-  const queryRef = query(noticiasRef, orderByChild('timestamp'));
-  const noticiasList = document.getElementById('noticiasList');
-  const searchInput = document.getElementById('searchInput');
-  const noticiasArray = [];
-
-  onChildAdded(queryRef, (snapshot) => {
-    const noticia = snapshot.val();
-    noticiasArray.unshift(noticia);
-    mostrarNoticias(noticiasArray);
-  });
-
-  function mostrarNoticias(noticias) {
-    noticiasList.innerHTML = '';
-    noticias.forEach(noticia => {
-      const listItem = document.createElement('li');
-      listItem.innerHTML = `
-        <h3>${noticia.titulo}</h3>
-        <p><strong>Fecha:</strong> ${noticia.timestamp}</p>
-        <img src="${noticia.imagen}" alt="Imagen de Noticia">
-         <p>${noticia.descripcion}</p>
-      `;
-      noticiasList.appendChild(listItem);
-    });
-  }
-
-  searchInput.addEventListener('input', () => {
-    const searchTerm = searchInput.value.toLowerCase();
-    const filteredNoticias = noticiasArray.filter(noticia =>
-      noticia.titulo.toLowerCase().includes(searchTerm) ||
-      noticia.descripcion.toLowerCase().includes(searchTerm)
-    );
-    mostrarNoticias(filteredNoticias);
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const header = document.querySelector('header');
-    const mainContainer = document.getElementById('mainContainer');
-    const headerHeight = header.offsetHeight;
-    mainContainer.style.paddingTop = `${headerHeight}px`;
-  });
-</script>
+    <link rel="stylesheet" href="stylesClientsComents.css">
 
         
-
+        
+    
+    
 
         <script type="module">
         // Importar las funciones necesarias de Firebase SDK
@@ -352,7 +295,6 @@ mostrarOpcionFechaYPrecio('180g', 'cal180gSelect', 'precioSeleccionadoCal180g');
 
 
 
-
 // Cargar fechas para Mayores
 cargarFechasEnSelect(ref(db, 'Mayores'), 'mayoresSelect');
 
@@ -363,7 +305,6 @@ cargarFechasEnSelect(ref(db, '210g'), 'cal210gSelect');
 cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
 // ...
-
 
 
     // Función para calcular la variación de precios y mostrarla en el div correspondiente
@@ -411,16 +352,217 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
         
   </script>
 
-  
 
-  <!-- Script paara comentarios de FaceBook -->
-  <div id="fb-root"></div>
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v20.0&appId=1002461421271254" nonce="SZ5KE932"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, set, onChildAdded } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+
+    // Configuración de Firebase para los comentarios y clientes
+    const firebaseConfigClient = {
+            apiKey: "AIzaSyB9uHMtd0HdsEHUhDNwvITRy26B1Le9P2k",
+            authDomain: "appvocadoclients-85a63.firebaseapp.com",
+            databaseURL: "https://appvocadoclients-85a63-default-rtdb.firebaseio.com",
+            projectId: "appvocadoclients-85a63",
+            storageBucket: "appvocadoclients-85a63.appspot.com",
+            messagingSenderId: "911628050012",
+            appId: "1:911628050012:web:7e12d2df7e472325b09099",
+            measurementId: "G-Z88905BKS2"
+        };
+        
+
+    const appClient = initializeApp(firebaseConfigClient, 'appClient'); // Asigna un nombre único
+    const dbClient = getDatabase(appClient);
+    const storage = getStorage(appClient);
+
+    const publicidadesRef = ref(dbClient, 'Publicidades');
+        const comentariosRef = ref(dbClient, 'Comentarios');
+        const productoresRef = ref(dbClient, 'Productores');
+        const empacadorasRef = ref(dbClient, 'Empacadoras');
+
+        // Función para generar el ID basado en la fecha y hora
+       // Función para generar el ID basado en la fecha y hora con el nombre del mes
+function generateId() {
+    const now = new Date();
+    const options = { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    const formattedDate = now.toLocaleDateString('es-ES', options).replace(',', '');
+    return formattedDate.replace(/:/g, '-'); // Reemplaza los dos puntos para evitar problemas en nombres de archivos
+}
+
+
+
+        // Función para agregar un comentario
+        const adminFormComentarios = document.getElementById('adminFormComentarios');
+        adminFormComentarios.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('nombreComentario').value;
+            let comentario = document.getElementById('comentario').value;
+
+            comentario = comentario.replace(/\n/g, '<br>');
+
+            const idComentario = generateId(); // Generar ID basado en la fecha
+
+            try {
+                const nuevoComentario = {
+                    nombre: nombre,
+                    comentario: comentario,
+                    timestamp: idComentario
+                };
+
+                const nuevoComentarioRef = ref(dbClient, `Comentarios/${idComentario}`);
+                await set(nuevoComentarioRef, nuevoComentario);
+
+                document.getElementById('nombreComentario').value = '';
+                document.getElementById('comentario').value = '';
+            } catch (error) {
+                console.error("Error al agregar el comentario:", error);
+            }
+        });
+
+      
+        // Funciones para agregar y mostrar productores y empacadoras
+        const producerForm = document.getElementById('producer-form');
+        producerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            const idProductor = generateId(); // Generar ID basado en la fecha
+
+            data.timestamp = idProductor; // Añadir la fecha al objeto de datos
+
+            try {
+                const producerRef = ref(dbClient, 'Productores/' + idProductor);
+                await set(producerRef, data);
+                document.getElementById('producer-form').classList.add('hidden');
+                document.getElementById('confirmation-message').classList.remove('hidden');
+            } catch (error) {
+                console.error("Error al agregar el productor:", error);
+            }
+        });
+
+        const packerForm = document.getElementById('packer-form');
+        packerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            const idEmpacadora = generateId(); // Generar ID basado en la fecha
+
+            data.timestamp = idEmpacadora; // Añadir la fecha al objeto de datos
+
+            try {
+                const packerRef = ref(dbClient, 'Empacadoras/' + idEmpacadora);
+                await set(packerRef, data);
+                document.getElementById('packer-form').classList.add('hidden');
+                document.getElementById('confirmation-message').classList.remove('hidden');
+            } catch (error) {
+                console.error("Error al agregar la empacadora:", error);
+            }
+        });
+
+        // Funciones para cargar y mostrar publicidades y comentarios
+/*onChildAdded(publicidadesRef, (snapshot) => {
+    const publicidad = snapshot.val();
+    const li = document.createElement('li');
+    li.innerHTML = `<h3>${publicidad.titulo}</h3>
+                    <p>${publicidad.descripcion}</p>
+                    <img src="${publicidad.imagen}" alt="${publicidad.titulo}">
+                    <small>Fecha: ${publicidad.timestamp}</small>`;
+    const publicidadesList = document.getElementById('publicidadesList');
+    publicidadesList.insertBefore(li, publicidadesList.firstChild); // Añadir al principio
+}); */
+
+onChildAdded(comentariosRef, (snapshot) => {
+    const comentario = snapshot.val();
+    const li = document.createElement('li');
+    li.innerHTML = `<p><strong>${comentario.nombre}</strong></p>
+                    <p>${comentario.comentario}</p>
+                    <small>Fecha: ${comentario.timestamp}</small>`;
+    const comentariosList = document.getElementById('comentariosList');
+    comentariosList.insertBefore(li, comentariosList.firstChild); // Añadir al principio
+
+
+function loadAndDisplayData(ref, listId) {
+    get(ref).then((snapshot) => {
+        if (snapshot.exists()) {
+            const items = [];
+            snapshot.forEach(childSnapshot => {
+                items.push({ id: childSnapshot.key, ...childSnapshot.val() });
+            });
+            // Ordenar los elementos por timestamp en orden descendente
+            items.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+
+            const list = document.getElementById(listId);
+            list.innerHTML = ''; // Limpiar la lista antes de agregar los elementos ordenados
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `<h3>${item.titulo || item.firstName || item.packerName}</h3>
+                                <p>${item.descripcion || item.comentario || item.age ? `Sexo: ${item.gender}, Edad: ${item.age}` : ''}</p>
+                                <img src="${item.imagen || ''}" alt="${item.titulo || item.packerName || ''}">
+                                <small>Fecha: ${item.timestamp}</small>`;
+                list.appendChild(li);
+            });
+        }
+    }).catch((error) => {
+        console.error("Error al cargar los datos:", error);
+    });
+}
+
+
+// Función para mostrar el mensaje de confirmación con el nombre
+function showConfirmationMessage(name) {
+    document.getElementById('user-name').textContent = name;
+    document.getElementById('confirmation-message').classList.remove('hidden');
+}
+
+// Evento del formulario del productor
+producerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    const idProductor = generateId(); // Generar ID basado en la fecha
+    data.timestamp = idProductor; // Añadir la fecha al objeto de datos
+
+    try {
+        const producerRef = ref(dbClient, 'Productores/' + idProductor);
+        await set(producerRef, data);
+        document.getElementById('producer-form').classList.add('hidden');
+        showConfirmationMessage(`${data.firstName} ${data.lastName}`); // Mostrar el nombre del productor en el mensaje
+    } catch (error) {
+        console.error("Error al agregar el productor:", error);
+    }
+});
+
+// Evento del formulario de la empacadora
+const packerForm = document.getElementById('packer-form');
+packerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    const idEmpacadora = generateId(); // Generar ID basado en la fecha
+    data.timestamp = idEmpacadora; // Añadir la fecha al objeto de datos
+
+    try {
+        const packerRef = ref(dbClient, 'Empacadoras/' + idEmpacadora);
+        await set(packerRef, data);
+        document.getElementById('packer-form').classList.add('hidden');
+        showConfirmationMessage(data.packerName); // Mostrar el nombre de la empacadora en el mensaje
+    } catch (error) {
+        console.error("Error al agregar la empacadora:", error);
+    }
+});
+
+
+// Cargar y mostrar publicidades, comentarios, productores y empacadoras
+loadAndDisplayData(publicidadesRef, 'publicidadesList');
+loadAndDisplayData(comentariosRef, 'comentariosList');
+});
+    </script>
 
 </head>
-
-
-
 
 <body>
     <!-- Header -->
@@ -462,8 +604,127 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
     <div id="Prices" class="flex-container" >
 
 
-        
-       
+     <!-- Botones iniciales -->
+     <div id="main-container">
+        <div id="initial-buttons">
+            <button id="sell-button">Vender Aguacate</button>
+            <button id="buy-button">Comprar Aguacate</button>
+        </div>
+        <div id="secondary-buttons" class="hidden">
+            <button id="producer-button" class="openModalBtn">Soy Productor</button>
+            <button id="packer-button" class="openModalBtn">Soy Empacadora</button>
+        </div>
+    </div>
+
+    <!-- El Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h5 class="centered">Aviso de Privacidad</h2><br>
+            <p class="justified-text">  En AppVocado, estamos comprometidos a garantizar la privacidad y seguridad de los datos personales de nuestros usuarios.<br>
+                Este Aviso de Privacidad tiene como objetivo informarle sobre cómo recopilamos, utilizamos y protegemos la información que usted nos proporciona.</p><br>  
+            <h5 class="centered">Términos y Condiciones de Uso</h3> <br><br>
+
+            <p class="justified-text"> Última actualización: 9 de Septiembre 2024 <br><br>
+                
+                1. Aceptación de Términos <br>
+                
+                Al usar AppVocado, acepta estos Términos y Condiciones. Si no está de acuerdo, no utilice nuestra aplicación.<br><br>
+                
+                2. Descripción del Servicio <br>
+                
+                Ofrecemos los precios actuales detallados así como el enlace seguro y directo a los productores de aguacate con las empacadoras. <br>
+                El uso de estos servicios está sujeto a estos Términos. <br><br>
+                
+                3. Registro y Cuenta <br>
+                
+                Para acceder a ciertas funciones, debe registrarse. Debe proporcionar información precisa y mantener la confidencialidad de su cuenta.<br><br>
+                
+                4. Uso de la Aplicación <br>
+                
+                Licencia: Le otorgamos una licencia limitada para usar la aplicación según estos Términos. <br>
+                Prohibiciones: No puede usar la aplicación para fines ilegales o no autorizados. <br><br>
+                5. Propiedad Intelectual <br>
+                
+                Todos los derechos sobre el contenido de la aplicación son nuestros o de nuestros licenciantes. No se concede ningún otro derecho. <br><br>
+                
+                6. Privacidad <br>
+                
+                Su uso está sujeto a nuestra Política de Privacidad. <br><br>
+                
+                7. Modificaciones <br>
+                
+                Podemos actualizar estos Términos. Los cambios se publicarán en la aplicación y entrarán en vigor al momento de la publicación. <br><br>
+                
+                8. Responsabilidad <br>
+                
+                No somos responsables de daños derivados del uso de la aplicación, salvo en lo permitido por la ley. <br><br>
+                
+                9. Terminación <br>
+                
+                Podemos suspender o terminar su acceso si viola estos Términos o por otros motivos necesarios. <br><br>
+                
+                10. Ley Aplicable <br>
+                
+                Estos Términos se rigen por las leyes de Michoacán, México. <br><br>
+                
+                11. Contacto <br>
+                
+                Para preguntas, contáctenos en Appvocados@gmail.com <br><br>
+                
+                Aceptación de Términos <br> <br>
+                
+                Al hacer clic en "Aceptar" o usar la aplicación, confirma que acepta estos Términos.</p><br>
+
+            <!-- Agrega aquí el contenido completo de tus términos y condiciones -->
+            <div class="button-container">
+                <button id="acceptBtn">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formularios -->
+    <form id="producer-form" class="hidden">
+        <h3>Registro Productor</h3>
+        <input type="text" name="firstName" placeholder="Nombre" maxlength="15" minlength="3" required>
+        <input type="text" name="lastName" placeholder="Apellidos" maxlength="22" minlength="3" required>
+        <div class="gender-selection">
+            <label>
+                <input type="radio" name="gender" value="Femenino" required> Femenino
+            </label>
+            <label>
+                <input type="radio" name="gender" value="Masculino" required> Masculino
+            </label>
+        </div>
+        <input type="number" name="age" placeholder="Edad" min="18" max="99">
+        <input type="text" name="orchardName" placeholder="Nombre de la Huerta" maxlength="22" minlength="3" required>
+        <input type="number" name="orchardSize" placeholder="Tamaño de la Huerta en Hectáreas" min="1" max="999" required>
+        <input type="text" name="address" placeholder="Dirección, Calle y #" max="22" required>
+        <input type="text" name="locality" placeholder="Localidad y Municipio" max="33"required>
+        <input type="text" name="postalCode" placeholder="Código Postal" maxlength="5" minlength="5" required>
+        <input type="text" name="RFC" placeholder="RFC" min="12" max="13" required>
+        <input type="tel" name="phone" placeholder="Teléfono Celular" maxlength="10" minlength="10" required>
+        <input type="number" name="purchaseAmount" placeholder="Cantidad de Compra en Toneladas" min="1"  required>
+        <input type="email" name="email" placeholder="Email-@" max="22" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <form id="packer-form" class="hidden">
+        <h3>Registro Empacadora</h3>
+        <input type="text" name="packerName" placeholder="Nombre de la Empacadora" maxlength="22" minlength="3" required>
+        <input type="text" name="address" placeholder="Dirección, Calle y #" max="33" required>
+        <input type="text" name="locality" placeholder="Localidad y Municipio" max="22"required>
+        <input type="text" name="postalCode" placeholder="Código Postal" maxlength="5" minlength="5" required>
+        <input type="email" name="email" placeholder="Email-@" max="22" required>
+        <input type="tel" name="phone" placeholder="Teléfono" maxlength="10" minlength="10" required>
+        <input type="number" name="purchaseAmount" placeholder="Cantidad de Compra en Toneladas" min="1"  required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="confirmation-message" class="hidden">
+        <h3>¡Te has registrado, <span id="user-name"></span>! Pronto nos contactaremos contigo. AppVocado</h3>
+    </div>
+    
 
       <div id="Grafic">
 
@@ -502,13 +763,11 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
     <select id="cal210gSelect" class="selectPrices"></select>
 </div>
 
-
         <!-- Elemento HTML para el gráfico de Datos Calibre 210g-->
         
       <canvas id="myChartCal210g" class="grafico" ></canvas>
       </div>
   
-
       <div id="180g" class="grf">
         <div class="price">
             <div class="precioActual">
@@ -527,88 +786,31 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
       <canvas id="myChartCal180g" class="grafico"></canvas>
       </div>
 
-      
-      <div id="News" class="news-container" >
-        <div class="container" id="mainContainer">
-    
-            <section id="noticias">
-                <h2>Noticias</h2>
-                
-                    <a href="Noticias.html" class="linkWhite">Da Click para ver más noticias</a>
-                
-                
-                <ul id="noticiasList"></ul>
-            </section>
-        </div>  <!-- Aquí se mostrarán las noticias -->
-        
-            
-    </div>
-    </div> 
+      <section id="comentarios" class="scrollable-section">
+        <h5 class="CenterGreenh5">Comentarios</h5>
+        <ul id="comentariosList"></ul>
+    </section>
 
+    <section id="adminComentarios">
+        <h5 class="CenterGreenh5">Agrega un comentario</h5>
+        <form id="adminFormComentarios">
+            <label for="nombreComentario" >Nombre:</label>
+            <input type="text" id="nombreComentario" placeholder="Agrega Nombre" required><br>
+            <label for="comentario">Comentario:</label>
+            <textarea id="comentario" placeholder="Escribe comentario" required></textarea><br>
+            <button type="submit">Agregar Comentario</button>
+        </form>
+    </section>
 
-    
-
-        <!--
-        <div id="precioDiv" class="box">
-          <p id="mensajePrecio"> Vende tu producción a precio de exporatación <span id="otraSeccionUltimoPrecio"></span>
-            por Kg. 
-            
-          </p>
-  
-          <a href="indexRegistroClientes.html">
-            <button class="button blink VenderButton" id="venderButton">
-                <i class="fa-solid fa-sack-dollar fa-shake iconos" style="color: #01fe12;"></i>Vender
-              </button>
-          </a>  -->
-
-
-<!--
-      <div id="coffe">
-        <p>Somos un equipo de programadores independientes sin fines de lucro, dedicados a proporcionar información en tiempo real sobre los precios de exportación del aguacate a los Estados Unidos. <br>
-        No trabajamos para empacadoras, no buscamos beneficios económicos y nos sostenemos mediante donaciones. Nuestra misión es empoderar a los productores con datos precisos para que tomen decisiones informadas
-        mediante esta aplicación que calcula la media de todos los precios disponibles en el mercado para brindar una perspectiva más completa. <br>
-        Agradecemos el apoyo de quienes comparten nuestra visión de apoyar a la comunidad agrícola.</p>
-    
-        <p>Si valoras nuestro trabajo, puedes apoyarnos <a href="https://www.buymeacoffee.com/appvocadosk">invitándonos un café</a>. Gracias por respaldar a los productores.</p>
-    
-    <!-- Enlace para invitar a donar un café -->
-    <!-- <a href="https://www.buymeacoffee.com/appvocadosk" class="link_donar" id="link_donar">Donar un café</a>
-    </div>
--->
-
-
-    <!-- News Sección -->
-    <!--<div class="content-container">
-      <section id="newsSection">
-        <h2 class="noticesTittle">"AppVocado: Tu Aliado en el Éxito de la Venta de Aguacate
-          Descubre por Qué AppVocado es la Elección de los Productores de Michoacán"</h2>-->
-        <!-- Add your news content here -->
-        <!-- You can use <article>, <div>, or other appropriate elements to structure your news items -->
-         <!-- <p>AppVocado es una innovadora aplicación diseñada específicamente para los productores de aguacate en Michoacán y la región circundante, con el objetivo principal de proporcionar información de precios en tiempo real para que los productores puedan vender su aguacate a las empacadoras exportadoras de manera directa y eficiente. Esta herramienta se ha diseñado teniendo en cuenta las necesidades únicas de los agricultores de aguacate en esta importante zona productora.</p>
-          <p><strong>Precios en Tiempo Real:</strong> AppVocado se basa en datos en tiempo real que provienen de una variedad de fuentes confiables y actualizadas constantemente. Esto permite a los productores de aguacate en Michoacán y la región estar al tanto de las fluctuaciones en los precios del aguacate de manera instantánea, lo que es crucial para tomar decisiones informadas al vender su producto a las empacadoras exportadoras.</p>
-          <p><strong>Notificaciones Personalizadas:</strong> La aplicación ofrece la capacidad de configurar notificaciones personalizadas. Los usuarios pueden definir umbrales de precio específicos, y cuando el precio del aguacate alcance ese punto, recibirán notificaciones inmediatas, lo que les permite actuar rápidamente según las condiciones del mercado en Michoacán y áreas circundantes.</p>
-          <ul>
-              <li><strong>Histórico de Precios:</strong> AppVocado almacena registros históricos de precios, lo que permite a los productores de aguacate de Michoacán evaluar tendencias a lo largo del tiempo. Esta información es valiosa para la planificación a largo plazo y la estrategia de ventas en la región.</li>
-              <li><strong>Análisis Comparativo:</strong> La aplicación proporciona herramientas de análisis que permiten a los productores comparar precios entre diferentes empacadoras exportadoras en Michoacán y sus alrededores. Esto ayuda a los productores a tomar decisiones más informadas sobre a qué empacadora vender su aguacate, maximizando sus operaciones en la zona.</li>
-          </ul>
-          <p><strong>Información Meteorológica:</strong> AppVocado no solo se limita a los precios; también integra datos meteorológicos relevantes para Michoacán y la región circundante. Los cambios climáticos pueden afectar la producción y la calidad del aguacate, por lo que esta información adicional es crucial para la toma de decisiones en la zona.</p>
-          <p><strong>Interfaz Intuitiva:</strong> La aplicación está diseñada para ser fácil de usar, permitiendo a los productores de aguacate de Michoacán y áreas vecinas vender su producto con un solo click, lo que la convierte en la forma más fácil de realizar transacciones en la industria.</p>
-          <p><strong>Seguridad y Privacidad:</strong> La seguridad de los datos y la privacidad de los usuarios son prioritarias. AppVocado garantiza la protección de la información confidencial de los productores en Michoacán.</p>
-          <p><strong>Actualizaciones Constantes:</strong> El equipo detrás de AppVocado trabaja continuamente en la mejora de la aplicación, asegurando que esté siempre al día con las últimas tendencias y necesidades de la industria del aguacate en Michoacán y la región circundante.</p>
-          <p><strong>Registro Simplificado de Hurtos:</strong> Además de proporcionar información de precios, AppVocado también informa a los productores sobre los pasos y procesos para registrar hurtos antes de sanidad vegetal de una forma rápida y eficiente, garantizando el cumplimiento de los requisitos y facilitando los procedimientos necesarios. Por esto, los productores lo prefieren.</p>
-        </section> -->
-    
-
-        <!-- Banner for Advertising $$$ 
-        <aside id="adBanner">Sección de publicidad
-             Add your advertisement banner content here
-             You can use an <img> tag to display the banner image or other elements as needed
-        </aside> -->
-
+     <!-- <section id="publicidades" class="scrollable-section">
+        <h2>Publicidad</h2>
+        <ul id="publicidadesList"></ul>
+    </section> -->
 </div>
  
-
-<script></script>
+ 
+    <!-- Scripts de botones y formulario Registro de clientes -->
+    <script src="scriptClientsComents.js"></script>
    
     <!-- Scripts del header -->
     <script src="scriptsForHeader.js"></script>
@@ -620,8 +822,7 @@ cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
     <!-- Script de libreria de iconos -->
     <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
-    
-    
-    
+
+
 </body>
 </html>
