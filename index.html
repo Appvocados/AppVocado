@@ -482,7 +482,6 @@ function generateId() {
     publicidadesList.insertBefore(li, publicidadesList.firstChild); // Añadir al principio
 }); */
 
-// Manejar la adición de nuevos comentarios
 onChildAdded(comentariosRef, (snapshot) => {
     const comentario = snapshot.val();
     const li = document.createElement('li');
@@ -490,10 +489,9 @@ onChildAdded(comentariosRef, (snapshot) => {
                     <p>${comentario.comentario}</p>
                     <small>Fecha: ${comentario.timestamp}</small>`;
     const comentariosList = document.getElementById('comentariosList');
-    comentariosList.appendChild(li); // Añadir al final
-});
+    comentariosList.insertBefore(li, comentariosList.firstChild); // Añadir al principio
 
-// Cargar y mostrar datos con orden inverso por timestamp
+
 function loadAndDisplayData(ref, listId) {
     get(ref).then((snapshot) => {
         if (snapshot.exists()) {
@@ -512,7 +510,7 @@ function loadAndDisplayData(ref, listId) {
                                 <p>${item.descripcion || item.comentario || item.age ? `Sexo: ${item.gender}, Edad: ${item.age}` : ''}</p>
                                 <img src="${item.imagen || ''}" alt="${item.titulo || item.packerName || ''}">
                                 <small>Fecha: ${item.timestamp}</small>`;
-                list.appendChild(li); // Añadir al final
+                list.appendChild(li);
             });
         }
     }).catch((error) => {
@@ -813,6 +811,20 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
         </form>
     </section>
 
+          
+<div id="notification" class="notification medium">
+    <button class="close-btn" onclick="hideNotification()">×</button>
+    <h4>Notificación</h4>
+    <div class="content">
+        <p>Mensaje de notificación aquí.</p>
+        <!-- Ejemplo de enlaces e imágenes -->
+        <a href="#">Enlace</a><br>
+        <h5>Subtítulo</h5>
+        <img src="https://via.placeholder.com/150" alt="Imagen de ejemplo">
+    </div>
+</div>
+
+    
      <!-- <section id="publicidades" class="scrollable-section">
         <h2>Publicidad</h2>
         <ul id="publicidadesList"></ul>
