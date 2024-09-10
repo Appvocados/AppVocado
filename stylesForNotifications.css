@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.control-panel {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.control-panel label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.control-panel input {
+    width: 100%;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #28a745; /* Color verde */
+    color: #fff;
+    padding: 10px; /* Padding reducido */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(10px);
+    animation: slide-in 0.5s forwards;
+    width: 250px; /* Ancho predeterminado */
+}
+
+.notification.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.vibrate {
+    animation: vibrate 0.5s;
+}
+
+.notification.success {
+    background-color: #28a745; /* Verde éxito */
+}
+
+.notification.error {
+    background-color: #dc3545; /* Rojo error */
+}
+
+.notification.info {
+    background-color: #17a2b8; /* Azul info */
+}
+
+.notification.warning {
+    background-color: #ffc107; /* Amarillo advertencia */
+    color: #212529; /* Color de texto oscuro */
+}
+
+.notification.small {
+    width: 200px;
+    padding: 8px;
+}
+
+.notification.medium {
+    width: 250px;
+    padding: 10px;
+}
+
+.notification.large {
+    width: 300px;
+    padding: 12px;
+}
+
+.notification h4 {
+    margin: 0;
+    font-size: 16px; /* Reduce el tamaño de la fuente del título */
+    font-weight: bold;
+}
+
+.notification .content {
+    margin: 5px 0 0;
+    font-size: 14px; /* Reduce el tamaño de la fuente del contenido */
+}
+
+.notification .content img {
+    max-width: 100%; /* Asegura que las imágenes no excedan el ancho de la notificación */
+    border-radius: 4px; /* Redondea las esquinas de las imágenes */
+}
+
+.notification .content a {
+    color: #fff; /* Color del enlace */
+    text-decoration: underline;
+}
+
+.notification .content a:hover {
+    color: #ccc; /* Color del enlace al pasar el ratón */
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes vibrate {
+    0% { transform: translateX(0); }
+    10% { transform: translateX(-5px); }
+    20% { transform: translateX(5px); }
+    30% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    50% { transform: translateX(-5px); }
+    60% { transform: translateX(5px); }
+    70% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    90% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.notification .close-btn {
+    position: absolute;
+    top: 8px; /* Ajusta la posición del botón */
+    right: 8px; /* Ajusta la posición del botón */
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px; /* Reduce el tamaño del botón */
+    cursor: pointer;
+}
+
+.notification .close-btn:hover {
+    color: #ccc;
+}
