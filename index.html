@@ -804,9 +804,9 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
         <h5 class="CenterGreenh5">Agrega un comentario</h5>
         <form id="adminFormComentarios">
             <label for="nombreComentario" >Nombre:</label>
-            <input type="text" id="nombreComentario" placeholder="Agrega Nombre" required><br>
+            <input type="text" id="nombreComentario" placeholder="Agrega Nombre" maxlength="22" minlength="1"  required><br>
             <label for="comentario">Comentario:</label>
-            <textarea id="comentario" placeholder="Escribe comentario" required></textarea><br>
+            <textarea id="comentario" placeholder="Escribe comentario" maxlength="999" minlength="1" required></textarea><br>
             <button type="submit"data-ad-url="//grairsauz.net/4/8061913">Agregar Comentario</button>
         </form>
     </section>
