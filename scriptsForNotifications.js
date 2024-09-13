@@ -102,8 +102,8 @@ function hideNotification() {
 function startNotifications() {
     const messages = [
         { content: '<a href="#" data-ad-url="//grairsauz.net/4/8061913">Visita nuestro sitio</a>', type: 'success', vibrate: true, adUrl: '//grairsauz.net/4/8061913' },
-        { content: '<h5 data-ad-url="//grairsauz.net/4/8061913" style="cursor: pointer;">Oferta especial</h5><p>¡No te lo pierdas!</p>', type: 'info', vibrate: false, adUrl: '//grairsauz.net/4/8061913' },
-        { content: '<img src="path/to/image.jpg" alt="Imagen para Anuncios 1" data-ad-url="//grairsauz.net/4/8061913" style="cursor: pointer;"><p>Imagen actualizada</p>', type: 'warning', vibrate: true, adUrl: '//grairsauz.net/4/8061913' },
+        { content: '<h5 data-ad-url="//grairsauz.net/4/8061914" style="cursor: pointer;">Oferta especial</h5><p>¡No te lo pierdas!</p>', type: 'info', vibrate: false, adUrl: '//grairsauz.net/4/8061913' },
+        { content: '<img src="path/to/image.jpg" alt="Imagen para Anuncios 1" data-ad-url="//grairsauz.net/4/8061915" style="cursor: pointer;"><p>Imagen actualizada</p>', type: 'warning', vibrate: true, adUrl: '//grairsauz.net/4/8061913' },
         { content: '<a href="#" data-ad-url="//grairsauz.net/4/8061913">Actualización disponible</a>', type: 'info', vibrate: false, adUrl: '//grairsauz.net/4/8061913' },
         { content: '<h5 data-ad-url="//grairsauz.net/4/8061913" style="cursor: pointer;">¡Nuevo seguidor!</h5><p>Gracias por seguirnos</p>', type: 'success', vibrate: true, adUrl: '//grairsauz.net/4/8061913' }
     ];
