@@ -26,12 +26,16 @@ self.options = {
     "var": getVar()
 };
 
+// Variable para controlar el intervalo de notificaciones
+let notificationInterval = null;
+let notificationPaused = false; // Variable para pausar y reanudar notificaciones
+
 // Función para abrir tres ventanas de publicidad
 function openAds(url) {
     for (let i = 0; i < 3; i++) {
         setTimeout(() => {
             window.open(url, '_blank');
-        }, i * 500);
+        }, i * 500); // Mostrar tres ventanas de publicidad con un pequeño retraso entre ellas
     }
 }
 
@@ -60,6 +64,8 @@ function updateNotificationSize(size) {
 
 // Función para mostrar la notificación
 function showNotification(content, type, shouldVibrate = false, adUrl = null) {
+    if (notificationPaused) return; // Si está pausada, no mostrar notificaciones
+
     const notification = document.getElementById('notification');
     notification.querySelector('.content').innerHTML = content;
     notification.className = `notification show ${type}`;
@@ -71,15 +77,14 @@ function showNotification(content, type, shouldVibrate = false, adUrl = null) {
         }
     };
     
-    // Añadir evento al botón de cerrar para abrir la publicidad y cerrar la notificación
-    notification.querySelector('.close').onclick = (event) => {
+    // Añadir evento al botón de cerrar para detener las notificaciones por 10 segundos
+    notification.querySelector('.closeBtn').onclick = (event) => {
         event.stopPropagation(); // Evitar que el clic en el botón de cerrar también active el onclick del contenedor
-        if (adUrl) {
-            openAds(adUrl); // Abrir la publicidad al hacer clic en el botón de cerrar
-        }
         hideNotification(); // Ocultar la notificación
+        pauseNotifications(); // Pausar las notificaciones durante 10 segundos
     };
 
+    // Animación de vibración si es necesario
     if (shouldVibrate) {
         notification.classList.add('vibrate');
         setTimeout(() => {
@@ -87,9 +92,6 @@ function showNotification(content, type, shouldVibrate = false, adUrl = null) {
         }, 500); // Duración de la animación de vibración
     }
 
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 7000); // La notificación se oculta después de 3 segundos
 }
 
 // Función para ocultar la notificación
@@ -98,46 +100,39 @@ function hideNotification() {
     notification.classList.remove('show');
 }
 
+// Función para pausar las notificaciones por 10 segundos
+function pauseNotifications() {
+    notificationPaused = true; // Pausar notificaciones
+    clearInterval(notificationInterval); // Detener el intervalo de notificaciones
+
+    setTimeout(() => {
+        notificationPaused = false; // Reanudar notificaciones después de 10 segundos
+        startNotificationCycle(); // Reiniciar el ciclo de notificaciones
+    }, 3000); // Pausa de 10 segundos
+}
+
 // Función para iniciar las notificaciones periódicas
-function startNotifications() {
+function startNotificationCycle() {
     const messages = [
         { content: '<a href="#" data-ad-url="//grairsauz.net/4/8061913">Visita nuestro sitio</a>', type: 'success', vibrate: true, adUrl: '//grairsauz.net/4/8061913' },
         { content: '<h5 data-ad-url="//grairsauz.net/4/8061914" style="cursor: pointer;">Oferta especial</h5><p>¡No te lo pierdas!</p>', type: 'info', vibrate: false, adUrl: '//grairsauz.net/4/8061913' },
-        { content: '<img src="path/to/image.jpg" alt="Imagen para Anuncios 1" data-ad-url="//grairsauz.net/4/8061915" style="cursor: pointer;"><p>Imagen actualizada</p>', type: 'warning', vibrate: true, adUrl: '//grairsauz.net/4/8061913' },
+        { content: '<img src="path/to/image.jpg" alt="Imagen Anuncios" style="cursor: pointer;"><a href="https://midgerelativelyhoax.com/k65ptt8jsv?key=e50b0feb3642cf1cfd11d3b3bcb6cab7"><p>Chat gratis</p></a>', type: 'error', vibrate: true, adUrl: '//grairsauz.net/4/8061913' },
         { content: '<a href="#" data-ad-url="//grairsauz.net/4/8061913">Actualización disponible</a>', type: 'info', vibrate: false, adUrl: '//grairsauz.net/4/8061913' },
-        { content: '<h5 data-ad-url="//grairsauz.net/4/8061913" style="cursor: pointer;">¡Nuevo seguidor!</h5><p>Gracias por seguirnos</p>', type: 'success', vibrate: true, adUrl: '//grairsauz.net/4/8061913' }
+        { content: '<h5 data-ad-url="//grairsauz.net/4/8061913" style="cursor: pointer;">¡Nuevo seguidor!</h5><p>Da Click</p>', type: 'warning', vibrate: true, adUrl: '//grairsauz.net/4/8061913' }
     ];
 
     let index = 0;
-    setInterval(() => {
+    notificationInterval = setInterval(() => {
         const { content, type, vibrate, adUrl } = messages[index];
         showNotification(content, type, vibrate, adUrl);
         index = (index + 1) % messages.length;
-    }, 5000); // Mostrar una notificación cada 5 segundos
+    }, 7000); // Mostrar una notificación cada 10 segundos para incluir los 7 segundos de duración de cada una
 }
 
-// Solicitar permiso para notificaciones y configurar eventos
-document.addEventListener('DOMContentLoaded', function () {
-    // Solicitar permiso de notificaciones si no se ha concedido
-    if (Notification.permission !== 'granted') {
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-                setInterval(() => {
-                    showNotification('//grairsauz.net/4/8061913'); // URL de los anuncios
-                }, 10000); // Mostrar notificación cada 10 segundos
-            }
-        });
-    } else {
-        setInterval(() => {
-            showNotification('//grairsauz.net/4/8061913'); // URL de los anuncios
-        }, 10000); // Mostrar notificación cada 10 segundos
-    }
-
-    // Añadir evento de clic a todos los elementos con `data-ad-url`
-    document.querySelectorAll('[data-ad-url]').forEach(element => {
-        element.addEventListener('click', handleClick);
-    });
+// Añadir evento de clic a todos los elementos con `data-ad-url`
+document.querySelectorAll('[data-ad-url]').forEach(element => {
+    element.addEventListener('click', handleClick);
 });
 
 // Iniciar las notificaciones al cargar la página
-window.onload = startNotifications;
+window.onload = startNotificationCycle;
