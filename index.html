@@ -72,7 +72,7 @@
     <link rel="stylesheet" href="FormdataGrafic.css">
     <link rel="stylesheet" href="stylesClientsComents.css">
     <link rel="stylesheet" href="stylesForNotifications.css">
-        
+    <link rel="stylesheet" href="stylesForIconContable.css">  
         
     
     
@@ -568,6 +568,61 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
 });
     </script>
 
+
+<!-- Script para la lógica de clic y Firebase -->
+<script type="module">
+    // Importa las funciones necesarias del SDK modular de Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    // Configuración de Firebase
+    const firebaseConfigContableClicks = {
+        apiKey: "AIzaSyCQjRa2LeHYjjqOqhYjVefZXiRoL_2maEk",
+        authDomain: "avolike-237c4.firebaseapp.com",
+        databaseURL: "https://avolike-237c4-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "avolike-237c4",
+        storageBucket: "avolike-237c4.appspot.com",
+        messagingSenderId: "493392433302",
+        appId: "1:493392433302:web:bc51f2897184e53057f2b7",
+        measurementId: "G-LQB5QZ73H7"
+    };
+
+    // Inicializar Firebase
+    const appContableClicks = initializeApp(firebaseConfigContableClicks, 'appContableClicks');
+    const dbContableClicks = getDatabase(appContableClicks);
+
+    // Referencia al contador de clics en la base de datos
+    const clickRef = ref(dbContableClicks, 'contadorDeClicks');
+
+    // Obtener y mostrar el valor de los clics en tiempo real
+    onValue(clickRef, (snapshot) => {
+        const totalClicks = snapshot.val() || 0;
+        document.getElementById('total-clicks').textContent = totalClicks;
+    });
+
+    // Manejar clic en el ícono y cambiar entre los dos
+    document.getElementById('imageOne').addEventListener('click', () => {
+        runTransaction(clickRef, (currentClicks) => {
+            return (currentClicks || 0) + 1;
+        });
+
+        const icon1 = document.getElementById('imageOne');
+        const icon2 = document.getElementById('imageTwo');
+
+        // Ocultar el primer ícono y mostrar el segundo por 2 segundos
+        icon1.style.display = 'none';
+        icon2.style.display = 'block';
+
+        // Volver a mostrar el primer ícono después de 2 segundos
+        setTimeout(() => {
+            icon1.style.display = 'block';
+            icon2.style.display = 'none';
+        }, 1000);
+    });
+ </script>
+
+
+        
 </head>
 
 <body>
@@ -609,6 +664,9 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
     <!-- Prices Container -->
     <div id="Prices" class="flex-container" >
 
+        <!-- Íconos con la clase .icon-avo -->
+<img class="icon-avo icon-avo-interactive" id="imageOne" src="avoContable1.png" alt="Primer Ícono">
+<img class="icon-avo icon-avo-hidden" id="imageTwo" src="avoContable2.png" alt="Segundo Ícono">
 
      <!-- Botones iniciales -->
      <div id="main-container">
