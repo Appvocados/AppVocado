@@ -1,7 +1,7 @@
 /* Ajusta el tamaño de los íconos */
 .icon-avo {
-    width: 12em;
-    height:12em;
+    width: 6em;
+    height: 6em;
     transition: opacity 0.5s ease, transform 0.5s ease; /* Efecto de transición */
 }
 
