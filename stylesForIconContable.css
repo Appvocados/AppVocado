@@ -1,7 +1,7 @@
 /* Ajusta el tamaño de los íconos */
 .icon-avo {
-    width: 4em;
-    height: 4em;
+    width: 6em;
+    height: 6em;
     transition: opacity 0.5s ease, transform 0.5s ease; /* Efecto de transición */
 }
 
@@ -35,7 +35,7 @@
 /* Estilo del contador de clics */
 .click-display {
     margin-top: 20px;
-    font-size: 24px;
+    font-size: 4em;
     color: #24de2a;
     margin-bottom: 1em;
 }
