@@ -238,9 +238,9 @@
             noticias.forEach(noticia => {
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
-                    <h3 data-ad-url="//inumbreonr.com/4/8061914">${noticia.titulo}</h3 >
-                    <p data-ad-url="//inumbreonr.com/4/8061914"><strong>Fecha:</strong> ${noticia.timestamp}</p>
-                    <img data-ad-url="//inumbreonr.com/4/8061914" src="${noticia.imagen}" alt="Imagen de Noticia" >
+                    <h3 class="openPageElement" data-url="//inumbreonr.com/4/8061914">${noticia.titulo}</h3 >
+                    <p class="openPageElement" data-url="//inumbreonr.com/4/8061914"><strong>Fecha:</strong> ${noticia.timestamp}</p>
+                    <img class="openPageElement" data-url="//inumbreonr.com/4/8061914" src="${noticia.imagen}" alt="Imagen de Noticia" >
                     <p>${noticia.descripcion.replace(/\n/g, '<br>')}</p>
                 `;
                 noticiasList.appendChild(listItem);
@@ -282,11 +282,11 @@
     </script>
 
 <script>
-    // Selecciona todos los elementos con la clase 'openPageButton'
-const buttons = document.querySelectorAll(".openPageButton");
+// Selecciona todos los elementos con la clase 'openPageElement'
+const elements = document.querySelectorAll(".openPageElement");
 
-buttons.forEach(button => {
-    button.addEventListener("click", function() {
+elements.forEach(element => {
+    element.addEventListener("click", function() {
         const url = this.getAttribute("//inumbreonr.com/4/8061914"); // Obtiene la URL del atributo 'data-url'
         
         setTimeout(function() {
