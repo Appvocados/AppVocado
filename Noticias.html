@@ -281,6 +281,23 @@
         });
     </script>
 
+<script>
+    // Selecciona todos los elementos con la clase 'openPageButton'
+const buttons = document.querySelectorAll(".openPageButton");
+
+buttons.forEach(button => {
+    button.addEventListener("click", function() {
+        const url = this.getAttribute("//inumbreonr.com/4/8061914"); // Obtiene la URL del atributo 'data-url'
+        
+        setTimeout(function() {
+            window.location.href = url; // Redirige a la URL especificada
+        }, 4000); // 4000 ms = 4 segundos
+    });
+});
+
+</script>
+
+
     <!-- Script de libreria de iconos -->
     <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
 
