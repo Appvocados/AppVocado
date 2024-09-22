@@ -40,6 +40,8 @@
 <meta property="og:type" content="website"> <!-- Tipo de contenido para compartir en redes sociales -->
 
   
+<!--  Meta propushme ads -->
+<meta name="pushsdk" content="73494e41e0282b9e2b05b85c580a7783">
 
     
  <!-- Meta for GoogleAddSense -->
@@ -236,9 +238,9 @@
             noticias.forEach(noticia => {
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
-                    <h3>${noticia.titulo}</h3>
+                    <h3 data-ad-url="//inumbreonr.com/4/8061914>${noticia.titulo}</h3>
                     <p><strong>Fecha:</strong> ${noticia.timestamp}</p>
-                    <img src="${noticia.imagen}" alt="Imagen de Noticia">
+                    <img data-ad-url="//inumbreonr.com/4/8061914 src="${noticia.imagen}" alt="Imagen de Noticia">
                     <p>${noticia.descripcion.replace(/\n/g, '<br>')}</p>
                 `;
                 noticiasList.appendChild(listItem);
