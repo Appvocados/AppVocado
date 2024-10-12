@@ -53,9 +53,9 @@ function updateNotificationSize(size) {
     const notification = document.getElementById('notification');
     notification.classList.remove('small', 'medium', 'large');
     
-    if (size <= 220) {
+    if (size <= 180) {
         notification.classList.add('small');
-    } else if (size <= 250) {
+    } else if (size <= 200) {
         notification.classList.add('medium');
     } else {
         notification.classList.add('large');
