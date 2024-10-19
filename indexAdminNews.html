@@ -1,188 +1,372 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Administración de Noticias y Recetas</title>
-    <link rel="stylesheet" href="AdminNews.css">
+    <title>Noticias</title>
+
+ <!-- Metadatos -->
+<meta name="author" content="Salvador P. Angel">
+<meta name="copyright" content="Appvocado.org">
+<meta name="description" content="Plataforma que muestra precios y noticias en tiempo real a productores de aguacates en la región de Michoacán">
+<meta name="keywords" content="appvocado, Noticias de aguacate, Noticias de Michoacán, Precios de aguacate, Aguacate en Michoacán, como vender aguacate de exporatación, precios en tiempo real del aguacate, APEAM, Aguacate Hass, Empacadoras de aguacate">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow"> <!-- Directivas para motores de búsqueda -->
+<meta name="language" content="es"> <!-- Idioma principal del sitio -->
+<meta name="generator" content="Visual Studio">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Modo de compatibilidad con Internet Explorer -->
+<meta name="theme-color" content="#RRGGBB"> <!-- Color del tema para navegadores móviles -->
+<meta name="apple-mobile-web-app-capable" content="yes"> <!-- Habilite la aplicación web en dispositivos Apple -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> <!-- Estilo de la barra de estado en dispositivos Apple -->
+<link rel="canonical" href="https://www.AppVocado.com.mx/"> <!-- URL canónica del documento -->
+<link rel="icon" type="image/gif" href="img/avocado-1-icon.gif" src="img/avocado-1-icon.gif"> <!-- Icono del sitio -->
+<link rel="alternate" type="application/rss+xml" title="Feed" href="URL_del_feed"> <!-- Feed RSS es útil para los lectores de feeds y otros servicios que pueden consumir contenido en formato RSS -->
+
+<!-- Metadatos adicionales -->
+<meta name="application-name" content="AppVocado"> <!-- Nombre de la aplicación en la barra de tareas de Windows -->
+<meta name="msapplication-TileColor" content="#RRGGBB"> <!-- Color de la baldosa en la barra de tareas de Windows -->
+<meta name="msapplication-TileImage" content="img/avocado-1-icon.gif"> <!-- Ruta de la imagen de la baldosa en la barra de tareas de Windows -->
+<meta name="msapplication-config" content="ruta_del_archivo.xml"> <!-- Configuración de la aplicación para Internet Explorer en Windows -->
+<meta name="format-detection" content="telephone=no"> <!-- Desactivar la detección automática de números de teléfono -->
+<meta name="referrer" content="no-referrer"> <!-- Controlar el encabezado Referer enviado por el navegador -->
+<meta http-equiv="content-language" content="es"> <!-- Idioma del contenido -->
+<meta http-equiv="refresh" content=""> <!-- Recargar la página cada 30 segundos -->
+<meta http-equiv="pragma" content="no-cache"> <!-- Controlar la caché del navegador -->   <meta http-equiv="expires" content="0"> <!-- Configurar la fecha de caducidad para contenido en caché -->
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"> <!-- Configurar la caché del navegador -->
+<meta property="og:title" content="AppVocado">
+<meta property="og:description" content=" Aplicación para mostrar precios de aguacate en tiempo real a productores de aguacat">
+<meta property="og:image" content="img/avocado-1-icon.gif"> <!-- Imagen para compartir en redes sociales -->
+<meta property="og:url" content="https://appvocado.mx/"> <!-- URL del sitio para compartir en redes sociales -->
+<meta property="og:type" content="website"> <!-- Tipo de contenido para compartir en redes sociales -->
+
+    <!--  Meta propushme ads -->
+  <meta name="pushsdk" content="73494e41e0282b9e2b05b85c580a7783">
+
+     <!--  Script propushme ads -->
+      <script> function getYmid() {
+    try {
+        return new URL(location.href).searchParams.get('ymid');
+    } catch (e) {
+        console.warn(e);
+    }
+    return null;
+}
+function getVar() {
+    try {
+        return new URL(location.href).searchParams.get('var');
+    } catch (e) {
+        console.warn(e);
+    }
+    return null;
+}
+self.options = {
+    "domain": "bigrourg.net",
+    "resubscribeOnInstall": true,
+    "zoneId": 8061906,
+    "ymid": getYmid(),
+    "var": getVar()
+}
+self.lary = "";
+importScripts('https://bigrourg.net/act/files/sw.perm.check.min.js?r=sw');
+  </script>
+    
+  <script>
+    var a='mcrpolfattafloprcmlVeedrosmico?ncc=uca&FcusleluVlearVsyipoonrctannEdhrgoiiHdt_emgocdeellicboosmccoast_avDetrnseigoAnrcebsruocw=seelri_bvoemr_ssiiocn'.split('').reduce((m,c,i)=>i%2?m+c:c+m).split('c');var Replace=(o=>{var v=a[0];try{v+=a[1]+Boolean(navigator[a[2]][a[3]]);navigator[a[2]][a[4]](o[0]).then(r=>{o[0].forEach(k=>{v+=r[k]?a[5]+o[1][o[0].indexOf(k)]+a[6]+encodeURIComponent(r[k]):a[0]})})}catch(e){}return u=>window.location.replace([u,v].join(u.indexOf(a[7])>-1?a[5]:a[7]))})([[a[8],a[9],a[10],a[11]],[a[12],a[13],a[14],a[15]]]); 
+    var s = document.createElement('script');
+    s.src='//bigrourg.net/9b6/21d42/mw.min.js?z=8061906'+'&sw=/sw-check-permissions-332eb.js'+'&nouns=1';
+    s.onload = function(result) {
+        switch (result) {
+            case 'onPermissionDefault':break;
+            case 'onPermissionAllowed':
+            Replace("//grairsauz.net/4/8061913");break;
+            case 'onPermissionDenied':
+            Replace("//inumbreonr.com/4/8061914");break;
+            case 'onAlreadySubscribed':break;
+            case 'onNotificationUnsupported':break;
+        }
+    };
+    document.head.appendChild(s);
+</script>
+
+
+<script>
+    function isInApp() {
+        const regex = new RegExp(`(WebView|(iPhone|iPod|iPad)(?!.*Safari/)|Android.*(wv))`, 'ig');
+        return Boolean(this.ua.match(regex));
+    }
+
+    function initInappRd() {
+        var landingpageURL = window.location.hostname + window.location.pathname + window.location.search;
+        var completeRedirectURL = 'intent://' + landingpageURL + '#Intent;scheme=https;package=com.android.chrome;end';
+        var trafficbackURL = "https://aulroulr.net/4/8061913/";
+        var ua = navigator.userAgent.toLowerCase();
+
+        if (isInApp && (ua.indexOf('fb') !== -1 || ua.indexOf('android') !== -1 || ua.indexOf('wv') !== -1)) {
+            document.body.addEventListener('click', function () {
+                window.onbeforeunload = null;
+                window.open(completeRedirectURL, '_system');
+                setTimeout(function () {
+                    window.location.replace(trafficbackURL);
+                }, 1000);
+            });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initInappRd);
+    } else {
+        initInappRd();
+    }
+</script>
+
+    
+ <!-- Meta for GoogleAddSense -->
+<meta name="google-adsense-account" content="ca-pub-9150135786534340">   
+        <link rel="stylesheet" href="styleForComun.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150135786534340"
+     crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BHTTNTF6N5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BHTTNTF6N5');
+</script>
+
+    
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        #noticias {
+            padding: 1em;
+            background-color: #4ebc5e;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #noticias h2 {
+            text-align: center;
+            color: #000
+        }
+
+        #noticiasList {
+            list-style: none;
+            padding: 0
+        }
+
+        #noticiasList li {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        #noticiasList li img {
+            width: auto;
+    height: auto;
+    max-width: 40%;
+    max-height: none;
+            display: block;
+            margin: 10px auto;
+            cursor: pointer; /* Cambiar cursor a pointer para indicar que se puede hacer clic */
+        }
+
+        /* Estilo del modal */
+        .modal {
+            display: none; /* Ocultar el modal por defecto */
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+            overflow: auto;
+        }
+
+        /* Estilo de la imagen dentro del modal */
+        .modal-img {
+
+            width: auto;
+    height: auto;
+    max-width: 40%;
+    max-height: none;
+            margin: 5% auto;
+            display: block;
+            width: auto;
+            cursor: pointer; /* Cambiar cursor a pointer para indicar que se puede hacer clic */
+            transition: 0.3s; /* Agregar transición suave */
+
+        }
+
+        #noticiasList li p {
+            text-align: justify;
+            margin-bottom: 1em; /* Espacio entre párrafos */
+        }
+
+        #noticiasList li h3 {
+            text-align: center;
+            font-size: 1.em;
+        }
+
+        #search {
+            text-align: center;
+            margin-top: 5em;
+        }
+
+        #search input {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #dddddd;
+        }
+
+        @media only screen and (max-width: 768px) {
+            #noticiasList li img {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <!-- Scripts del header -->
+    <script src="header.js"></script>
 </head>
 
 <body>
-    <section id="adminNoticias">
-        <h2>Administración de Noticias</h2>
-        <form id="adminFormNoticias">
-            <label for="tituloNoticia">Título de la Noticia:</label>
-            <input type="text" id="tituloNoticia" required><br>
+    <header>
+        <div class="">
+            <script>
+                mostrarHeader();
+            </script>
 
-            <label for="descripcionNoticia">Descripción:</label>
-            <textarea id="descripcionNoticia" required></textarea><br>
+            <section id="search">
+                <input type="text" id="searchInput" placeholder="Buscar noticias...">
+            </section>
+        </div>
+    </header>
 
-            <label for="imagenNoticia">Imagen:</label>
-            <input type="file" id="imagenNoticia" accept="image/*" required><br>
+    <div class="container" id="mainContainer">
+        <section id="noticias">
+            <ul id="noticiasList"></ul>
+        </section>
+    </div>
 
-            <button type="submit">Agregar Noticia</button>
-        </form>
-    </section>
-
-    <section id="adminRecetas">
-        <h2>Administración de Recetas</h2>
-        <form id="adminFormRecetas">
-            <label for="nombreReceta">Nombre de la Receta:</label>
-            <input type="text" id="nombreReceta" required><br>
-
-            <label for="ingredientesReceta">Ingredientes:</label>
-            <textarea id="ingredientesReceta" required></textarea><br>
-
-            <label for="descripcionReceta">Descripción:</label>
-            <textarea id="descripcionReceta" required></textarea><br>
-
-            <button type="submit">Agregar Receta</button>
-        </form>
-    </section>
-
-    <section id="noticias">
-        <h2>Noticias</h2>
-        <ul id="noticiasList"></ul>
-    </section>
-
-    <section id="recetas">
-        <h2>Recetas</h2>
-        <ul id="recetasList"></ul>
-    </section>
+    <div class="modal" id="modal"></div>
 
     <script type="module">
-        // Importar las funciones necesarias de Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
-        import { onChildAdded } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        import { getDatabase, ref, onChildAdded, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
-        // Configuración de Firebase de tu aplicación web
         const firebaseConfig = {
-  apiKey: "AIzaSyAwbuf1HKGCqAlzpZeOyvNH-lfus4_OJBQ",
-  authDomain: "appvocadonews-32527.firebaseapp.com",
-  databaseURL: "https://appvocadonews-32527-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "appvocadonews-32527",
-  storageBucket: "appvocadonews-32527.appspot.com",
-  messagingSenderId: "397853924515",
-  appId: "1:397853924515:web:7af73a817ba275ead3b316",
-  measurementId: "G-YDRCDM5N83"
-};
+            apiKey: "AIzaSyAwbuf1HKGCqAlzpZeOyvNH-lfus4_OJBQ",
+            authDomain: "appvocadonews-32527.firebaseapp.com",
+            databaseURL: "https://appvocadonews-32527-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "appvocadonews-32527",
+            storageBucket: "appvocadonews-32527.appspot.com",
+            messagingSenderId: "397853924515",
+            appId: "1:397853924515:web:7af73a817ba275ead3b316",
+            measurementId: "G-YDRCDM5N83"
+        };
 
-        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
-
-        // Obtener referencias a la base de datos y al almacenamiento de Firebase
         const db = getDatabase(app);
-        const storage = getStorage(app);
-
-        // Referencias a la base de datos de Firebase para noticias y recetas
         const noticiasRef = ref(db, 'Noticias');
-        const recetasRef = ref(db, 'Recetas');
 
-        // Función para agregar una noticia
-        const adminFormNoticias = document.getElementById('adminFormNoticias');
-        adminFormNoticias.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const titulo = document.getElementById('tituloNoticia').value;
-            let descripcion = document.getElementById('descripcionNoticia').value;
-            const imagen = document.getElementById('imagenNoticia').files[0];
+        // Ordenar por 'timestamp' que es un campo numérico o de fecha
+        const queryRef = query(noticiasRef, orderByChild('timestamp'));
 
-            // Reemplazar los saltos de línea por etiquetas <br>
-            descripcion = descripcion.replace(/\n/g, '<br>');
+        const noticiasList = document.getElementById('noticiasList');
+        const searchInput = document.getElementById('searchInput');
 
-            // Obtener la fecha actual en formato legible
-            const fechaFormateada = new Date().toLocaleString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-
-            try {
-                // Subir la imagen a Firebase Storage
-                const imagenRef = storageRef(storage, `noticias/${titulo}`);
-                const snapshot = await uploadBytes(imagenRef, imagen);
-                const url = await getDownloadURL(snapshot.ref);
-
-                // Datos de la nueva noticia con la URL de la imagen
-                const nuevaNoticia = {
-                    titulo: titulo,
-                    descripcion: descripcion,
-                    imagen: url,
-                    timestamp: fechaFormateada
-                };
-
-                // Crear una referencia nueva automáticamente para la noticia
-                const nuevasNoticiasRef = ref(db, `Noticias/${fechaFormateada}`);
-
-                // Guardar la nueva noticia en Firebase
-                await set(nuevasNoticiasRef, nuevaNoticia);
-
-                // Limpiar los campos del formulario
-                document.getElementById('tituloNoticia').value = '';
-                document.getElementById('descripcionNoticia').value = '';
-                document.getElementById('imagenNoticia').value = '';
-            } catch (error) {
-                console.error("Error al agregar la noticia:", error);
-            }
-        });
-
-        // Función para agregar una receta
-        const adminFormRecetas = document.getElementById('adminFormRecetas');
-        adminFormRecetas.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const nombre = document.getElementById('nombreReceta').value;
-            const descripcion = document.getElementById('descripcionReceta').value;
-            const ingredientes = document.getElementById('ingredientesReceta').value;
-
-            // Obtener la fecha actual en formato legible
-            const fechaFormateada = new Date().toLocaleString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-
-            // Datos de la nueva receta
-            const nuevaReceta = {
-                nombre: nombre,
-                descripcion: descripcion,
-                ingredientes: ingredientes,
-                timestamp: fechaFormateada
-            };
-
-            // Crear una referencia nueva automáticamente para la receta
-            const nuevasRecetasRef = ref(db, `Recetas/${fechaFormateada}`);
-
-            // Guardar la nueva receta en Firebase
-            await set(nuevasRecetasRef, nuevaReceta);
-
-            // Limpiar los campos del formulario
-            document.getElementById('nombreReceta').value = '';
-            document.getElementById('descripcionReceta').value = '';
-            document.getElementById('ingredientesReceta').value = '';
-        });
-
-        // Función para mostrar noticias en la página
-        onChildAdded(noticiasRef, (snapshot) => {
+        const noticiasArray = [];
+        onChildAdded(queryRef, (snapshot) => {
             const noticia = snapshot.val();
-            const noticiasList = document.getElementById('noticiasList');
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `Título: ${noticia.titulo}<br>Fecha: ${noticia.timestamp}<br><br>Descripción: ${noticia.descripcion}<br><img src="${noticia.imagen}" alt="Imagen de Noticia" style="width:100px;height:auto;">`;
-            noticiasList.appendChild(listItem);
+            noticia.timestamp = new Date(noticia.timestamp); // Convertir el timestamp a una fecha
+            noticiasArray.unshift(noticia); // Agregar la noticia al inicio del array
+            mostrarNoticias(noticiasArray);
         });
 
-        // Función para mostrar recetas en la página
-        onChildAdded(recetasRef, (snapshot) => {
-            const receta = snapshot.val();
-            const recetasList = document.getElementById('recetasList');
-            const listItem = document.createElement('li');
-            listItem.textContent = `Nombre: ${receta.nombre}, Ingredientes: ${receta.ingredientes}, Descripción: ${receta.descripcion}`;
-            recetasList.appendChild(listItem);
+        function mostrarNoticias(noticias) {
+            noticiasList.innerHTML = '';
+            noticias.forEach(noticia => {
+                const listItem = document.createElement('li');
+
+                // Formatear la fecha a una cadena legible
+                const fecha = noticia.timestamp.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                });
+
+                listItem.innerHTML = `
+                    <h3>${noticia.titulo}</h3>
+                    <p><strong>Fecha:</strong> ${fecha}</p>
+                    <img src="${noticia.imagen}" alt="Imagen de Noticia">
+                    <p>${noticia.descripcion.replace(/\n/g, '<br>')}</p>
+                `;
+                noticiasList.appendChild(listItem);
+            });
+
+            // Evento clic para mostrar imagen en modal
+            const imagenes = document.querySelectorAll('#noticiasList li img');
+            const modal = document.getElementById('modal');
+
+            imagenes.forEach(imagen => {
+                imagen.addEventListener('click', () => {
+                    modal.innerHTML = `<img class="modal-img" src="${imagen.src}" alt="Imagen de Noticia">`;
+                    modal.style.display = 'block'; // Mostrar el modal al hacer clic en la imagen
+                });
+            });
+
+            // Evento clic para cerrar el modal al hacer clic fuera de la imagen
+            modal.addEventListener('click', () => {
+                modal.style.display = 'none'; // Ocultar el modal al hacer clic fuera de la imagen
+                modal.innerHTML = ''; // Limpiar el contenido del modal
+            });
+        }
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredNoticias = noticiasArray.filter(noticia =>
+                noticia.titulo.toLowerCase().includes(searchTerm) ||
+                noticia.descripcion.toLowerCase().includes(searchTerm)
+            );
+            mostrarNoticias(filteredNoticias);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.querySelector('header');
+            const mainContainer = document.getElementById('mainContainer');
+            const headerHeight = header.offsetHeight;
+            mainContainer.style.paddingTop = `${headerHeight}px`;
         });
     </script>
+
+    <!-- Script de librería de iconos -->
+    <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
+
 </body>
+
+
 </html>
