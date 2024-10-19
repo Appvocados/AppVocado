@@ -183,22 +183,18 @@
 <body>
     <header>
         <div class="">
-        <script>
-            mostrarHeader();
-        </script>
+            <script>
+                mostrarHeader();
+            </script>
 
-        <section id="search">
+            <section id="search">
                 <input type="text" id="searchInput" placeholder="Buscar noticias...">
             </section>
         </div>
-        
     </header>
-    
 
     <div class="container" id="mainContainer">
-        
-        <section id="noticias" >
-            
+        <section id="noticias">
             <ul id="noticiasList"></ul>
         </section>
     </div>
@@ -210,20 +206,21 @@
         import { getDatabase, ref, onChildAdded, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
         const firebaseConfig = {
-  apiKey: "AIzaSyAwbuf1HKGCqAlzpZeOyvNH-lfus4_OJBQ",
-  authDomain: "appvocadonews-32527.firebaseapp.com",
-  databaseURL: "https://appvocadonews-32527-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "appvocadonews-32527",
-  storageBucket: "appvocadonews-32527.appspot.com",
-  messagingSenderId: "397853924515",
-  appId: "1:397853924515:web:7af73a817ba275ead3b316",
-  measurementId: "G-YDRCDM5N83"
-};
+            apiKey: "AIzaSyAwbuf1HKGCqAlzpZeOyvNH-lfus4_OJBQ",
+            authDomain: "appvocadonews-32527.firebaseapp.com",
+            databaseURL: "https://appvocadonews-32527-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "appvocadonews-32527",
+            storageBucket: "appvocadonews-32527.appspot.com",
+            messagingSenderId: "397853924515",
+            appId: "1:397853924515:web:7af73a817ba275ead3b316",
+            measurementId: "G-YDRCDM5N83"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const noticiasRef = ref(db, 'Noticias');
 
+        // Ordenar por 'timestamp' que es un campo numérico o de fecha
         const queryRef = query(noticiasRef, orderByChild('timestamp'));
 
         const noticiasList = document.getElementById('noticiasList');
@@ -232,6 +229,7 @@
         const noticiasArray = [];
         onChildAdded(queryRef, (snapshot) => {
             const noticia = snapshot.val();
+            noticia.timestamp = new Date(noticia.timestamp); // Convertir el timestamp a una fecha
             noticiasArray.unshift(noticia); // Agregar la noticia al inicio del array
             mostrarNoticias(noticiasArray);
         });
@@ -240,10 +238,18 @@
             noticiasList.innerHTML = '';
             noticias.forEach(noticia => {
                 const listItem = document.createElement('li');
+
+                // Formatear la fecha a una cadena legible
+                const fecha = noticia.timestamp.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                });
+
                 listItem.innerHTML = `
-                    <h3 class="openPageElement" data-url="//inumbreonr.com/4/8061914">${noticia.titulo}</h3 >
-                    <p class="openPageElement" data-url="//inumbreonr.com/4/8061914"><strong>Fecha:</strong> ${noticia.timestamp}</p>
-                    <img class="openPageElement" data-url="//inumbreonr.com/4/8061914" src="${noticia.imagen}" alt="Imagen de Noticia" >
+                    <h3>${noticia.titulo}</h3>
+                    <p><strong>Fecha:</strong> ${fecha}</p>
+                    <img src="${noticia.imagen}" alt="Imagen de Noticia">
                     <p>${noticia.descripcion.replace(/\n/g, '<br>')}</p>
                 `;
                 noticiasList.appendChild(listItem);
@@ -284,24 +290,7 @@
         });
     </script>
 
-<script>
-// Selecciona todos los elementos con la clase 'openPageElement'
-const elements = document.querySelectorAll(".openPageElement");
-
-elements.forEach(element => {
-    element.addEventListener("click", function() {
-        const url = this.getAttribute("//inumbreonr.com/4/8061914"); // Obtiene la URL del atributo 'data-url'
-        
-        setTimeout(function() {
-            window.location.href = url; // Redirige a la URL especificada
-        }, 4000); // 4000 ms = 4 segundos
-    });
-});
-
-</script>
-
-
-    <!-- Script de libreria de iconos -->
+    <!-- Script de librería de iconos -->
     <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
 
 </body>
