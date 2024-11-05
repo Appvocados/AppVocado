@@ -139,6 +139,7 @@ background-color: #000000;
 .precio{
  padding: 0%;
  margin: 0%;
+ color:  #d2b120;
 }
 
 /*Fecha del resultado de precios*/
@@ -168,7 +169,7 @@ background-color: #000000;
 /* Estilos cuando el selectPrices está enfocado (seleccionado) */
 .selectPrices:focus {
   outline: none; /* Elimina el contorno predeterminado al enfocar */
-  box-shadow: 0 0 20px rgba(26, 199, 60, 0.5); /* Sombra alrededor del selectPrices al enfocar */
+  box-shadow: 0 0 20px #d2b120; /* Sombra alrededor del selectPrices al enfocar */
 }
 
 /* Estilos para las opciones dentro del selectPrices */
@@ -337,3 +338,122 @@ a:hover {
 #noticias {
 text-align: center ;}
 
+
+
+
+
+
+
+/* Estilos generales */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+/* Contenedor principal */
+
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+
+
+#tablePrices {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Ajusta al contenedor padre */
+  margin: 20px auto; /* Centra horizontalmente */
+  padding: 20px; /* Espacio interno */
+  background-color: #000;
+  box-sizing: border-box; /* Incluye padding en el ancho */
+  overflow-x: auto; /* Agrega barra de desplazamiento horizontal */
+}
+
+#tablePrices div {
+  width: 100%; /* Ajusta al contenedor padre */
+  margin-bottom: 20px;
+}
+
+#tablePrices table {
+  border-collapse: collapse;
+  width: 100%; /* Ajusta al contenedor padre */
+  table-layout: fixed; /* Fija el ancho de la tabla */
+}
+
+#tablePrices th, #tablePrices td {
+  border: 1px solid #d6b316;
+  padding: 10px;
+  text-align: center;
+}
+
+#tablePrices th {
+  background-color: #d2b120;
+}
+
+#tablePrices caption {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 1em;
+}
+
+/* Select de la tabla */
+#fechaSelect {
+  width: 100%; /* Ocupa todo el ancho de la celda */
+  height: 25px; /* Alto fijo */
+  overflow: hidden; /* Oculta contenido excedente */
+  padding: 5px; /* Espacio interno */
+  border: none; /* Elimina borde */
+  border-radius: 5px; /* Esquinas redondeadas */
+  background-color: #f0f0f0; /* Color de fondo */
+}
+
+#fechaSelect option {
+  padding: 5px; /* Espacio interno en opciones */
+}
+
+.elementstable {
+color: #d2b120;
+}
+
+.pricesSelect {
+  color: #dad3b5;
+  font-size: .8em;
+  }
+
+  .ResultColor {
+    margin: 9px; /* Espacio interno en opciones */
+  }
+  
+  
+  #formIva {
+     background-color: #000;
+     border-color: #d2b120;
+  }
