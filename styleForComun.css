@@ -4,7 +4,19 @@
   font-weight: bold;
   font-family: Arial;
   padding: .4em;
-  font-size: 1em;
+  font-size: 1.2em;
+  margin: 0%;
+  background-color: #146532;
+}
+
+
+
+h2 {
+  text-align: center;
+  font-weight: bold;
+  font-family: Arial;
+  padding: .4em;
+  font-size: 1.2em;
   margin: 0%;
   background-color: #146532;
 }
@@ -29,6 +41,7 @@ nav {
   display: flex;
   justify-content: space-between; /* Distribuye el espacio entre los elementos */
   flex-direction: row; /* Alinea los elementos en una fila horizontal */
+  
   width: 90%;
 }
 
@@ -49,7 +62,7 @@ nav {
 }
 
 .PrecioSpams{
-  color: #fff;
+  color:chartreuse;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,20 +74,6 @@ nav {
 /* Vende tu produccion de aguacate por...*/
 .green {
 color: chartreuse;
-}
-
-/* precio actualizado brillante*/
-
-
-
-@keyframes rebote {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-10px); }
-  60% { transform: translateY(-5px); }
-}
-
-.precio-destacado {
-  animation: rebote 2s infinite;
 }
 
 
@@ -415,3 +414,5 @@ color: chartreuse;
 .linkWhite {
 color: #fff;
 }
+
+
