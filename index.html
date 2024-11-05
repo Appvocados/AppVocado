@@ -62,6 +62,7 @@
 </script>
         
     <!-- Scripts -->
+    <script src="DollarPrice.js"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="header.js"></script>
@@ -784,35 +785,189 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
         </script>
     </header>
     
-    <div id="venderContainerPrincipal">
+    <div id="venderContainerPrincipal" >
 
-        <h1 id="tituloh1">Precio actual del Aguacate de Exportación para productores en Michoacán y la zona.</h1> <!-- Título -->
+        <h1 id="tituloh1">Precio actual del Aguacate de Exportación y Nacional, para productores en Michoacán y la zona.</h1> <!-- Título -->
         
-      <div id="PricesTodayContainer">
-         <!-- Div para mostrar la variación de precios para la categoría "Mayores" -->
-    <div id="variacionMayores">
-        <!-- El contenido se actualizará dinámicamente con JavaScript -->
-    </div>
-        
-        <h3 ><a href="#Mayores" class="CalibresPrecios">Calibre Mayores: <p id="ultimoPrecioMayoresSeccion" class="precio-destacado PrecioSpams">$0.00</p></a></h3>
-        <h3 ><a href="#210g" class="CalibresPrecios">Calibre 210g: <p id="ultimoPrecio210gSeccion" class="precio-destacado PrecioSpams">$0.00</p></a></h3>
-        <h3 ><a href="#180g" class="CalibresPrecios">Calibre 180: <p id="ultimoPrecio180gSeccion" class="precio-destacado PrecioSpams">$0.00</p></a></h3>
-       
+  <div id="reloj"></div>
 
-    <!-- Otros elementos HTML en tu cuerpo -->
-      </div>
-        
-           <!--   <a href="indexRegistroClientes.html">
-                <button class="button blink VenderButton" id="venderButton">
-                    <i class="fa-solid fa-sack-dollar fa-shake iconos" style="color: #01fe12;"></i>Vender
-                  </button>
-              </a> -->
-              
-    </div>  
+        <div>
+            <h2>Precio del Dólar</h2>
+           
+            <p id="precioDolar" >Cargando...</p>
+            <div id="divOculto1" style="display: none;">
+            <p id="resultadoConversion" class="elementstable ResultColor">Ingresa la cantidad</p>
+                <input type="number" id="inputCantidad" placeholder="Ingrese la cantidad" min="1" class="selectPrices">
+                <select id="selectMoneda" class="selectPrices">
+                  <option value="dolares-pesos">Dólares a Pesos</option>
+                  <option value="pesos-dolares">Pesos a Dólares</option>
+                </select>
+            </div>
+
+        <div>
+            <button id="boton1" onclick="mostrarDiv1()">Calcular dolares a pesos mnx</button>
+        </div>
+        <div>
+            <button id="botonIva" onclick="mostrarDivIva()">Calcular Iva mx</button>
+        </div>
+
+            <div id="divOcultoIva" style="display: none;">
+            <form id="formIva">
+              <label for="monto">Monto:</label>
+              <input type="number" id="monto" required min="1" placeholder="$" class="selectPrices">
+              <button type="button" onclick="calcularIva()">Calcular IVA</button>
+              <div id="resultado" class="elementstable ResultColor">
+                <p id="total">para calcular IVA</p>
+                <p id="iva">ingrese la cantidad</p>
+               </div>
+            </form>
+           
+
+            </div>
+
+            <div>
+                <h2>Precio Bitcoin</h2>
+                <p id="precio-bitcoin">Cargando...</p>
+              </div>
+     
+        </div>
+
+
+          <!-- Prices Container -->
+    <div id="Prices" class="flex-container" >
+
+        <div id="tablePrices">
+            <div style="width: 45%;">
+                <h2>Precios en vivo</h2>
+              <table border="1">
+                <caption class="elementstable">Precio por kilo Aguacate de Exportación<div id="variacion330g">
+                  <!-- El contenido se actualizará dinámicamente con JavaScript -->
+              </div></caption>
+                <thead>
+                  <tr>
+                    <th>Gramaje</th>
+                    <th>Clase Uno</th>
+                    <th><select id="fechaSelect" class="selectPrices">
+                      <option value="">Seleccione una fecha</option>
+                  </select></th>
+                  <th>Clase Dos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Agrega tus filas aquí -->
+                  <tr>
+                    <td class="elementstable">330gr y más 32´s</td>
+                    <td><a href="#330g" class="CalibresPrecios">Calibre Mayores: <p id="ultimoPrecio330gSeccion" class="PrecioSpams elementstable">$0.00</p></a></td>
+                    <td class="pricesSelect"><d id="precio330gFecha"
+                        ></div>
+                    </td>
+                    <td><a href="" class="CalibresPrecios">Calibre Mayores: <p id="ultimoPrecio330g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">300-330gr 36´s</td>
+                    <td><a href="#300g" class="CalibresPrecios">Calibre 300g: <p id="ultimoPrecio300gSeccion" class="PrecioSpams">$0.00</p></a></td>
+                    <td class="pricesSelect"><div id="precio300gFecha"></div>
+                    </td>
+                    <td><a href="" class="CalibresPrecios">Calibre 300g: <p id="ultimoPrecio300g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+
+                  </tr>
+                  <tr>
+                    <td class="elementstable">270-300gr 40´s</td>
+                    <td><a href="#270g" class="CalibresPrecios">Calibre 270g: <p id="ultimoPrecio270gSeccion" class="PrecioSpams">$0.00</p></a></td>
+                    <td class="pricesSelect"><div id="precio270gFecha"></div></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 270g: <p id="ultimoPrecio270g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+
+                  </tr>
+                  <tr>
+                    <td class="elementstable">210-270gr 48´s</td>
+                    <td><a href="#210g" class="CalibresPrecios">Calibre 210g: <p id="ultimoPrecio210gSeccion" class="PrecioSpams">$0.00</p></a></td>
+                    <td class="pricesSelect"><div id="precio210gFecha"></div>
+                    </td>
+                    <td><a href="" class="CalibresPrecios">Calibre 210g: <p id="ultimoPrecio210g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">180-210gr 60´s</td>
+                    <td><a href="#180g" class="CalibresPrecios">Calibre 180g: <p id="ultimoPrecio180gSeccion" class="PrecioSpams">$0.00</p></a></td>
+                    <td class="pricesSelect"><div id="precio180gFecha"></div>
+                    </td>
+                    <td><a href="" class="CalibresPrecios">Calibre 180g: <p id="ultimoPrecio180g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">150-180gr 70´s</td>
+                    <td><a href="#150g" class="CalibresPrecios">Calibre 150: <p id="ultimoPrecio150gSeccion" class="PrecioSpams">$0.00</p></a></td>
+                    <td class="pricesSelect"><div id="precio150gFecha"></div>
+                        </td>
+                    <td><a href="" class="CalibresPrecios">Calibre 150g: <p id="ultimoPrecio150g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">120-150gr 84´s</td>
+                    <td><a href="#120g" class="CalibresPrecios">Calibre 120g: <p id="ultimoPrecio120gSeccion" class="PrecioSpams">$0.00</p></a></td>
+                    <td class="pricesSelect"><div id="precio120gFecha"></div></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 120g: <p id="ultimoPrecio120g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+
+
+
+            <div style="width: 45%;">
+              <h2>Precios en vivo</h2>
+              <table border="1">
+                <caption class="elementstable">Precio por kilo Aguacate Nacional</caption>
+                <thead>
+                  <tr>
+                    <th>Gramaje</th>
+                    <th>Clase Uno</th>
+                    <th>Clase Dos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="elementstable">330gr y más 32´s</td>
+                    <td><a href="" class="CalibresPrecios">Calibre Mayores: <p id="ultimoPrecioNacional 330g" class="PrecioSpams elementstable">$0.00</p></a></td>
+                    <td><a href="" class="CalibresPrecios">Calibre Mayores: <p id="ultimoPrecioNacional 330g class B" class="PrecioSpams elementstable">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">300-330gr 36´s</td>
+                    <td><a href="" class="CalibresPrecios">Calibre 300g: <p id="ultimoPrecioNacional 300g" class="PrecioSpams">$0.00</p></a></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 300g: <p id="ultimoPrecioNacional 300g class B" class="PrecioSpams">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">270-300gr 40´s</td>
+                    <td><a href="" class="CalibresPrecios">Calibre 270g: <p id="ultimoPrecioNacional 270g" class="PrecioSpams">$0.00</p></a></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 270g: <p id="ultimoPrecioNacional 270g class B" class="PrecioSpams">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">210-270gr 48´s</td>
+                    <td><a href="" class="CalibresPrecios">Calibre 210g: <p id="ultimoPrecioNacional 210g" class="PrecioSpams">$0.00</p></a></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 210g: <p id="ultimoPrecioNacional 210g class B" class="PrecioSpams">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">180-210gr 60´s</td>
+                    <td><a href="" class="CalibresPrecios">Calibre 180g: <p id="ultimoPrecioNacional 180g" class="PrecioSpams">$0.00</p></a></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 180g: <p id="ultimoPrecioNacional 180g class B" class="PrecioSpams">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">150-180gr 70´s</td>
+                    <td><a href="" class="CalibresPrecios">Calibre 150g: <p id="ultimoPrecioNacional 150g" class="PrecioSpams">$0.00</p></a></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 150g: <p id="ultimoPrecioNacional 150g class B" class="PrecioSpams">$0.00</p></a></td>
+                  </tr>
+                  <tr>
+                    <td class="elementstable">120-150gr 84´s</td>
+                    <td><a href="" class="CalibresPrecios">Calibre 120g: <p id="ultimoPrecioNacional 120g" class="PrecioSpams">$0.00</p></a></td>
+                    <td><a href="" class="CalibresPrecios">Calibre 120g: <p id="ultimoPrecioNacional 120g class B" class="PrecioSpams">$0.00</p></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
 
     
-    <!-- Prices Container -->
-    <div id="Prices" class="flex-container" >
+  
 
 <!-- Íconos con la clase .icon-avo -->
  <h5 class="white">AppVocado es completamente gratuito. Apoyarnos, simplemente haz click en el aguacate.</h5>
@@ -945,27 +1100,78 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
 
       <div id="Grafic">
 
-        <!-- Plug de like 7 share of Facebook -->
-        <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div>
+      
 
-      <div id="Mayores" class="grf">
+      <div id="330g" class="grf">
         <div class="price">
 
         <div class="precioActual">
           <h3>Precio Hoy:</h3>
-          <p id="ultimoPrecioMayores">$0.00</p>
+          <p id="ultimoPrecio330g">$0.00</p>
         </div>
 
-      <p id="precioSeleccionadoMayores" class="PrecioResult">Seleciona una fecha para comparar</p>
+      <p id="precioSeleccionadoCal330g" class="PrecioResult">Seleciona una fecha para comparar</p>
 
           <!-- Select para buscar precios-->
-      <select id="mayoresSelect" class="selectPrices"></select>
+      <select id="cal330gSelect" class="selectPrices"></select>
 
       </div>
 
       <!-- Elemento HTML para el gráfico de Datos calibre Mayores -->
-      <canvas id="myChartMayores" class="grafico" ></canvas> 
+      <canvas id="myChartCal330g" class="grafico" ></canvas> 
       </div>
+
+
+
+      <!-- Botón para mostrar/ocultar el contenido -->
+      <button id="showGrafics">Mostrar todas las Graficas</button>
+
+      <!-- Contenido oculto inicialmente -->
+      <div id="hiddhenGrafics" style="display: none;">
+
+
+
+      <div id=300g class="grf" data-ad-url="//inumbreonr.com/4/8061914">
+        <div class="price">
+            <div class="precioActual">
+          <h3>Precio Hoy:</h3>
+          <p id="ultimoPrecio300g">$0.00</p>
+        </div>
+          <p id="precioSeleccionadoCal300g" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+        <!-- Select para buscar precios-->
+    <select id="cal300gSelect" class="selectPrices"></select>
+</div>
+
+        <!-- Elemento HTML para el gráfico de Datos Calibre 210g-->
+        
+      <canvas id="myChartCal300g" class="grafico" ></canvas>
+
+      </div>
+
+
+
+      <div id=270g class="grf" data-ad-url="//inumbreonr.com/4/8061914">
+        <div class="price">
+            <div class="precioActual">
+          <h3>Precio Hoy:</h3>
+          <p id="ultimoPrecio270g">$0.00</p>
+        </div>
+          <p id="precioSeleccionadoCal270g" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+        <!-- Select para buscar precios-->
+    <select id="cal270gSelect" class="selectPrices"></select>
+</div>
+
+        <!-- Elemento HTML para el gráfico de Datos Calibre 270g-->
+        
+      <canvas id="myChartCal270g" class="grafico" ></canvas>
+      </div>
+
+
+
+
+
 
 
       <div id=210g class="grf" data-ad-url="//inumbreonr.com/4/8061914">
@@ -985,6 +1191,8 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
       <canvas id="myChartCal210g" class="grafico" ></canvas>
       </div>
   
+
+
       <div id="180g" class="grf">
         <div class="price">
             <div class="precioActual">
@@ -1001,6 +1209,68 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
 
       <!-- Elemento HTML para el gráfico de Calibre 180g  -->
       <canvas id="myChartCal180g" class="grafico"></canvas>
+      </div>
+
+
+
+
+      <div id=150g class="grf" data-ad-url="//inumbreonr.com/4/8061914">
+        <div class="price">
+            <div class="precioActual">
+          <h3>Precio Hoy:</h3>
+          <p id="ultimoPrecio150g">$0.00</p>
+        </div>
+          <p id="precioSeleccionadoCal150g" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+        <!-- Select para buscar precios-->
+    <select id="cal150gSelect" class="selectPrices"></select>
+</div>
+
+        <!-- Elemento HTML para el gráfico de Datos Calibre 150g-->
+        
+      <canvas id="myChartCal150g" class="grafico" ></canvas>
+      </div>    
+
+
+
+
+      <div id=120g class="grf" data-ad-url="//inumbreonr.com/4/8061914">
+        <div class="price">
+            <div class="precioActual">
+          <h3>Precio Hoy:</h3>
+          <p id="ultimoPrecio120g">$0.00</p>
+        </div>
+          <p id="precioSeleccionadoCal120g" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+        <!-- Select para buscar precios-->
+    <select id="cal120gSelect" class="selectPrices"></select>
+</div>
+
+        <!-- Elemento HTML para el gráfico de Datos Calibre 120g-->
+        
+      <canvas id="myChartCal120g" class="grafico" ></canvas>
+      </div>
+
+
+
+      
+    </div>
+
+    <div id=Nacional330g class="grf" data-ad-url="//inumbreonr.com/4/8061914">
+        <div class="price">
+            <div class="precioActual">
+          <h3>Precio Hoy:</h3>
+          <p id="ultimoPrecioNacional330g">$0.00</p>
+        </div>
+          <p id="precioSeleccionadoCalNacional330g" class="PrecioResult">Seleciona una fecha para comparar</p>
+
+        <!-- Select para buscar precios-->
+    <select id="calNacional330gSelect" class="selectPrices"></select>
+</div>
+
+        <!-- Elemento HTML para el gráfico de Datos Calibre 120g-->
+        
+      <canvas id="myChartCalNacional330g" class="grafico" ></canvas>
       </div>
 
       <section id="comentarios" class="scrollable-section">
@@ -1063,7 +1333,12 @@ loadAndDisplayData(comentariosRef, 'comentariosList');
     <!-- Script de libreria de iconos -->
     <script src="https://kit.fontawesome.com/d6afc9d0fc.js" crossorigin="anonymous"></script>
 
+    <script src="date.js"></script>
+    <script src="protectionContent.js"></script>
 
+    <script src="bitcoinPrice.js"></script>
+    <script src="ivaCalculator.js"></script>
+    <script src="ShowGrafics.js"></script>
     
 
 </body>
