@@ -80,7 +80,7 @@
     
     
 
-        <script type="module">
+<script type="module">
         // Importar las funciones necesarias de Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
@@ -97,31 +97,72 @@
             appId: "1:1050213748494s:web:253da19a34a8b2cba9115f"
         };
   
-    
-      const app = initializeApp(firebaseConfig);
+
+        const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-      let ultimoPrecioMayores;
+      let ultimoPrecio330g;
+      let ultimoPrecio300g;
+      let ultimoPrecio270g;
       let ultimoPrecio210g;
       let ultimoPrecio180g;
-  
+      let ultimoPrecio150g;
+      let ultimoPrecio120g;
+      let ultimoPrecioNacional330g;
+
+
+
       function crearGrafico(data, canvasId, titulo) {
           const ultimoPrecio = Object.values(data).pop()?.precio;
   
-          if (canvasId === 'myChartMayores') {
-              ultimoPrecioMayores = ultimoPrecio;
+          if (canvasId === 'myChartCal330g') {
+              ultimoPrecio330g = ultimoPrecio;
+
+         } else if (canvasId === 'myChartCal300g') {
+                ultimoPrecio300g = ultimoPrecio;
+
+         } else if (canvasId === 'myChartCal270g') {
+                ultimoPrecio270g = ultimoPrecio;
+
           } else if (canvasId === 'myChartCal210g') {
               ultimoPrecio210g = ultimoPrecio;
+                 
           } else if (canvasId === 'myChartCal180g') {
               ultimoPrecio180g = ultimoPrecio;
           }
+
+          else if (canvasId === 'myChartCal150g') {
+              ultimoPrecio150g = ultimoPrecio;
+          }
+          else if (canvasId === 'myChartCal120g') {
+              ultimoPrecio120g = ultimoPrecio;
+          }
+
+          else if (canvasId === 'myChartCalNacional330g') {
+              ultimoPrecioNacional330g = ultimoPrecio;
+          }
+
+
+
   
-          document.getElementById('ultimoPrecioMayores').textContent = `$${ultimoPrecioMayores}`;
+          document.getElementById('ultimoPrecio330g').textContent = `$${ultimoPrecio330g}`;
+          document.getElementById('ultimoPrecio300g').textContent = `$${ultimoPrecio300g}`;
+          document.getElementById('ultimoPrecio270g').textContent = `$${ultimoPrecio270g}`;
           document.getElementById('ultimoPrecio210g').textContent = `$${ultimoPrecio210g}`;
           document.getElementById('ultimoPrecio180g').textContent = `$${ultimoPrecio180g}`;
-          document.getElementById('ultimoPrecioMayoresSeccion').textContent = `$${ultimoPrecioMayores}`;
+          document.getElementById('ultimoPrecio150g').textContent = `$${ultimoPrecio150g}`;
+          document.getElementById('ultimoPrecio120g').textContent = `$${ultimoPrecio120g}`;
+          document.getElementById('ultimoPrecioNacional330g').textContent = `$${ultimoPrecioNacional330g}`;
+
+          document.getElementById('ultimoPrecio330gSeccion').textContent = `$${ultimoPrecio330g}`;
+          document.getElementById('ultimoPrecio300gSeccion').textContent = `$${ultimoPrecio300g}`;
+          document.getElementById('ultimoPrecio270gSeccion').textContent = `$${ultimoPrecio270g}`;
           document.getElementById('ultimoPrecio210gSeccion').textContent = `$${ultimoPrecio210g}`;
           document.getElementById('ultimoPrecio180gSeccion').textContent = `$${ultimoPrecio180g}`;
+          document.getElementById('ultimoPrecio150gSeccion').textContent = `$${ultimoPrecio150g}`;
+          document.getElementById('ultimoPrecio120gSeccion').textContent = `$${ultimoPrecio120g}`;
+
+
   
           const labels = Object.keys(data).slice(-4);
           const valores = Object.values(data).slice(-4).map(entry => entry.precio);
@@ -131,18 +172,18 @@
           const ctx = document.getElementById(canvasId).getContext('2d');
           
           const myChart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                  labels: labels,
-                  datasets: [{
-                      label: 'Mayores',
-                      data: valores,
-                      borderColor: "chartreuse",
-                      color: "#fff",
-                      backgroundColor: "rgba(26, 199, 60, 0.2)",
-                      borderWidth: 4,
-                      fill: true,
-                      tension: 0.5,
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'M',
+                data: valores,
+                borderColor: canvasId === 'myChartCalNacional330g' ? "#FF69B4" : "chartreuse", 
+                color: "#fff",
+                backgroundColor: canvasId === 'myChartCalNacional330g' ? "rgba(255, 105, 180, 0.2)" : "rgba(26, 199, 60, 0.2)", 
+                borderWidth: 4,
+                fill: true,
+                tension: 0.5,
                       
                     },
        /* {
@@ -244,10 +285,17 @@
 
    
   
-      obtenerYCrearGrafico(ref(db, 'Mayores'), 'myChartMayores', 'Calibre Mayores');
+      obtenerYCrearGrafico(ref(db, '330g'), 'myChartCal330g', 'Calibre 330g');
+      obtenerYCrearGrafico(ref(db, '300g'), 'myChartCal300g', 'Calibre 300g');
+      obtenerYCrearGrafico(ref(db, '270g'), 'myChartCal270g', 'Calibre 270g');
       obtenerYCrearGrafico(ref(db, '210g'), 'myChartCal210g', 'Calibre 210g');
       obtenerYCrearGrafico(ref(db, '180g'), 'myChartCal180g', 'Calibre 180g');
-  
+      obtenerYCrearGrafico(ref(db, '150g'), 'myChartCal150g', 'Calibre 150g');
+      obtenerYCrearGrafico(ref(db, '120g'), 'myChartCal120g', 'Calibre 120g');
+      obtenerYCrearGrafico(ref(db, 'Nacional 330g'), 'myChartCalNacional330g', 'Calibre Nacional 330g');
+
+
+
       // ...
 
 // Función para mostrar la opción seleccionada, la fecha y el precio en un div sin actualizar la gráfica
@@ -293,7 +341,13 @@ function calcularVariacion(ultimoPrecio, penultimoPrecio) {
 
 
 // Llama a la función para Mayores
-mostrarOpcionFechaYPrecio('Mayores', 'mayoresSelect', 'precioSeleccionadoMayores');
+mostrarOpcionFechaYPrecio('330g', 'cal330gSelect', 'precioSeleccionadoCal330g');
+
+// Llama a la función para Calibre 210g
+mostrarOpcionFechaYPrecio('300g', 'cal300gSelect', 'precioSeleccionadoCal300g');
+
+// Llama a la función para Calibre 270g
+mostrarOpcionFechaYPrecio('270g', 'cal270gSelect', 'precioSeleccionadoCal270g');
 
 // Llama a la función para Calibre 210g
 mostrarOpcionFechaYPrecio('210g', 'cal210gSelect', 'precioSeleccionadoCal210g');
@@ -301,64 +355,157 @@ mostrarOpcionFechaYPrecio('210g', 'cal210gSelect', 'precioSeleccionadoCal210g');
 // Llama a la función para Calibre 180g
 mostrarOpcionFechaYPrecio('180g', 'cal180gSelect', 'precioSeleccionadoCal180g');
 
+// Llama a la función para Calibre 150g
+mostrarOpcionFechaYPrecio('150g', 'cal150gSelect', 'precioSeleccionadoCal150g');
+
+// Llama a la función para Calibre 120g
+mostrarOpcionFechaYPrecio('120g', 'cal120gSelect', 'precioSeleccionadoCal120g');
+
+// Llama a la función para Calibre 120g
+mostrarOpcionFechaYPrecio('Nacional 330g', 'calNacional330gSelect', 'precioSeleccionadoCalNacional330g');
+
+
 
 
 // Cargar fechas para Mayores
-cargarFechasEnSelect(ref(db, 'Mayores'), 'mayoresSelect');
+cargarFechasEnSelect(ref(db, '330g'), 'cal330gSelect');
 
+// Cargar fechas para Calibre 300g
+cargarFechasEnSelect(ref(db, '300g'), 'cal300gSelect');
+
+// Cargar fechas para Calibre 270g
+cargarFechasEnSelect(ref(db, '270g'), 'cal270gSelect');
+-
 // Cargar fechas para Calibre 210g
 cargarFechasEnSelect(ref(db, '210g'), 'cal210gSelect');
 
 // Cargar fechas para Calibre 180g
 cargarFechasEnSelect(ref(db, '180g'), 'cal180gSelect');
 
+// Cargar fechas para Calibre 150g
+cargarFechasEnSelect(ref(db, '150g'), 'cal150gSelect');
+
+// Cargar fechas para Calibre 120g
+cargarFechasEnSelect(ref(db, '120g'), 'cal120gSelect');
+
+// Cargar fechas para Calibre 120g
+cargarFechasEnSelect(ref(db, 'Nacional 330g'), 'calNacional330gSelect');
+
+
 // ...
 
 
     // Función para calcular la variación de precios y mostrarla en el div correspondiente
-    function calcularYMostrarVariacionMayores(data) {
+    function calcularYMostrarVariacion330g(data) {
         // Obtener el penúltimo precio para Mayores
-        const penultimoPrecioMayores = Object.values(data).slice(-2, -1)[0]?.precio;
+        const penultimoPrecio330g = Object.values(data).slice(-2, -1)[0]?.precio;
 
         // Calcular la variación para Mayores
-        if (ultimoPrecioMayores !== undefined && penultimoPrecioMayores !== undefined) {
-            const resultadoVariacionMayores = calcularVariacion(ultimoPrecioMayores, penultimoPrecioMayores);
+        if (ultimoPrecio330g !== undefined && penultimoPrecio330g !== undefined) {
+            const resultadoVariacion330g = calcularVariacion(ultimoPrecio330g, penultimoPrecio330g);
 
             // Obtener el elemento div para mostrar la variación
-            const variacionMayoresDiv = document.getElementById('variacionMayores');
+            const variacion330gDiv = document.getElementById('variacion330g');
 
             // Actualizar el contenido y el color del div según la variación
-            variacionMayoresDiv.innerHTML = `
-                <div id="VarREsult">
-                <p>${resultadoVariacionMayores.variacion > 0 ? 'Subió' : resultadoVariacionMayores.variacion < 0 ? 'Bajó' : 'No cambió'} $${resultadoVariacionMayores.variacion}</p>
-                <p>Porcentaje: ${resultadoVariacionMayores.porcentajeVariacion}%</p>
+            variacion330gDiv.innerHTML = `
+                <div id="VarREsult" >
+                <p>${resultadoVariacion330g.variacion > 0 ? 'Subió' : resultadoVariacion330g.variacion < 0 ? 'Bajó' : 'No cambió'} $${resultadoVariacion330g.variacion}</p>
+                <p>Porcentaje: ${resultadoVariacion330g.porcentajeVariacion}%</p>
                 </div>
             `;
 
-            if (resultadoVariacionMayores.variacion > 0) {
+            if (resultadoVariacion330g.variacion > 0) {
                 // El precio subió, establecer el color verde
-                variacionMayoresDiv.style.color = 'chartreuse';
-            } else if (resultadoVariacionMayores.variacion < 0) {
+                variacion330gDiv.style.color = 'chartreuse';
+            } else if (resultadoVariacion330g.variacion < 0) {
                 // El precio bajó, establecer el color rojo
-                variacionMayoresDiv.style.color = 'red';
+                variacion330gDiv.style.color = 'red';
             } else {
                 // No hay variación, mantener el color predeterminado
-                variacionMayoresDiv.style.color = 'black';
+                variacion330gDiv.style.color = 'withe';
             }
         }
     }
 
     // Llama a la función para calcular y mostrar la variación al cargar el documento
     document.addEventListener('DOMContentLoaded', () => {
-        onValue(ref(db, 'Mayores'), (snapshot) => {
+        onValue(ref(db, '330g'), (snapshot) => {
             const data = snapshot.val();
-            calcularYMostrarVariacionMayores(data);
+            calcularYMostrarVariacion330g(data);
         });
     });
 
 
-        
-  </script>
+    
+
+// ... (resto del código)
+
+// Función para mostrar todos los precios de una fecha seleccionada
+function mostrarPreciosFechaSeleccionada(fechaSeleccionada) {
+  // Definir los calibres a mostrar
+  const calibres = ['330g', '300g', '270g', '210g', '180g', '150g', '120g'];
+
+  // Crear un objeto para almacenar los precios
+  const precios = {};
+
+  // Recorrer los calibres y obtener los precios
+  let contador = 0;
+  calibres.forEach((calibre) => {
+    onValue(ref(db, calibre + '/' + fechaSeleccionada), (snapshot) => {
+      const data = snapshot.val();
+      precios[calibre] = data?.precio ?? 'No disponible';
+      contador++;
+
+      // Verificar si se han obtenido todos los precios
+      if (contador === calibres.length) {
+        // Mostrar los precios en divs diferentes
+        calibres.forEach((calibre) => {
+          const precio = precios[calibre];
+          document.getElementById(`precio${calibre}Fecha`).innerHTML = `
+            <div class="PrecioResult">
+              <p class="fecha">${fechaSeleccionada}</p>
+              <p class="precio">$${precio}</p>
+            </div>
+          `;
+        });
+      }
+    });
+  });
+}
+
+// Agregar evento de cambio al select
+document.getElementById('fechaSelect').addEventListener('change', () => {
+  const fechaSeleccionada = document.getElementById('fechaSelect').value;
+  mostrarPreciosFechaSeleccionada(fechaSeleccionada);
+});
+
+// Cargar fechas en select
+const calibres = ['330g', '300g', '270g', '210g', '180g', '150g', '120g'];
+const fechas = [];
+calibres.forEach((calibre) => {
+  cargarFechasEnSelect(ref(db, calibre), 'fechaSelect');
+});
+
+
+
+// Función para mostrar los últimos precios de cada calibre
+function mostrarUltimosPrecios() {
+  const calibres = ['330g class B', '300g class B', '270g class B', '210g class B', '180g class B', '150g class B', '120g class B', 'Nacional 330g', 'Nacional 300g', 'Nacional 270g', 'Nacional 210g', 'Nacional 180g', 'Nacional 150g', 'Nacional 120g', 'Nacional 330g class B', 'Nacional 300g class B', 'Nacional 270g class B', 'Nacional 210g class B', 'Nacional 180g class B', 'Nacional 150g class B', 'Nacional 120g class B',];
+
+  calibres.forEach((calibre) => {
+    onValue(ref(db, calibre), (snapshot) => {
+      const data = snapshot.val();
+      const ultimoPrecio = Object.values(data).pop()?.precio;
+      document.getElementById(`ultimoPrecio${calibre}`).textContent = `$${ultimoPrecio}`;    });
+  });
+}
+
+// Llamar a la función al cargar el documento
+document.addEventListener('DOMContentLoaded', mostrarUltimosPrecios);
+
+
+    </script>
 
 
 <script type="module">
