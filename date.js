@@ -14,7 +14,7 @@ function obtenerHoraYFechaActual() {
   const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
   const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
   
-  return `${diasSemana[fechaActual.getDay()]}, ${dia} de ${mes} de ${año} ${hora}:${minutos}:${segundos}`;
+  return `Michoacán MX. ${diasSemana[fechaActual.getDay()]}, ${dia} de ${mes} de ${año} ${hora}:${minutos}:${segundos}`;
 }
 
 function actualizarReloj() {
