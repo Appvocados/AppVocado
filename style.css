@@ -63,7 +63,7 @@ background-color: #000000;
     }
 
 /* contenedor de grafica y grafica */
-#Grafic {
+.Grafic {
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Espaciado entre los gráficos */
@@ -426,7 +426,7 @@ h2 {
 
 /* Select de la tabla */
 #fechaSelect {
-  width: 100%; /* Ocupa todo el ancho de la celda */
+  width: 80%; /* Ocupa todo el ancho de la celda */
   height: 25px; /* Alto fijo */
   overflow: hidden; /* Oculta contenido excedente */
   padding: 5px; /* Espacio interno */
@@ -456,4 +456,9 @@ color: #d2b120;
   #formIva {
      background-color: #000;
      border-color: #d2b120;
+     align-items: center;
+  }
+
+
+  #hiddhenGrafics {
   }
