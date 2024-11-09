@@ -1,5 +1,5 @@
 // Obtener el tipo de cambio
-const urlApi = 'https://api.currencyfreaks.com/v2.0/rates/latest?apikey=0d3bf89569d84dd899553688b0aafa14';
+const urlApi = 'https://api.exchangerate-api.com/v4/latest/USD';
 
 fetch(urlApi)
   .then(respuesta => respuesta.json())
